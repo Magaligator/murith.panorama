@@ -389,3 +389,75 @@ Règles appliquées : title ≤ 60 caractères, description 120–160 (cible 140
 | Noms de fichiers images | Aucun accent dans `img/` : rien à renommer. (Le plan prévoit des noms explicites avec mot-clé : à faire avec la conversion WebP de la Phase 1-F.) |
 | Alt, fil d'Ariane, téléphone | Alt descriptifs présents ; fil d'Ariane + BreadcrumbList présents ; numéro `tel:` visible en haut et barre « Appeler maintenant » sur mobile. |
 | `/produits` | **Non modifié** : en attente de décision (fusion ou `noindex,follow`, voir QUESTIONS-MURITH.md). |
+
+
+---
+
+# PHASE 1 — Fondations techniques (10.11.2026)
+
+Vérifié par `node check-seo.mjs` (95 pages, 0 erreur), un serveur local qui imite Vercel (`node dev-server.mjs`) et un chargement réel des 90 pages publiques (0 ressource en erreur).
+
+## A. Indexation
+| Élément | Avant | Après |
+|---|---|---|
+| meta robots | `noindex,nofollow` partout (copie GitHub) | `index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1` ; `noindex,follow` uniquement sur `404.html` |
+| Contrôle automatique | — | `check-seo.mjs` : échoue si une page publique contient « noindex » (et vérifie H1 unique, title ≤ 60, description 120–160, canonical, hreflang réciproques, JSON-LD, liens cassés, alt, `.html`, `github.io`) |
+| `index.html` de maquette (meta-refresh vers `/panorama/`) | présent | supprimé : le contenu de `panorama/` est la racine du site |
+| Chemins | `../img/`, `../fonts/`, `style.css` (relatifs) | `/img/…`, `/fonts/…`, `/style.css`, `/app.js` (absolus, valables avec les URLs propres) |
+
+## B. URLs propres (sans .html)
+`vercel.json` : `cleanUrls: true`, `trailingSlash: false`. Tous les liens internes, canonical, hreflang, og:url, JSON-LD et sitemap sont au format sans `.html`.
+
+| Avant (fichier) | Après (URL) |
+|---|---|
+| `obseques.html`, `salons.html`, `fleurs.html`, `formalites.html`, `contact.html`, `blog.html`, `devis.html`, `cercueils.html`, `conseillers.html`, `remerciements.html`, `notre-histoire.html`, `prevoyance-funeraire.html` | `/obseques`, `/salons`, … (identiques aux URLs actuelles de Wix quand elles existent) |
+| `transports.html` | `/transports-funeraires` (URL actuelle conservée) |
+| `murith-care.html` | `/murith-care-everywhere` (URL actuelle conservée) |
+| `post-etapes.html` / `post-prevoyance.html` / `post-rapat.html` | `/blog/deces-proche-suisse-10-etapes` / `/blog/prevoyance-funeraire-geneve` / `/blog/cout-rapatriement-corps` |
+| `produits.html` | **fusionnée** : supprimée, `301 /produits → /obseques` (page redondante de salons, cercueils, fleurs ; la page Obsèques les présente tous) |
+| Versions EN/DE/ES/PT | `/en/…`, `/de/…`, `/es/…`, `/pt/…` (même structure ; accueil de langue = `/en`, `/de`, `/es`, `/pt`) |
+
+> Écart avec le plan : le plan demande `/en/` avec slash final, mais `trailingSlash:false` (indiqué en Phase 6) redirige `/en/` vers `/en`. Pour éviter une redirection systématique, les accueils de langue sont `/en`, `/de`, `/es`, `/pt`.
+
+## C. Balises de base (95 pages)
+- `<html lang>` : `fr-CH`, `en`, `de-CH`, `es`, `pt`.
+- `canonical` absolu et auto-référent (`https://www.murith.ch/…`).
+- `hreflang` fr / en / de / es / pt / x-default sur chaque page, réciproques (contrôlé).
+- `og:url` = canonical ; `og:locale` : `fr_CH`, `en_GB`, `de_CH`, `es_ES`, `pt_PT`.
+- `manifest.webmanifest` ajouté ; favicon et apple-touch-icon déjà présents.
+- Un seul H1 par page, aucune rupture H2→H4 (contrôlé).
+
+## D. Données structurées
+| Élément | Avant | Après |
+|---|---|---|
+| Articles de blog (`Article`) | pas de dates | `datePublished` / `dateModified` = dates réelles des articles Wix ; `headline` = H1 |
+| `FuneralHome` | sans plan d'accès | `hasMap` (Google Maps, adresse du pied de page) ; Facebook vide retiré |
+| `FAQPage` | mêmes 6 questions sur l'accueil et sur `/obseques` | conservé uniquement sur `/obseques` ; l'accueil recevra ses propres questions en Phase 3 |
+| Non fait (informations non confirmées) | | `priceRange`, `sameAs` (fiche Google, local.ch, search.ch, bestatter.ch), `disambiguatingDescription` (Murith Fribourg), `Person` auteur : voir QUESTIONS-MURITH.md |
+| `aggregateRating` | — | volontairement **non ajouté** (règle du plan) |
+
+## E. Sitemap / robots
+- `sitemap.xml` : 95 pages + 5 PDF, URLs propres, `lastmod`, `xhtml:link` hreflang, images ; 404 exclue.
+- `robots.txt` : `Allow: /`, `Sitemap: https://www.murith.ch/sitemap.xml`, rien n'est bloqué (`/img/`, `/fonts/`, CSS, JS).
+
+## F. Performance
+| Élément | Avant | Après |
+|---|---|---|
+| Images | JPG (35 Mo dans `img/`) | WebP 480 / 960 / 1600 px avec `srcset` (17,2 Mo de JPG → 5,8 Mo de WebP) ; logos en WebP (167 Ko → 26 Ko) ; `img/` = 10 Mo, originaux conservés dans `_img-src/` (hors déploiement via `.vercelignore`) |
+| Vidéo `murith.mp4` | 13,6 Mo | 3,7 Mo (H.264, 480 p = résolution d'origine, 25 i/s) ; `preload="none"` ; durée « 2:21 » affichée sans charger la vidéo ; original dans `_img-src/murith-original.mp4` |
+| Image principale (LCP) | — | accueil : préchargée (`<link rel="preload" as="image" fetchpriority="high">`) ; pages internes : `fetchpriority="high"` déjà en place ; le reste en `loading="lazy"` |
+| Polices | `font-display: swap` déjà en place ; 2 préchargées | seule la police des titres (Playfair) est préchargée |
+| CSS / JS | 201 Ko / 88 Ko | minifiés : 183 Ko / 65 Ko (sources lisibles dans `_src/`, régénération : `node _build/minify.mjs`) |
+| Cache | — | `vercel.json` (en-têtes `Cache-Control` long sur `/img` et `/fonts`) : Phase 6 |
+
+Scores Lighthouse mobile mesurés en local (serveur compressé et mis en cache comme Vercel, connexion simulée « 4G lente ») : voir le récapitulatif de la conversation.
+
+## G. Corrections de contenu techniques
+| Élément | Avant | Après |
+|---|---|---|
+| « privilégeons » | ×2 sur l'accueil | « privilégions » (corrigé en Phase 0 bis) |
+| Pied de page | `© 2023 créé par …` | `© 1888–2026 · créé par …` |
+| Lien Facebook | `https://www.facebook.com/` (aucune page) | retiré (barre du haut, menu, pied de page) |
+| Lien « Politique de confidentialité » | ancienne page Wix (`…/politique-de-confidentialité`) | `/politique-de-confidentialite` (page à créer en Phase 5) |
+| Liens vers `github.io` | — | aucun (contrôlé) |
+| Formulaires contact et devis | ouvrent la messagerie (`mailto:`) | **non modifié** : le plan demande de vous proposer les options avant de coder (voir ci-dessous) |

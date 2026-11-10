@@ -10,7 +10,7 @@
 
 ## Encore ouvert
 1. **Article EN « How much does repatriating a loved one cost? » (27.08.2026)** : à reprendre dans la version anglaise du blog (`/en/blog/…`) ?
-2. **Page `/produits`** : doublon de salons/cercueils/fleurs (plan Phase 2) : fusion ou `noindex,follow` ?
+2. ~~Page `/produits`~~ : **fusionnée** dans `/obseques` (301) — décision du 10.11.
 3. **Blog actuel en `noindex`** : confirmer qu'il doit être indexé dans le nouveau site (c'est ce que prévoit le plan).
 
 ## Retours du client à confirmer (10.11)
@@ -25,3 +25,12 @@
 10. **Devis « gratuit »** : le plan titrait « Devis obsèques à Genève gratuit sous 24h ». Le site dit « sans engagement » mais jamais « gratuit » : j'ai écrit « sans engagement ». Le devis est-il gratuit ?
 11. **Murith Care Everywhere** : la description du plan était « [À CONFIRMER] ». J'ai rédigé à partir du texte de la page (familles suisses résidant à l'étranger, rapatriement à Genève, obsèques par Murith). À valider.
 12. **Appellation « HUG »** dans les descriptions (« face aux HUG ») : on retrouve déjà cette formule sur le site ; OK pour l'utiliser dans les balises ?
+
+## Phase 1 — à confirmer / à décider
+13. **Envoi des formulaires (contact et devis)** : aujourd'hui ils ouvrent la messagerie de l'internaute (`mailto:`), donc beaucoup de demandes se perdent. Trois options : (a) fonction serverless Vercel + envoi par e-mail (Resend ou SMTP Infomaniak) ; (b) Formspree (service tiers, plus simple, gratuit jusqu'à un quota) ; (c) SMTP Infomaniak via une fonction Vercel (e-mails murith.ch). Dans tous les cas : message de confirmation et événement de conversion. **Laquelle choisir ?**
+14. **Page Facebook** : le lien du site menait à `facebook.com` (aucune page) ; je l'ai retiré. Murith a-t-elle une page Facebook ? URL ?
+15. **`sameAs` / fiches externes** : URL de la fiche Google (Google Business Profile), local.ch, search.ch, bestatter.ch, Apple Business, Bing Places.
+16. **`priceRange`** (fourchette indicative de prix pour Google) : à fournir ou à ne pas renseigner.
+17. **Distinction avec Murith Fribourg (pfmurith.ch)** : formulation validée par Murith (« entreprise genevoise indépendante, sans lien avec… ») avant publication dans les données structurées.
+18. **Auteur des articles** : personne (ex. Jean-Marc Murith) ou « A. Murith SA » ? L'archive Wix indique « Magali Murith K » et un pseudonyme ; j'ai mis l'entreprise comme auteur.
+19. **Accueils de langue** : `/en`, `/de`, `/es`, `/pt` (sans slash final, car `trailingSlash:false`). OK ?

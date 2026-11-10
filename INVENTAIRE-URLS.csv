@@ -9,7 +9,7 @@
 /fleurs;200;;Fleurs funéraires Genève | Arrangement de fleurs pour les deuils | Pompes funèbres Murith;;446;/fleurs;garder;identique
 /formalites;200;;Les formalités | Murith SA pompes funèbres;;757;/formalites;garder;identique
 /contact;200;;Murith SA pompes funèbres ,Genève | Contactez-nous;;435;/contact;garder;identique
-/produits;200;;Produits et services funéraires dans le canton de Genève | Murith Pompes Funèbres;;590;/produits;garder ou noindex;Plan §Phase 2 : doublon de salons/cercueils/fleurs → à décider (fusion ou noindex,follow)
+/produits;200;;Produits et services funéraires dans le canton de Genève | Murith Pompes Funèbres;;590;/obseques;301;Décision 10.11 : page fusionnée dans /obseques (doublon de salons/cercueils/fleurs)
 /prevoyancefuneraire;200;;Prévoyance funéraire Genève | Organisez vos funérailles de votre vivant – Murith Genève;;424;/prevoyance-funeraire;301;
 /transports-funeraires;200;;Transport funéraire Genève | Rapatriement – Murith Genève;;825;/transports-funeraires;garder;Décision 10.11 : on garde cette URL (renommer transports.html)
 /tranports;200;/transports-funeraires;Transport funéraire Genève | Rapatriement – Murith Genève;;825;/transports-funeraires;301;Wix redirige déjà vers /transports-funeraires
@@ -34,7 +34,7 @@
 /home-1/ourcoffins;200;;Tous type de cercueils en Suisse | Pompes funèbres Murith Genève;;554;/en/cercueils;301;
 /home-1/ourflowers;200;;Fleurs funéraires Genève | Arrangement de fleurs pour les deuils | Pompes funèbres Murith;;411;/en/fleurs;301;
 /home-1/ourhistory;200;;Murith Funeral Services Geneva | Our History;;820;/en/notre-histoire;301;
-/home-1/ourproducts;200;;Funeral Products & Services in Geneva | Murith Funeral Services;;564;/en/produits;301;
+/home-1/ourproducts;200;;Funeral Products & Services in Geneva | Murith Funeral Services;;564;/en/obseques;301;
 /home-1/formalites-1;200;;Death-Related Formalities | Murith Funeral Services Geneva;;734;/en/formalites;301;
 /home-1/funeralplanning;200;;Funeral Planning Geneva | Plan Your Funeral in Advance – Murith Geneva;;441;/en/prevoyance-funeraire;301;
 /home-1/tranports-1;200;;Funeral Transport Geneva | Repatriation Services – Murith Geneva;;1044;/en/transports;301;

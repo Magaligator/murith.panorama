@@ -1,10 +1,11 @@
-# Murith — site « Panorama » (maquette)
+# Murith — site de production (design Panorama)
 
-Dossier complet du design **Panorama** uniquement (sans Aube ni Nuit), version V75 du 2026-11-10.
+Racine du site : ce dossier (FR) + `en/`, `de/`, `es/`, `pt/`. Hébergement prévu : Vercel (`vercel.json`, URLs propres sans `.html`).
 
-- `index.html` : redirige vers `panorama/`
-- `panorama/` : toutes les pages (FR + `en/`, `de/`, `es/`, `pt/`), `style.css`, `app.js`
-- `img/`, `fonts/` : uniquement les fichiers utilisés par Panorama
-- Les pages sont en `noindex,nofollow` (copie de test sur GitHub Pages). Pour la mise en ligne définitive, utiliser le dossier `panorama/` du dossier V75 (balises robots/canonical/hreflang d'origine).
+- Tester en local (imite Vercel) : `node dev-server.mjs 3000`
+- Contrôle SEO automatique : `node check-seo.mjs` (échoue en cas d'erreur bloquante)
+- CSS / JS : éditer `_src/style.css` et `_src/app.js`, puis `node _build/minify.mjs` (génère `style.css` et `app.js`)
+- Non déployés (`.vercelignore`) : `_archive-wix/`, `_build/`, `_img-src/` (originaux), documents de suivi SEO
 
-Maquette réalisée par © www.websituation.ch
+Suivi : `PLAN-SEO-MURITH.md`, `CHANGELOG-SEO.md`, `QUESTIONS-MURITH.md`, `INVENTAIRE-URLS.csv`.
+Réalisé par © www.websituation.ch

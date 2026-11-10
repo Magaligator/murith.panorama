@@ -3,6 +3,7 @@
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
+import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
@@ -42,6 +43,11 @@ http.createServer((req, res) => {
   if (rd) { res.writeHead(rd.code, { Location: rd.to }); return res.end(); }
   const f = resolve(p);
   if (!f) { const nf = file(path.join(root, 'en' === p.split('/')[1] ? 'en/404.html' : '404.html')) || file(path.join(root, '404.html')); res.writeHead(404, { 'Content-Type': types['.html'] }); return res.end(nf ? fs.readFileSync(nf) : 'Not found'); }
-  res.writeHead(200, { 'Content-Type': types[path.extname(f)] || 'application/octet-stream' });
+  const ext = path.extname(f), type = types[ext] || 'application/octet-stream';
+  const long = /^\/(img|fonts)\//.test(p);
+  const hdr = { 'Content-Type': type, 'Cache-Control': long ? 'public, max-age=31536000, immutable' : 'public, max-age=0, must-revalidate' };
+  const text = /^(text\/|application\/(json|xml|manifest|javascript))/.test(type) || ext === '.webmanifest';
+  if (text && /\bgzip\b/.test(req.headers['accept-encoding'] || '')) { hdr['Content-Encoding'] = 'gzip'; hdr['Vary'] = 'Accept-Encoding'; res.writeHead(200, hdr); return fs.createReadStream(f).pipe(zlib.createGzip()).pipe(res); }
+  res.writeHead(200, hdr);
   fs.createReadStream(f).pipe(res);
 }).listen(port, () => console.log('http://localhost:' + port));

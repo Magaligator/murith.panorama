@@ -488,7 +488,7 @@
   /* Rideau de transition entre les pages */
   function transitions() {
     var c = d.createElement('div'); c.className = 'curtain'; c.setAttribute('aria-hidden', 'true');
-    c.innerHTML = '<img src="/img/logo-blanc.png" alt="">'; d.body.appendChild(c);
+    c.innerHTML = '<img src="/img/logo-blanc-520.webp" alt="">'; d.body.appendChild(c);
     var came = false;
     try { came = sessionStorage.getItem('mc-curtain') === '1'; sessionStorage.removeItem('mc-curtain'); } catch (e) { }
     if (came) {
