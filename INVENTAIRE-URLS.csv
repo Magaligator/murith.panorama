@@ -1,6 +1,6 @@
 ﻿ancienne_url;statut_http_actuel;redirige_vers_actuellement;titre_actuel;meta_robots_actuel;mots;page_equivalente_nouveau_site;action;note
 /;200;/;Pompes funèbres Genève | Maison Murith depuis 1888;;1811;/ (index);garder;"URL identique ; 3 backlinks Linkuma pointent ici"
-/pompes-funebres-geneve;200;;Pompes funèbres Genève | Maison Murith depuis 1888;;1883;/;301;Doublon de la home (1 883 mots, canonical propre) : à rediriger vers /
+/pompes-funebres-geneve;200;;Pompes funèbres Genève | Maison Murith depuis 1888;;1883;/;301;Recommandation SEO : doublon de la home → 301 vers /
 /notrehistoire;200;;Murith SA pompes funèbres Genève | Notre histoire;;824;/notre-histoire;301;
 /obseques;200;;Organisation d’obsèques Genève | Murith Pompes Funèbres;;2934;/obseques;garder;identique (cleanUrls)
 /cercueils;200;;Tous type de cercueils en Suisse | Pompes funèbres Murith Genève;;571;/cercueils;garder;identique
@@ -11,10 +11,10 @@
 /contact;200;;Murith SA pompes funèbres ,Genève | Contactez-nous;;435;/contact;garder;identique
 /produits;200;;Produits et services funéraires dans le canton de Genève | Murith Pompes Funèbres;;590;/produits;garder ou noindex;Plan §Phase 2 : doublon de salons/cercueils/fleurs → à décider (fusion ou noindex,follow)
 /prevoyancefuneraire;200;;Prévoyance funéraire Genève | Organisez vos funérailles de votre vivant – Murith Genève;;424;/prevoyance-funeraire;301;
-/transports-funeraires;200;;Transport funéraire Genève | Rapatriement – Murith Genève;;825;/transports;301 OU garder /transports-funeraires;⚠ URL réelle actuelle = /transports-funeraires (≠ plan). À décider : garder cette URL (historique + mot-clé) ou 301 vers /transports
-/tranports;200;/transports-funeraires;Transport funéraire Genève | Rapatriement – Murith Genève;;825;/transports;301;"Wix redirige déjà vers /transports-funeraires ; /transports renvoie 404 aujourd'hui"
-/transports;404;;404 Error: Page Not Found;noindex;5;/transports;—;404 sur le site actuel : aucun historique à préserver
-/murith-care-everywhere;200;;Murith SA pompes funèbres Genève | Murith Care Everywhere;;608;/murith-care;301 OU garder;Choix : garder /murith-care-everywhere (historique) ou 301 vers /murith-care
+/transports-funeraires;200;;Transport funéraire Genève | Rapatriement – Murith Genève;;825;/transports-funeraires;garder;Décision 10.11 : on garde cette URL (renommer transports.html)
+/tranports;200;/transports-funeraires;Transport funéraire Genève | Rapatriement – Murith Genève;;825;/transports-funeraires;301;Wix redirige déjà vers /transports-funeraires
+/transports;404;;404 Error: Page Not Found;noindex;5;/transports-funeraires;301 (facultatif);"404 actuel ; redirection utile si des liens existent"
+/murith-care-everywhere;200;;Murith SA pompes funèbres Genève | Murith Care Everywhere;;608;/murith-care-everywhere;garder;Décision 10.11 : on garde cette URL (renommer murith-care.html)
 /politique-de-confidentialité;200;;Politiques de confidentialité | murith.ch;;1367;/politique-de-confidentialite;à créer + 301;Page absente du nouveau site (Phase 5, nLPD)
 /politique-de-confidentialite;200;/politique-de-confidentialité;Politiques de confidentialité | murith.ch;;1367;/politique-de-confidentialite;à créer;Wix redirige vers la version accentuée
 /blog;200;;Blog | murith.ch;noindex;373;/blog;garder;⚠ meta robots = noindex sur le site actuel : sera indexé dans le nouveau site
@@ -22,7 +22,7 @@
 /post/combien-coûte-un-rapatriement-de-corps-maison-murith;200;;Combien Coûte un Rapatriement de Corps ? – Pompes funèbres Murith SA;;2752;/blog/cout-rapatriement-corps (actuel post-rapat);301;article FR du 23.05.2026
 /post/how-much-does-repatriating-a-loved-one-cost-murith-funeral-services;200;;How Much Does Repatriating a Loved One Cost? – Murith Funeral Services;;2695;/en/blog/cout-rapatriement-corps;à créer + 301;version EN du 27.08.2026, absente du nouveau site
 /post/comprendre-le-cout-d-un-enterrement-a-geneve-conseils-et-estimation-des-frais;200;;Comprendre le coût d'un enterrement à Genève: Conseils et estimation des frais;;1371;/blog/cout-obseques-geneve;à créer + 301;🔴 meilleur article (Phase 5, n°1) — texte archivé
-/post/pompes-funebres-geneve;200;;Pompes Funèbres Genève depuis 1888 – la Maison Murith SA;;4718;(aucun équivalent);à décider;article de 4 664 mots du 21.05.2026 absent du nouveau site : créer /blog/… ou 301 vers /
+/post/pompes-funebres-geneve;200;;Pompes Funèbres Genève depuis 1888 – la Maison Murith SA;;4718;/blog/deces-proche-suisse-10-etapes (actuel post-etapes);301;Corrigé : cet article EST « Décès d'un proche en Suisse : les 10 étapes » (4 664 mots, 21.05.2026)
 /blog/categories/repatriation;200;;Repatriation;index;208;/blog;301;
 /blog/categories/les-obsèques;200;;Les obsèques;index;349;/blog;301;
 /blog/categories/enterrement;200;;Enterrement;index;348;/blog;301;

@@ -2364,3 +2364,6 @@ html[data-theme="panorama"][data-theme][lang] main .blog-feat p{line-height:1.75
   .rel-c{padding:16px 18px;text-align:left}
   html[data-theme="panorama"][data-theme][lang] .rel-sec .sec-head{margin-bottom:16px}
 }
+
+/* Texte SEO à valider (retiré en Phase 8) */
+.seo-new{color:#C00000 !important;}

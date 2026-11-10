@@ -1,0 +1,163 @@
+# Corrections orthographe / grammaire — FR (Panorama). Chaque entrée : (fichier, ancien, nouveau, rouge?)
+# rouge = reformulation (texte entouré de <span class="seo-new">), sinon simple correction (consignée dans CHANGELOG-SEO.md)
+import re, os, glob, json
+P = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'panorama') + '/'
+LOG = []
+
+def pat(old):
+    parts = []
+    for ch in old:
+        if ch in "'’": parts.append("['’]")
+        elif ch.isspace(): parts.append(r'\s+')
+        else: parts.append(re.escape(ch))
+    return re.compile(''.join(parts))
+
+def sub(f, old, new, red=False, expect=None):
+    p = P + f
+    h = open(p, encoding='utf-8').read()
+    rx = pat(old)
+    ms = list(rx.finditer(h))
+    if not ms:
+        print('!! introuvable', f, '|', old[:60]); return 0
+    if expect and len(ms) != expect:
+        print('!! occurrences', f, len(ms), '≠', expect, '|', old[:50])
+    def r(m):
+        t = new
+        if "’" in m.group(0) and "'" not in m.group(0): t = new.replace("'", "’")
+        return f'<span class="seo-new">{t}</span>' if red else t
+    h2 = rx.sub(r, h)
+    open(p, 'w', encoding='utf-8').write(h2)
+    LOG.append((f, old, new, red, len(ms)))
+    return len(ms)
+
+# ---------- index ----------
+sub('index.html', "Nous privilégeons un accompagnement", "Nous privilégions un accompagnement")
+sub('index.html', "accessibles 24h/24 7 jours sur 7", "accessibles 24h/24 et 7 jours sur 7")
+# ---------- obsèques ----------
+O = 'obseques.html'
+sub(O, "La famille est au centre de toutes décisions", "La famille est au centre de toutes les décisions")
+sub(O, "saura diriger les proches sur l'organisation de la cérémonie", "saura guider les proches dans l'organisation de la cérémonie")
+sub('conseillers.html', "saura diriger les proches sur l'organisation de la cérémonie", "saura guider les proches dans l'organisation de la cérémonie")
+sub(O, "ou par email : ", "ou par e-mail : ")
+sub(O, "Tout cela peut devenir écrasant en même temps pendant une période de deuil, déjà difficile et isolante.", "Tout cela peut devenir écrasant, en pleine période de deuil, déjà difficile et isolante.", red=True)
+sub(O, "C'est le moment où l'on préserve votre corps.", "Il s'agit de préserver le corps du défunt.", red=True)
+sub(O, "de la manière dont il aurait souhaité être rappelé", "de la manière dont il aurait souhaité qu'on se souvienne de lui", red=True)
+sub(O, "Ce cercueil peut ensuite être utilisé pour être transporté dans l'une de nos funéraires, où la famille pourra venir jour et nuit pour rendre hommage.", "Le défunt est ensuite transporté, dans son cercueil, dans l'un de nos salons funéraires, où la famille pourra venir jour et nuit lui rendre hommage.", red=True)
+sub(O, "Elles savent comment vous traiter avec justesse, et elles le font avec amour.", "Elles savent comment vous accompagner avec justesse, et elles le font avec humanité.", red=True)
+sub(O, "selon votre choix : Laïque ou religieuse", "selon votre choix : laïque ou religieuse")
+sub(O, "Rapatriement funéraire : Obsèques à l'étranger", "Rapatriement funéraire : obsèques à l'étranger")
+sub(O, "Les funérailles c'est le moment pour nous dire notre dernier adieu, partager des histoires, faire notre deuil ensemble et entamer le processus de guérison.", "Les funérailles, c'est le moment de se dire un dernier adieu, de partager des histoires, de faire notre deuil ensemble et d'entamer le processus de guérison.", red=True)
+sub(O, "Nous collaborons avec l'église, la mosquée, le temple, la synagogue et nos partenaires au nom de tous les saints.", "Nous collaborons avec les églises, les mosquées, les temples, les synagogues et nos partenaires, dans le respect de toutes les traditions.", red=True)
+sub(O, "pour créer un reflet authentique d'eux : des chansons qu'ils aimaient,", "pour créer un reflet authentique de votre proche : des chansons qu'il aimait,", red=True)
+sub(O, "Il doit diriger la cérémonie avec discrétion et bienveillance. Il organise chaque participant :", "Il dirige la cérémonie avec discrétion et bienveillance. Il coordonne chaque participant :", red=True)
+sub(O, "Il/elle s'assure que tout se déroule", "Il s'assure que tout se déroule")
+sub(O, "dans notre chapelle à La Cluse, dans une église", "dans notre chapelle de la Cluse, dans une église")
+sub(O, "le jour des services, vous n'ayez à gérer quoi que ce soit", "le jour de la cérémonie, vous n'ayez rien à gérer")
+sub(O, "Vous pouvez venir dans nos locaux directement ou alors nous contacter", "Vous pouvez venir directement dans nos locaux ou nous contacter")
+sub(O, "en accord avec qui était votre proche", "en accord avec ce qu'était votre proche")
+sub(O, "chêne, pin, cerisier, acajou et d'autres encore", "sapin, chêne, frêne, noyer, acajou, fraké et d'autres encore", red=True)
+sub(O, "Les pompes funèbres Murith de Genève, proposent des", "Les pompes funèbres Murith de Genève proposent des")
+sub(O, "Vous savez comment tous les mots s'assemblent, où vous devez publier un avis, et comment penser à toutes les personnes qui doivent être impliquées ?", "Savez-vous comment trouver les mots, où publier un avis et comment penser à toutes les personnes à prévenir ?", red=True)
+sub(O, "rédiger et à publier l'avis d'inhumation ainsi que les cartes de mémoire. Dans le journal de Genève, dans la presse régionale ou ailleurs", "rédiger et à publier l'avis de décès ainsi que les cartes de souvenir. Dans la presse genevoise, dans la presse régionale ou ailleurs", red=True)
+# ---------- autres pages ----------
+sub('notre-histoire.html', "c'est à Anselme, que revint", "c'est à Anselme que revint")
+sub('notre-histoire.html', "se développa dans les cantons de Fribourg avec son frère Auguste Murith et dans le Valais", "se développa dans le canton de Fribourg, avec son frère Auguste Murith, et dans le Valais")
+sub('notre-histoire.html', "un atelier vit le jour dans la fabrication des cercueils", "un atelier de fabrication de cercueils vit le jour")
+sub('notre-histoire.html', "Des chapelles funéraires purent ainsi être créées, et ainsi valoriser les espaces de recueillement, à disposition des familles.", "Des chapelles funéraires purent ainsi être créées, valorisant les espaces de recueillement mis à la disposition des familles.", red=True)
+sub('notre-histoire.html', "(Thanatopraxie)", "(thanatopraxie)")
+sub('notre-histoire.html', "La fabrique de cercueil ne devenant plus rentable en termes de charge, il fut pris la décision depuis plus de 25 ans maintenant, d'importer", "La fabrique de cercueils n'étant plus rentable en raison des charges, la décision fut prise, il y a plus de 25 ans maintenant, d'importer", red=True)
+sub('notre-histoire.html', "personnalisation de cérémonie civile et/ou de toutes confessions", "personnalisation de cérémonies civiles et/ou de toutes confessions")
+sub('notre-histoire.html', "évènements", "événements")
+sub('contact.html', "au centre ville de Genève en face de l'hôpital cantonal", "au centre-ville de Genève, en face de l'hôpital cantonal")
+sub('devis.html', "Demande de Devis", "Demande de devis")
+sub('formalites.html', "Organisme ou personnes à aviser", "Organismes ou personnes à aviser")
+sub('formalites.html', "<li>Les plateformes de réseaux sociaux", "<li>les plateformes de réseaux sociaux")
+sub('formalites.html', "<li>L'employeur", "<li>l'employeur")
+sub('produits.html', "nos assistants funéraires sauront", "nos conseillers funéraires sauront")
+sub('produits.html', "liste de nos produits, n'hésitez pas à prendre contact avec un de nos agents funéraires", "liste de nos produits ; n'hésitez pas à prendre contact avec l'un de nos conseillers funéraires")
+sub('remerciements.html', "Depuis 1888 aide les familles en deuil", "Depuis 1888, aide les familles en deuil")
+sub('remerciements.html', "par mail :", "par e-mail :")
+sub('remerciements.html', "Pour plus de renseignements n'hésitez pas", "Pour plus de renseignements, n'hésitez pas")
+for f in ['remerciements.html']:
+    p = P + f; h = open(p, encoding='utf-8').read()
+    h2 = re.sub(r'(\d+(?:[.,]\d)?)\s?cm x (\d+(?:[.,]\d)?)\s?cm', lambda m: f"{m.group(1).replace('.', ',')} cm × {m.group(2).replace('.', ',')} cm", h)
+    open(p, 'w', encoding='utf-8').write(h2)
+sub('salons.html', "vous pouvez y mettre des photos, vidéos, de la musique", "vous pouvez y mettre des photos, des vidéos, de la musique")
+sub('salons.html', "vidéo projection", "vidéoprojection")
+sub('salons.html', "vidéo-projection", "vidéoprojection")
+sub('transports.html', "nous permet d'être rapidement opérationnels", "nous permettent d'être rapidement opérationnels")
+sub('transports.html', "Le cas échéant une personne", "Le cas échéant, une personne")
+# ---------- article prévoyance ----------
+PV = 'post-prevoyance.html'
+sub(PV, "Introduction: Pourquoi", "Introduction : Pourquoi")
+sub(PV, "À Genève, la prévoyance funéraire Genève parfois appelée testament obsèques ou contrat de prévoyance funéraire représente", "À Genève, la prévoyance funéraire, parfois appelée testament d'obsèques ou contrat de prévoyance funéraire, représente", red=True)
+sub(PV, "en matière de prévoyance funéraire Genève , offrant", "en matière de prévoyance funéraire à Genève, offrant")
+sub(PV, "contrat de prévoyance funéraire Genève sont sécurisés", "contrat de prévoyance funéraire à Genève sont sécurisés")
+sub(PV, "contrat de prévoyance funéraire Genève auprès", "contrat de prévoyance funéraire à Genève auprès")
+sub(PV, "contrat de prévoyance funéraire Genève bien rédigé", "contrat de prévoyance funéraire à Genève bien rédigé")
+sub(PV, "intégré dans votre contrat de prévoyance funéraire Genève pour", "intégré dans votre contrat de prévoyance funéraire à Genève pour")
+sub(PV, "La prévoyance funéraire Genève est bien plus", "La prévoyance funéraire à Genève est bien plus")
+sub(PV, "La Prévoyance Funéraire Genève : Définition", "La prévoyance funéraire à Genève : définition")
+sub(PV, "La Prévoyance Funéraire Genève selon la Maison Murith", "La prévoyance funéraire à Genève selon la Maison Murith")
+sub(PV, "Questions Fréquentes sur la Prévoyance Funéraire Genève", "Questions fréquentes sur la prévoyance funéraire à Genève")
+sub(PV, "échélloné", "échelonné")
+sub(PV, "Les pompes funèbres Murith ( www.murith.ch ) est l'une des entreprises funéraires les plus anciennes et forte de plus de 135 ans d'expérience.", "Les pompes funèbres Murith (www.murith.ch) sont l'une des plus anciennes entreprises funéraires, forte de plus de 135 ans d'expérience.", red=True)
+sub(PV, "Oui, à tout moment choix du cercueil", "Oui, à tout moment : choix du cercueil")
+sub(PV, "CHF 10’000 - 15'000", "CHF 10’000 à 15’000")
+sub(PV, "par email à", "par e-mail à")
+sub(PV, "Hôpital Cantonal Universitaire (HUG)", "Hôpitaux universitaires de Genève (HUG)")
+# ---------- article rapatriement ----------
+RP = 'post-rapat.html'
+sub(RP, "vous informe sur combien coûte un rapatriement de corps depuis la Suisse", "vous informe sur le coût d'un rapatriement de corps depuis la Suisse", red=True)
+sub(RP, "Le rapatriement de corps également appelé transport funéraire international ou rapatriement de dépouille mortelle désigne", "Le rapatriement de corps, également appelé transport funéraire international ou rapatriement de dépouille mortelle, désigne")
+sub(RP, 'Le terme <strong>"rapatriement"</strong>', 'Le terme <strong>« rapatriement »</strong>')
+sub(RP, "Possible (place distincte</td>", "Possible (place distincte)</td>")
+sub(RP, "pompes funèbres genevois qui ont pris", "pompes funèbres genevoises qui ont pris")
+sub(RP, "au coeur de Genève", "au cœur de Genève")
+sub(RP, "selon les voeux de la famille", "selon les vœux de la famille")
+sub(RP, "résidant en Suisse notamment les ressortissants étrangers vivant à Genève choisissent", "résidant en Suisse, notamment les ressortissants étrangers vivant à Genève, choisissent")
+sub(RP, "ou que vous souhaitez rapatrier", "ou que vous souhaitiez rapatrier")
+sub(RP, "Pourquoi choisir les Pompes Funèbres Murith à Genève?", "Pourquoi choisir les pompes funèbres Murith à Genève ?")
+sub(RP, "Hôpital Universitaire de Genève (HUG)", "Hôpitaux universitaires de Genève (HUG)")
+sub(RP, "Table de matières", "Table des matières")
+# ---------- article 10 étapes ----------
+ET = 'post-etapes.html'
+sub(ET, "Table de matières", "Table des matières")
+sub(ET, "les pompes funèbres Murith établie au Boulevard de la Cluse 89, à Genève, en face de l’Hôpital Cantonal (HUG), proposent", "les pompes funèbres Murith, établies au 89, boulevard de la Cluse, à Genève, en face des Hôpitaux universitaires de Genève (HUG), proposent", red=True)
+sub(ET, "l’histoire des pompes funèbres Murith témoignent", "l’histoire des pompes funèbres Murith témoigne")
+sub(ET, "Rôle de la Maison Murith dans les Pompes Funèbres Genève", "Rôle de la Maison Murith dans les pompes funèbres à Genève")
+sub(ET, "Rôle de la Maison Murith dans les Pompes Funèbres en Genève", "Rôle de la Maison Murith dans les pompes funèbres à Genève")
+sub(ET, "Disponible 24 heures sur 24, 7 jours sur 7, les pompes funèbres Murith à Genève s’engagent", "Disponibles 24 heures sur 24, 7 jours sur 7, les pompes funèbres Murith à Genève s’engagent")
+sub(ET, "Contactez pour un accompagnement personnalisé", "Contactez-nous pour un accompagnement personnalisé")
+sub(ET, "types de cérémonies pompes funèbres suisse, adaptées", "types de cérémonies funéraires en Suisse, adaptées")
+sub(ET, "communautés musulmane, juive et orthodoxe", "communautés musulmanes, juives et orthodoxes")
+sub(ET, "sapin, peuplier, chêne, acajou, noyer sculpté, frêne, frake, et bien d’autres", "sapin, chêne, acajou, noyer sculpté, frêne, fraké, et bien d’autres")
+sub(ET, "frêne, fraké, et autres essences", "frêne, fraké et autres essences")
+sub(ET, "Type de Pstation", "Type de prestation")
+sub(ET, "Aides et Gratuites", "Aides et gratuités")
+sub(ET, "dans l’urgence de plus en plus de Suisses", "dans l’urgence, de plus en plus de Suisses")
+sub(ET, "La prévoyance funéraire au pompes funèbres Murith est", "La prévoyance funéraire proposée par les pompes funèbres Murith est")
+sub(ET, "Les pompes funèbres Murith fondée à Genève en 1888 et située au Boulevard de la Cluse 89, constitue une alternative", "Les pompes funèbres Murith, fondées à Genève en 1888 et situées au 89, boulevard de la Cluse, constituent une alternative", red=True)
+sub(ET, "La Maison Murith établie au cœur de Genève, incarne depuis plus de 135 ans les valeurs d'humanisme, de discrétion, professionnalisme et personnalisation.", "La Maison Murith, établie au cœur de Genève, incarne depuis plus de 135 ans les valeurs d'humanisme, de discrétion, de professionnalisme et de personnalisation.")
+sub(ET, "vous accompagnent à vos côtés avant, pendant et après les obsèques", "sont à vos côtés avant, pendant et après les obsèques")
+sub(ET, "Mode Sépulture Dominant", "Mode de sépulture dominant")
+sub(ET, "Spécificités Funéraires par Canton Romand", "Spécificités funéraires par canton romand")
+sub(ET, "entreprises de pompes funèbres Suisse présentes", "entreprises de pompes funèbres présentes en Suisse")
+sub(ET, "entreprise de pompes funèbres Suisse, voici", "entreprise de pompes funèbres en Suisse, voici")
+sub(ET, "Type de Pompes Funèbres Suisse", "type de pompes funèbres en Suisse")
+sub(ET, "Pompes Funèbres Suisse : Un Soutien Indispensable dans l’Épreuve", "les pompes funèbres en Suisse, un soutien indispensable dans l’épreuve")
+sub(ET, "Pompes Funèbres Suisse", "pompes funèbres en Suisse")
+sub(ET, "Genève : Un Service Municipal Historique et la Maison Murith", "Genève : un service municipal historique et la Maison Murith")
+sub(ET, "Hôpital Cantonal (HUG)", "Hôpitaux universitaires de Genève (HUG)")
+sub(ET, "Comment Choisir ses Pompes Funèbres en Suisse ?Conclusion</li>", "Comment choisir ses pompes funèbres en Suisse ?</li><li>Conclusion</li>")
+# ---------- global FR ----------
+for f in glob.glob(P + '*.html'):
+    h = open(f, encoding='utf-8').read()
+    h2 = re.sub(r'\b([Cc])oeur', lambda m: m.group(1) + 'œur', h)
+    h2 = h2.replace('voeux', 'vœux').replace('Louis Xv', 'Louis XV').replace('LOUIS XV', 'LOUIS XV')
+    if h2 != h: open(f, 'w', encoding='utf-8').write(h2)
+for f in glob.glob(P + '*/*.html'):
+    h = open(f, encoding='utf-8').read(); h2 = h.replace('Louis Xv', 'Louis XV')
+    if h2 != h: open(f, 'w', encoding='utf-8').write(h2)
+json.dump(LOG, open(os.path.dirname(P.rstrip('/')) + '/_build/fix_fr.log.json', 'w'), ensure_ascii=False, indent=1)
+print('ok', len(LOG), 'corrections')
