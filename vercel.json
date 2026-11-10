@@ -1,0 +1,31 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/produits",
+      "destination": "/obseques",
+      "permanent": true
+    },
+    {
+      "source": "/en/produits",
+      "destination": "/en/obseques",
+      "permanent": true
+    },
+    {
+      "source": "/de/produits",
+      "destination": "/de/obseques",
+      "permanent": true
+    },
+    {
+      "source": "/es/produits",
+      "destination": "/es/obseques",
+      "permanent": true
+    },
+    {
+      "source": "/pt/produits",
+      "destination": "/pt/obseques",
+      "permanent": true
+    }
+  ]
+}
