@@ -19,3 +19,9 @@
 6. « Supprimer le Et et remplacer par une virgule » : appliqué tel quel (« …les couleurs qu'il aimait, c'est une manière simple… »). Un deux-points (« : ») serait plus correct en français : à valider.
 7. **« privilégeons »** : forme inexistante en français (verbe privilégier → « nous privilégions »). Corrigé en « privilégions » conformément au plan (Phase 1-G) : le client doit être informé.
 8. **Essences de bois** (page Obsèques) : l'ancien texte citait « pin, cerisier » et un article cite le « peuplier », absents du catalogue des cercueils. Alignés sur le catalogue (sapin, chêne, frêne, noyer, acajou, fraké). Murith peut-il confirmer que le catalogue est complet ?
+
+## Phase 2 — à confirmer
+9. **Check-list « gratuite »** (description de /formalites) : le plan indique « téléchargez notre check-list gratuite ». Les PDF existent dans `docs/` mais la page propose surtout une check-list interactive : confirmer que les PDF sont bien en libre accès et gratuits.
+10. **Devis « gratuit »** : le plan titrait « Devis obsèques à Genève gratuit sous 24h ». Le site dit « sans engagement » mais jamais « gratuit » : j'ai écrit « sans engagement ». Le devis est-il gratuit ?
+11. **Murith Care Everywhere** : la description du plan était « [À CONFIRMER] ». J'ai rédigé à partir du texte de la page (familles suisses résidant à l'étranger, rapatriement à Genève, obsèques par Murith). À valider.
+12. **Appellation « HUG »** dans les descriptions (« face aux HUG ») : on retrouve déjà cette formule sur le site ; OK pour l'utiliser dans les balises ?

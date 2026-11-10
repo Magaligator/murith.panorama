@@ -2366,4 +2366,15 @@ html[data-theme="panorama"][data-theme][lang] main .blog-feat p{line-height:1.75
 }
 
 /* Texte SEO à valider (retiré en Phase 8) */
-.seo-new{color:#C00000 !important;}
+.seo-new,.seo-new *{color:#C00000 !important;}
+
+
+/* ===== PHASE 2 — accueil : le H1 est le mot-clé ; la phrase d'accueil (animée) est un paragraphe ===== */
+html[data-theme="panorama"][data-theme][lang] .hero-pan h1{font-size:var(--fs-xs);line-height:1.4;margin:0;text-shadow:none;letter-spacing:.24em}
+html[data-theme="panorama"][data-theme][lang] .hero-pan .hero-main{display:block;margin:0;font-family:var(--font-display);font-weight:var(--display-weight);letter-spacing:var(--display-tracking);text-wrap:balance;color:#fff;font-size:var(--fs-h1);line-height:1.15;max-width:none;text-shadow:0 2px 30px rgba(10,16,40,.35);transition:opacity .38s ease,transform .5s var(--ease)}
+html[data-theme="panorama"][data-theme][lang] .hero-pan .hero-main.out{opacity:0;transform:translateY(12px)}
+html[data-theme="panorama"][data-theme][lang] .hero-pan .hero-main em{display:block;margin-top:.7em;font-size:var(--fs-h3);line-height:1.5;color:#E2E9F8;font-weight:400;letter-spacing:.005em;white-space:nowrap;max-width:none}
+@media(max-width:700px){
+  html[data-theme="panorama"][data-theme][lang] .hero-pan .hero-main{font-size:1.5rem;line-height:1.22;margin:0 0 .25em;letter-spacing:0}
+  html[data-theme="panorama"][data-theme][lang] .hero-pan .hero-main em{margin-top:.6em;font-size:.88rem;line-height:1.5;white-space:normal;opacity:.88}
+}

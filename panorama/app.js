@@ -1071,8 +1071,9 @@
     pt: [['Cerimónias no respeito das suas tradições', 'A família está no centro de todas as decisões', 'Descobrir o nosso acompanhamento'], ['Salas abertas de dia e de noite', 'Um lugar sereno que respeita a sua cultura, religiosa ou laica', 'Visitar as nossas salas'], ['Flores para uma última homenagem', 'Escolha ou crie os arranjos de flores à sua medida', 'Compor os meus arranjos']]
   };
   var T = D[lang] || D.fr, HREF = ['obseques.html', 'salons.html', 'fleurs.html'];
-  var main = d.createElement('span'); main.className = 'h1-main'; main.setAttribute('aria-live', 'polite');
-  while (eb.nextSibling) main.appendChild(eb.nextSibling); h1.appendChild(main);
+  var main = hero.querySelector('.hero-main');
+  if (!main) { main = d.createElement('span'); while (eb.nextSibling) main.appendChild(eb.nextSibling); h1.appendChild(main); }
+  main.classList.add('h1-main'); main.setAttribute('aria-live', 'polite');
   var first = main.innerHTML, firstHref = btn.getAttribute('href'), txt = btn.firstChild, firstLabel = txt.textContent, cur = 0, tm = null;
   function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
   function apply(i) {
