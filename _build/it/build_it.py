@@ -72,7 +72,9 @@ def to_it_url(u):
     return 'https://www.murith.ch/it' + path
 
 def jwalk(o, key=None):
-    if isinstance(o, dict): return {k: jwalk(v, k) for k, v in o.items()}
+    if isinstance(o, dict):
+        if o.get('@type') == 'VideoObject': return {k: (v if k == 'inLanguage' else jwalk(v, k)) for k, v in o.items()}
+        return {k: jwalk(v, k) for k, v in o.items()}
     if isinstance(o, list): return [jwalk(v, key) for v in o]
     if isinstance(o, str):
         if key == 'inLanguage': return 'it'
@@ -85,6 +87,7 @@ def jwalk(o, key=None):
 
 def build_it(rel):
     s = soup_of(ROOT / rel)
+    for el in s.find_all(attrs={'data-fr-only': True}): el.decompose()
     # unités de texte
     for r in unit_roots(s):
         key, els = serialize(r)
