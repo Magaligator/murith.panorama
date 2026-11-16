@@ -2383,7 +2383,7 @@ html[data-theme="panorama"][data-theme][lang] .hero-pan .hero-main em{display:bl
 .foot-partners{border-top:1px solid var(--foot-line);padding-block:22px;display:flex;align-items:center;justify-content:center;gap:14px 28px;flex-wrap:wrap}
 .foot-partners .fp-t{font-size:var(--fs-xs);letter-spacing:.2em;text-transform:uppercase;opacity:.55;font-weight:600}
 .foot-partners ul{list-style:none;margin:0;padding:0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
-.foot-partners li a,.foot-partners li span{display:flex;align-items:center;justify-content:center;height:40px;padding:5px 12px;background:#fff;border-radius:8px;opacity:.72;transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.foot-partners li a,.foot-partners li span{display:flex;align-items:center;justify-content:center;height:46px;padding:6px 14px;background:#fff;border-radius:8px;opacity:.9;transition:opacity .3s var(--ease),transform .3s var(--ease)}
 .foot-partners li a:hover,.foot-partners li a:focus-visible{opacity:1;transform:translateY(-2px)}
 .foot-partners img{height:100%;width:auto;max-width:130px;object-fit:contain;display:block}
 @media(max-width:560px){.foot-partners{flex-direction:column;gap:12px}}
