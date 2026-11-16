@@ -32,7 +32,7 @@ def block(lang):
             '<ul class="pt-list reveal">'
             + card('exit-suisse-romande.png', 318, 159, a1, caps[0], 'Exit Suisse romande', 'https://www.exit-romandie.ch/')
             + card('residence-de-la-champagne.jpg', 480, 213, a2, caps[1], 'Résidence de la Champagne (EMS)')
-            + card('assf.svg', 1350, 450, a3, caps[2], n3, u3)
+            + card('assf.svg', 855, 305, a3, caps[2], n3, u3)
             + '</ul></div></section>\n')
 SD = {'fr': '', 'en': 'en/', 'de': 'de/', 'es': 'es/', 'pt': 'pt/'}
 n = 0
