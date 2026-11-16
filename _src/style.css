@@ -2412,7 +2412,7 @@ html[data-theme="panorama"][data-theme][lang] .hero-pan .hero-main em{display:bl
   /* photo d'équipe recadrée par le haut : l'enseigne « Chapelle de la Cluse » n'est plus visible sur mobile */
   html[data-theme="panorama"][data-theme][lang] .hero-pan .pan-bg{overflow:hidden}
   html[data-theme="panorama"][data-theme][lang] .hero-pan .pan-bg img.as:first-child{inset:auto!important;top:0!important;left:50%!important;width:142%!important;max-width:none!important;height:auto!important;aspect-ratio:2000/1575;object-fit:fill;transform:translate(-50%,-13%)}
-  html[data-theme="panorama"][data-theme][lang] .hero-pan .pan-bg::after{content:"";position:absolute;left:0;right:0;top:calc(100vw * .973 - 150px);height:162px;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(20,43,70,0),#142B46 88%,#142B46)}
+  html[data-theme="panorama"][data-theme][lang] .hero-pan .pan-bg:has(img.as:first-child.on)::after{content:"";position:absolute;left:0;right:0;top:calc(100vw * .973 - 150px);height:162px;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(20,43,70,0),#142B46 88%,#142B46)}
 }
 /* 2) Vidéo d'accueil agrandie de 30 % (920 px -> 1196 px) */
 html[data-theme="panorama"] .vid-home .vcard{width:min(1196px,100%)}
