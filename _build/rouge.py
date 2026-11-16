@@ -25,7 +25,7 @@ def fr_page(name, s):
         s = mark(s, r'<div [^>]*class="c3d"[^>]*>', 'NOUVEAU · « Prévoyance funéraire » passe en numéro 1 · défilement plus lent (9 s au lieu de 6,5 s)')
         s = mark(s, r'<div class="pshow reveal"[^>]*>', 'NOUVEAU · petites icônes à droite · défilement plus lent (7 s)')
         s = mark(s, r'<div class="vcard">(?=.{0,400}?video-accueil)', 'NOUVEAU · vidéo agrandie de 30 % et qualité HD (720p, refaite depuis le fichier 4K d\'origine)', flags=re.S)
-        s = s.replace('<section class="hero hero-pan">', '<section class="hero hero-pan"><span class="rg-tag rg-mob">NOUVEAU (mobile) · barre de menu lisible, enseigne « Chapelle de la Cluse » adoucie</span>', 1)
+        s = s.replace('<section class="hero hero-pan">', '<section class="hero hero-pan"><span class="rg-tag rg-mob">NOUVEAU (mobile) · barre de menu lisible, photo recadrée par le haut : l\'enseigne « Chapelle de la Cluse » n\'est plus visible</span>', 1)
     if name == 'prevoyance-funeraire.html':
         s = s.replace('<div class="container pv-intro">', '<div class="container pv-intro">' + tag('NOUVEAU · texte centré et simple, comme sur mobile'), 1)
         s = s.replace('</div></section><section class="section alt pv-trust"',
@@ -38,6 +38,7 @@ def fr_page(name, s):
     if name == 'cercueils.html':
         s = mark(s, r'<div class="slider per-4"[^>]*>', 'CORRIGÉ · défilement des photos au doigt sans blocage · photos suivantes préchargées')
     if name == 'salons.html':
+        s = s.replace('<section class="section tight">', '<section class="section tight"><span class="rg-tag rg-mobonly">NOUVEAU (mobile) · espaces entre les sections resserrés et réguliers · galerie plus compacte</span>', 1)
         s = mark(s, r'<div [^>]*data-cyl[^>]*>', 'CORRIGÉ · galerie qui reprend plus vite après le doigt · photos suivantes préchargées')
     return s
 
@@ -54,7 +55,8 @@ for p in sorted(out.rglob('*.html')):
 .rg{outline:3px solid var(--rg)!important;outline-offset:6px;border-radius:12px}
 .rg-tag{display:block;width:fit-content;max-width:100%;margin:0 0 14px;background:var(--rg);color:#fff;font:600 13px/1.35 Inter,system-ui,sans-serif;padding:6px 12px;border-radius:8px;letter-spacing:.01em;text-transform:none}
 .vid-home .rg-tag{margin-inline:auto}
-.rg-mob{display:none}
+.rg-mob,.rg-mobonly{display:none}.rg-mobonly{margin-inline:16px}
+@media(max-width:700px){.rg-mobonly{display:block}}
 @media(max-width:820px){.rg-mob{display:block;position:absolute;left:12px;right:12px;top:calc(var(--hdr-h,60px) + 52px);z-index:90;font-size:12px}
  .pan-top:has(.hero-pan) .site-header:not(.is-scrolled){box-shadow:inset 0 0 0 3px var(--rg)!important}}
 .rg-t{color:var(--rg)!important;font-weight:800;background:rgba(255,255,255,.92);border-radius:6px;padding:1px 6px}

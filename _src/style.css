@@ -2409,7 +2409,9 @@ html[data-theme="panorama"][data-theme][lang] .hero-pan .hero-main em{display:bl
 /* 1) Accueil mobile : l'enseigne « Chapelle de la Cluse » ne passe plus sous le logo et le menu */
 @media(max-width:820px){
   html[data-theme="panorama"][data-theme][lang] .pan-top:has(.hero-pan) .site-header:not(.is-scrolled){margin-bottom:0;background:#16335B;border-bottom:1px solid rgba(255,255,255,.14)}
-  html[data-theme="panorama"][data-theme][lang] .hero-pan .pan-bg::after{content:"";position:absolute;left:0;right:0;top:0;height:22%;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(22,51,91,.9),rgba(22,51,91,0))}
+  /* photo d'équipe recadrée par le haut : l'enseigne « Chapelle de la Cluse » n'est plus visible sur mobile */
+  html[data-theme="panorama"][data-theme][lang] .hero-pan .pan-bg{overflow:hidden}
+  html[data-theme="panorama"][data-theme][lang] .hero-pan .pan-bg img.as:first-child{transform:scale(1.16);transform-origin:50% 100%}
 }
 /* 2) Vidéo d'accueil agrandie de 30 % (920 px -> 1196 px) */
 html[data-theme="panorama"] .vid-home .vcard{width:min(1196px,100%)}
@@ -2430,4 +2432,18 @@ html[data-theme="panorama"] .vid-home .vcard video{object-fit:contain;background
 @media(pointer:coarse){
   .s-track{scroll-snap-type:x proximity;scroll-behavior:auto;overscroll-behavior-x:auto;touch-action:pan-x pan-y}
   .s-item{scroll-snap-stop:normal}
+}
+/* 6) Page Salons, mobile : espaces entre sections resserrés et réguliers (≈ 50 px entre deux blocs) */
+@media(max-width:700px){
+  html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) main>.section,html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) main>#faq{padding-block:26px}
+  html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) #faq .container{gap:14px}
+  html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) main>.section.tight{padding-block:24px}
+  html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) main>.section.cyl-sec{padding-block:26px 10px}
+  html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) .cyl-sec .sec-head{margin-bottom:0}
+  html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) .cyl{height:244px;margin-top:0}
+  html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) .cyl-hint{bottom:2px;font-size:.62rem;letter-spacing:.14em;white-space:nowrap}
+  html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) .sec-head{margin-bottom:16px}
+  html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) .facts.f5.is-tabs{margin-top:16px}
+  html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) .facts-panel{margin-top:10px}
+  html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) .intro-grid .btns,html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) .split .btns{margin-top:18px}
 }
