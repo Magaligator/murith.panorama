@@ -220,6 +220,8 @@
     var show = function (i) {
       cur = (i + list.length) % list.length;
       im.src = list[cur].src; im.alt = list[cur].alt; cap.textContent = list[cur].cap;
+      /* précharge la photo précédente et la suivante : le balayage au doigt ne se fige plus */
+      [cur - 1, cur + 1, cur + 2].forEach(function (k) { var o = list[(k + list.length) % list.length]; if (o && o.src) { var pre = new Image(); pre.src = o.src; } });
     };
     $$('[data-lb]').forEach(function (el) {
       var g = el.getAttribute('data-lb');
@@ -537,7 +539,7 @@
 
   /* Diaporamas : arche de l'accueil (Aube) ou photo plein écran (Panorama) */
   $$('[data-aslide]').forEach(function (box) {
-    var im = $$('img.as', box), n = im.length, cur = 0, T = 5600, timer = null;
+    var im = $$('img.as', box), n = im.length, cur = 0, T = 7600, timer = null;
     var sec = box.closest('section') || box, dots = $$('.pd', sec);
     if (n < 2) return;
     sec.style.setProperty('--slide-t', T + 'ms');
@@ -639,7 +641,7 @@
       if (moved > 6) { cyl.classList.add('drag'); try { cyl.setPointerCapture(pid); } catch (x) { } }
       ry -= dx * -0.28; vel = dx * 0.28;
     });
-    function up() { if (!drag) return; drag = false; cyl.classList.remove('drag'); setTimeout(function () { auto = true; }, 3500); }
+    function up() { if (!drag) return; drag = false; cyl.classList.remove('drag'); setTimeout(function () { auto = true; }, 1800); }
     cyl.addEventListener('pointerup', up); cyl.addEventListener('pointercancel', up);
     cyl.addEventListener('click', function (e) { if (moved > 6) { e.preventDefault(); e.stopPropagation(); moved = 0; } }, true);
     function nudge(s) { auto = false; vel = 0; var base = goal === null ? ry : goal; goal = Math.round(base / step) * step + s * step; setTimeout(function () { auto = true; }, 4500); }
@@ -855,7 +857,7 @@
 
   /* ---------- carrousel 3D ---------- */
   $$('[data-c3d]').forEach(function (box) {
-    var stage = $('.c3d-stage', box), cards = $$('.c3d-card', box), dots = $$('.c3d-dot', box), n = cards.length, cur = 0, T = 6500, timer = null, paused = false;
+    var stage = $('.c3d-stage', box), cards = $$('.c3d-card', box), dots = $$('.c3d-dot', box), n = cards.length, cur = 0, T = 9000, timer = null, paused = false;
     box.style.setProperty('--c3d-t', T + 'ms');
     function layout() {
       var w = cards[0].offsetWidth, narrow = window.innerWidth < 700;
@@ -902,7 +904,7 @@
       cur = i; items.forEach(function (x, k) { x.classList.toggle('on', k === i); }); imgs.forEach(function (x, k) { x.classList.toggle('on', k === i); });
       if (num) num.textContent = '0' + (i + 1);
     }
-    function play() { clearTimeout(timer); if (reduce) return; timer = setTimeout(function () { if (!hov) set((cur + 1) % items.length); play(); }, 5200); }
+    function play() { clearTimeout(timer); if (reduce) return; timer = setTimeout(function () { if (!hov) set((cur + 1) % items.length); play(); }, 7200); }
     items.forEach(function (it, i) {
       it.addEventListener('mouseenter', function () { hov = true; set(i); });
       it.addEventListener('focus', function () { hov = true; set(i); });

@@ -14,7 +14,7 @@
 "Nos conseillers funéraires": "I nostri consulenti funerari",
 "Demande de devis": "Richiesta di preventivo",
 "La prévoyance funéraire": "La previdenza funeraria",
-"Transport Internationaux": "Trasporti internazionali",
+"Transports Internationaux": "Trasporti internazionali",
 "Rapatriements": "Rimpatri",
 "Murith Care Everywhere": "Murith Care Everywhere",
 "Ressources": "Risorse",
@@ -80,7 +80,7 @@
 "A. Murith SA Pompes funèbres": "A. Murith SA Pompe funebri",
 "Navigation principale": "Navigazione principale",
 "Sous-menu : Les Obsèques et Décès": "Sottomenu: Esequie e decesso",
-"Sous-menu : Transport Internationaux": "Sottomenu: Trasporti internazionali",
+"Sous-menu : Transports Internationaux": "Sottomenu: Trasporti internazionali",
 "Sous-menu : Ressources": "Sottomenu: Risorse",
 "Appeler le +41 22 809 56 00": "Chiama il +41 22 809 56 00",
 "A. Murith SA": "A. Murith SA",
@@ -1349,5 +1349,8 @@
 "Parce qu'une prévoyance se prépare parfois 5, 10, 20 ou 30 ans à l'avance : il est essentiel de connaître l'entreprise qui sera présente le moment venu. Les pompes funèbres Murith accompagnent les familles genevoises depuis 1888 et organisent l'ensemble des prestations : cérémonie, salons funéraires, transports et démarches administratives.": "Perché una previdenza si prepara a volte 5, 10, 20 o 30 anni in anticipo: è essenziale conoscere l'azienda che sarà presente al momento opportuno. Le pompe funebri Murith accompagnano le famiglie ginevrine dal 1888 e organizzano tutte le prestazioni: cerimonia, sale funerarie, trasporti e pratiche amministrative.",
 "Pourquoi choisir les pompes funèbres Murith pour votre prévoyance funéraire ?": "Perché scegliere le pompe funebri Murith per la vostra previdenza funeraria?",
 "Un accompagnement complet": "Un accompagnamento completo",
-"Une prévoyance se prépare parfois 5, 10, 20, voire 30 ans à l'avance. Au-delà de l'aspect financier, il s'agit de choisir les personnes à qui vous confierez l'organisation de vos dernières volontés.": "Una previdenza si prepara a volte 5, 10, 20 o anche 30 anni in anticipo. Al di là dell'aspetto finanziario, si tratta di scegliere le persone a cui affiderete l'organizzazione delle vostre ultime volontà."
+"Une prévoyance se prépare parfois 5, 10, 20, voire 30 ans à l'avance. Au-delà de l'aspect financier, il s'agit de choisir les personnes à qui vous confierez l'organisation de vos dernières volontés.": "Una previdenza si prepara a volte 5, 10, 20 o anche 30 anni in anticipo. Al di là dell'aspetto finanziario, si tratta di scegliere le persone a cui affiderete l'organizzazione delle vostre ultime volontà.",
+"{1}01{/1}{2}Nos salons et la Chapelle de la Cluse{/2}{3}{x4}{/3}{5}Nos salons sont personnalisables et accessibles 24h/24 et 7 jours sur 7, par l'intermédiaire d'un code.{/5}{6}Visiter nos salons{x7}{/6}": "{1}01{/1}{2}Le nostre sale e la Cappella della Cluse{/2}{3}{x4}{/3}{5}Le nostre sale sono personalizzabili e accessibili 24 ore su 24 e 7 giorni su 7, tramite un codice.{/5}{6}Visita le nostre sale{x7}{/6}",
+"{1}02{/1}{2}Nos cercueils{/2}{3}{x4}{/3}{5}Nous proposons de nombreuses essences et finitions.{/5}{6}Découvrir les essences de bois{x7}{/6}": "{1}02{/1}{2}Le nostre bare{/2}{3}{x4}{/3}{5}Proponiamo numerose essenze e finiture.{/5}{6}Scopri le essenze di legno{x7}{/6}",
+"{1}03{/1}{2}Nos fleurs{/2}{3}{x4}{/3}{5}Nous proposons des petits et grands arrangements de fleurs.{/5}{6}Composer mes arrangements{x7}{/6}": "{1}03{/1}{2}I nostri fiori{/2}{3}{x4}{/3}{5}Proponiamo piccole e grandi composizioni di fiori.{/5}{6}Componi i miei addobbi{x7}{/6}"
 }
