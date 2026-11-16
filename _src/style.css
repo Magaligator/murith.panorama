@@ -2401,3 +2401,6 @@ html[data-theme="panorama"][data-theme][lang] .hero-pan .hero-main em{display:bl
 .pv-trust .card h3{margin-top:18px}
 .pv-close{max-width:760px;margin:clamp(28px,4vw,48px) auto 0;text-align:center;font-family:var(--font-display);font-size:var(--fs-h3);line-height:1.5;color:var(--ink)}
 @media(max-width:980px){.pv-trust .g3{grid-template-columns:1fr}}
+.pv-trust .pv-split{align-items:center;margin-bottom:clamp(36px,5vw,64px)}
+.pv-trust .vcard{max-width:none}
+.pv-trust .pv-split .lead{margin-top:0}

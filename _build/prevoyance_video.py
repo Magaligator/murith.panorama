@@ -79,25 +79,25 @@ TRANSCRIPT_FR = [
  "Faire une prévoyance chez Murith, c'est avant tout établir un lien de confiance avec une entreprise de pompes funèbres qui connaît son métier. Nous connaissons les réalités du terrain, les différentes démarches administratives, les contraintes liées aux cérémonies, mais aussi et surtout les attentes des familles. Notre objectif est simple : écouter chaque personne, comprendre ses volontés et préparer une organisation qui lui ressemble. Parce que chaque vie est unique, chaque prévoyance doit l'être également.",
  "Prévoir ses obsèques, c'est une décision très importante pour soi, mais aussi et surtout pour ceux que l'on aime. C'est pourquoi nous pensons qu'au-delà des offres, des assurances et des différentes formules, la confiance doit rester au cœur de cette démarche. Depuis 1888, les pompes funèbres Murith accompagnent les familles genevoises, et c'est avec ce même engagement que nous souhaitons les accompagner demain."]
 def esc(s): return s.replace('&', '&amp;')
-def video_section(lg):
+def video_block(lg):
     t = L[lg]
     track = '<track kind="captions" label="Français" src="/img/video-prevoyance-fr.vtt" srclang="fr"/>' if lg == 'fr' else ''
     note = f'<p class="pv-note">{t["note"]}</p>' if t['note'] else ''
-    tr = ''
-    if lg == 'fr':
-        tr = ('<div class="faq pv-tr reveal" data-fr-only=""><details><summary>Lire la transcription de la vidéo<i aria-hidden="true"></i></summary><div class="ans">'
-              + ''.join(f'<p>{esc(p)}</p>' for p in TRANSCRIPT_FR) + '</div></details></div>')
-    return ('<section class="section prev-video" id="video"><div class="container"><div class="split pv-split">'
+    return ('<div class="split pv-split" id="video">'
             f'<div class="reveal"><div class="vcard"><span class="v-badge">{PLAY}<b>{t["badge"]}</b><i class="v-dur" data-dur="">4:27</i></span>'
             f'<video aria-label="{esc(t["aria"])}" playsinline="" poster="/img/video-prevoyance-poster.jpg" preload="none"><source src="/img/video-prevoyance.mp4" type="video/mp4"/>{track}</video>'
             f'<button aria-label="{t["play"]}" class="vplay" type="button">{PLAY2}</button><span class="v-cap">{t["play"]}</span></div>{note}</div>'
-            f'<div class="reveal" style="--d:.1s"><p class="eyebrow">{t["eb"]}</p><h2>{esc(t["h2"])}</h2><p class="lead">{esc(t["lead"])}</p>'
-            '<ul class="pv-points">' + ''.join(f'<li>{esc(x)}</li>' for x in t['pts']) + '</ul></div></div>' + tr + '</div></section>')
+            f'<div class="reveal" style="--d:.1s"><p class="lead">{esc(t["lead"])}</p>'
+            '<ul class="pv-points">' + ''.join(f'<li>{esc(x)}</li>' for x in t['pts']) + '</ul></div></div>')
+def transcript(lg):
+    if lg != 'fr': return ''
+    return ('<div class="faq pv-tr reveal" data-fr-only=""><details><summary>Lire la transcription de la vidéo<i aria-hidden="true"></i></summary><div class="ans">'
+            + ''.join(f'<p>{esc(p)}</p>' for p in TRANSCRIPT_FR) + '</div></details></div>')
 def trust_section(lg):
     t = L[lg]
     cards = ''.join(f'<div class="card reveal" style="--d:{i*.08:.2f}s"><h3>{esc(a)}</h3><p>{esc(b)}</p></div>' for i, (a, b) in enumerate(t['cards']))
     return (f'<section class="section alt pv-trust"><div class="container"><div class="sec-head reveal"><p class="eyebrow">{esc(t["te"])}</p><h2>{esc(t["th"])}</h2><p class="lead">{esc(t["tl"])}</p></div>'
-            f'<div class="g3">{cards}</div><p class="pv-close reveal">{esc(t["close"])}</p></div></section>')
+            + video_block(lg) + f'<div class="g3">{cards}</div>' + transcript(lg) + f'<p class="pv-close reveal">{esc(t["close"])}</p></div></section>')
 def video_ld(lg):
     t = L[lg]
     j = {"@context": "https://schema.org", "@type": "VideoObject", "name": t['vname'], "description": t['vdesc'],
@@ -109,25 +109,24 @@ n = 0
 for lg in L:
     p = root / (('' if lg == 'fr' else lg + '/') + 'prevoyance-funeraire.html')
     h = p.read_text(encoding='utf8')
-    if 'prev-video' in h: continue
+    if 'prev-video' not in h and 'pv-split' in h: continue
+    h = re.sub(r'<section class="section prev-video".*?</section>', '', h, flags=re.S)
+    h = re.sub(r'<section class="section alt pv-trust">.*?</section>', '', h, flags=re.S)
     t = L[lg]
-    # 1) vidéo après le héros
-    i = h.find('</section>', h.find('class="phead pan-ph"')) + len('</section>')
-    h = h[:i] + video_section(lg) + h[i:]
     # 2) phrase « versements étalés » dans la carte
     m = re.search(r'(<p style="margin:0">)(.*?)(</p></div>\n</div></section>)', h, re.S)
-    h = h[:m.start()] + m.group(1) + m.group(2) + ' ' + esc(t['extra']) + m.group(3) + h[m.end():]
+    if esc(t['extra']) not in h: h = h[:m.start()] + m.group(1) + m.group(2) + ' ' + esc(t['extra']) + m.group(3) + h[m.end():]
     # 3) section confiance (avant la FAQ en FR, avant l'appel final sinon)
     anchor = '<section class="section" id="faq">' if lg == 'fr' else '<section class="section tight cta-prev-sec">'
     j = h.find(anchor); h = h[:j] + trust_section(lg) + h[j:]
     # 4) FAQ (FR) + JSON-LD
-    if lg == 'fr':
+    if lg == 'fr' and FAQ_FR[0][0].replace("'", "'") not in h:
         items = ''.join(f'<details><summary>{esc(q)}<i aria-hidden="true"></i></summary><div class="ans"><p>{esc(a)}</p></div></details>' for q, a in FAQ_FR)
         k = h.find('</div>', h.rfind('</details>', 0, h.find('<section class="section tight rel-sec"'))) 
         k = h.rfind('</details>', 0, h.find('<section class="section tight rel-sec"')) + len('</details>')
         h = h[:k] + items + h[k:]
         qs = ','.join(json.dumps({"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}, ensure_ascii=False, separators=(',', ':')) for q, a in FAQ_FR)
         h = re.sub(r'(\{"@context":"https://schema.org","@type":"FAQPage","mainEntity":\[.*?)\]\}</script>', lambda mm: mm.group(1) + ',' + qs + ']}</script>', h, count=1, flags=re.S)
-    h = h.replace('</head>', video_ld(lg) + '\n</head>', 1)
+    if 'VideoObject' not in h: h = h.replace('</head>', video_ld(lg) + '\n</head>', 1)
     p.write_text(h, encoding='utf8'); n += 1
 print('pages modifiées :', n)
