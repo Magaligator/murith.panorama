@@ -15,3 +15,8 @@ Réalisé par © www.websituation.ch
 - Ce dépôt (`main`) est la source de référence du site Murith Panorama.
 - GitHub Pages sert la branche `gh-pages`, générée depuis `main` : `node _build/pages.mjs <dossier>` corrige les chemins (`/murith.panorama/…`) et force `noindex`. Pousser le contenu du dossier généré sur `gh-pages`, puis lancer un build Pages.
 - Mise en ligne définitive (Vercel ou domaine propre) : déployer `main` tel quel (chemins à la racine, balises SEO d'origine).
+
+## Langues (ordre : FR, EN, DE, IT, ES, PT)
+
+- L'italien (`it/`) est généré depuis les pages françaises : `_build/it/build_it.py` (dictionnaire de traduction `_build/it/it_dict.json`). Après toute modification d'un texte français, ajouter sa traduction dans le dictionnaire puis relancer le script (Python avec `beautifulsoup4`).
+- PDF de la check-list : `docs/checklist-formalites-deces-<langue>.pdf`.

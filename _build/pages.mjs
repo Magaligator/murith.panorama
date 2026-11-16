@@ -34,7 +34,7 @@ function copy(s, d) {
   } else if (s.endsWith('.css')) {
     t = t.replace(/url\((['"]?)\/(?!\/)/g, `url($1${BASE}/`);
   } else if (s.endsWith('.js')) {
-    t = t.replace(/(["'])\/(img|fonts|docs|contact|devis|blog|en|de|es|pt|obseques|salons|fleurs|cercueils|formalites|conseillers|remerciements|transports-funeraires|prevoyance-funeraire|murith-care-everywhere|notre-histoire)(?=[\/"'?#-])/g, `$1${BASE}/$2`);
+    t = t.replace(/(["'])\/(img|fonts|docs|contact|devis|blog|en|de|it|es|pt|obseques|salons|fleurs|cercueils|formalites|conseillers|remerciements|transports-funeraires|prevoyance-funeraire|murith-care-everywhere|notre-histoire)(?=[\/"'?#-])/g, `$1${BASE}/$2`);
   }
   fs.writeFileSync(d, t);
 }

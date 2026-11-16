@@ -18,6 +18,11 @@
       "permanent": true
     },
     {
+      "source": "/it/produits",
+      "destination": "/it/obseques",
+      "permanent": true
+    },
+    {
       "source": "/es/produits",
       "destination": "/es/obseques",
       "permanent": true

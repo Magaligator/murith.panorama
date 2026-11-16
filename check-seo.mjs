@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const BASE = 'https://www.murith.ch';
-const LANGS = ['fr', 'en', 'de', 'es', 'pt'];
+const LANGS = ['fr', 'en', 'de', 'it', 'es', 'pt'];
 const cfg = JSON.parse(fs.readFileSync(path.join(root, 'vercel.json'), 'utf8'));
 const PENDING = new Set(['/politique-de-confidentialite', '/mentions-legales']);   // pages créées en Phase 5
 const errors = [], warns = [];
@@ -67,7 +67,7 @@ for (const f of files) {
   if (og && attr(og[0], 'content') !== cu) err(f, 'og:url ≠ canonical');
   // lang
   const lg = (h.match(/<html[^>]*\blang="([^"]*)"/) || [])[1];
-  const dirLang = ['en', 'de', 'es', 'pt'].includes(f.split('/')[0]) ? f.split('/')[0] : 'fr';
+  const dirLang = ['en', 'de', 'it', 'es', 'pt'].includes(f.split('/')[0]) ? f.split('/')[0] : 'fr';
   if (!lg || lg.slice(0, 2) !== dirLang) err(f, `lang="${lg}" incohérent`);
   // JSON-LD
   for (const m of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
@@ -85,7 +85,7 @@ for (const f of files) {
     }
     if (/\.html(#|\?|$)/.test(v)) { err(f, 'URL en .html : ' + v); continue; }
     const p0 = v.split('#')[0].split('?')[0];
-    if (!exists(p0)) { if (PENDING.has(p0.replace(/^\/(en|de|es|pt)/, ''))) warn(f, 'page à créer (Phase 5) : ' + p0); else err(f, 'lien cassé : ' + v); }
+    if (!exists(p0)) { if (PENDING.has(p0.replace(/^\/(en|de|it|es|pt)/, ''))) warn(f, 'page à créer (Phase 5) : ' + p0); else err(f, 'lien cassé : ' + v); }
   }
 }
 // hreflang
@@ -94,7 +94,7 @@ for (const [f, h] of Object.entries(pages)) {
   const alts = [...h.matchAll(/<link[^>]*rel="alternate"[^>]*hreflang="([^"]*)"[^>]*href="([^"]*)"|<link[^>]*hreflang="([^"]*)"[^>]*href="([^"]*)"/g)].map(m => [m[1] || m[3], m[2] || m[4]]);
   const map = Object.fromEntries(alts);
   for (const l of [...LANGS, 'x-default']) if (!map[l]) err(f, 'hreflang manquant : ' + l);
-  const self = map[LANGS.find(l => (l === 'fr' ? !['en', 'de', 'es', 'pt'].includes(f.split('/')[0]) : f.split('/')[0] === l))];
+  const self = map[LANGS.find(l => (l === 'fr' ? !['en', 'de', 'it', 'es', 'pt'].includes(f.split('/')[0]) : f.split('/')[0] === l))];
   if (self !== BASE + (urlOf(f) === '/' ? '/' : urlOf(f))) err(f, 'hreflang auto-référent incorrect');
   for (const [l, hu] of alts) {
     const tu = hu.replace(BASE, '') || '/';
