@@ -1276,3 +1276,12 @@
     } else if (dy > 90 && dy > Math.abs(dx) * 1.5) { lb.close(); }
   }, { passive: true });
 })();
+
+/* ===== V76 — Panorama : le passage ordinateur <-> mobile (mode appareil de Chrome, rotation) recharge la page ===== */
+/* Les blocs « mobile » (points clés en icônes, textes repliables, boutons d'action) se construisent au chargement : on les reconstruit au changement de gabarit. */
+(function () {
+  if (document.documentElement.getAttribute('data-theme') !== 'panorama' || !window.matchMedia) return;
+  var mq = window.matchMedia('(max-width:700px)'), start = mq.matches, t = null;
+  function chg(e) { if (e.matches === start) return; clearTimeout(t); t = setTimeout(function () { if (mq.matches !== start) location.reload(); }, 250); }
+  if (mq.addEventListener) mq.addEventListener('change', chg); else if (mq.addListener) mq.addListener(chg);
+})();
