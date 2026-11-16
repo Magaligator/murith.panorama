@@ -1,5 +1,5 @@
 #!/usr/bin/env python3 -I
-"""Ajoute le bandeau « Partenaires et affiliations » (accueil + Notre histoire, 5 langues). Idempotent."""
+"""Ligne discrète « Partenaires et affiliations » dans le pied de page de toutes les pages (5 langues). Idempotent."""
 import re, pathlib
 root = pathlib.Path(__file__).resolve().parent.parent
 T = {
@@ -19,33 +19,27 @@ T = {
         'Trabalhamos com a Exit Suisse romande e a Résidence de la Champagne, e somos membros da Associação Suíça dos Serviços Funerários.',
         ('Parceiro', 'Parceiro', 'Membro de'), 'Logótipo da Exit Suisse romande', 'Logótipo da Résidence de la Champagne', 'Logótipo da Associação Suíça dos Serviços Funerários', 'Associação Suíça dos Serviços Funerários', 'https://bestatter.ch/fr/'),
 }
-def block(lang):
+LBL = {'fr': 'Partenaires et affiliations', 'en': 'Partners and affiliations', 'de': 'Partner und Mitgliedschaften', 'es': 'Socios y afiliaciones', 'pt': 'Parceiros e filiações'}
+def row(lang):
     eb, h2, lead, caps, a1, a2, a3, n3, u3 = T[lang]
-    def card(img, w, h, alt, cap, name, href=None):
+    def li(img, w, h, alt, title, href=None):
         im = f'<img alt="{alt}" decoding="async" height="{h}" loading="lazy" src="/img/partenaires/{img}" width="{w}"/>'
-        inner = f'<span class="pt-logo">{im}</span><span class="pt-cap">{cap}</span><b class="pt-name">{name}</b>'
-        if href:
-            return f'<li><a class="pt-card" href="{href}" rel="noopener" target="_blank">{inner}</a></li>'
-        return f'<li><div class="pt-card">{inner}</div></li>'
-    return ('<section class="section alt partners" data-partners="" id="partenaires"><div class="container">'
-            f'<div class="sec-head reveal"><p class="eyebrow">{eb}</p><h2>{h2}</h2><p class="lead">{lead}</p></div>'
-            '<ul class="pt-list reveal">'
-            + card('exit-suisse-romande.png', 318, 159, a1, caps[0], 'Exit Suisse romande', 'https://www.exit-romandie.ch/')
-            + card('residence-de-la-champagne.jpg', 480, 213, a2, caps[1], 'Résidence de la Champagne (EMS)')
-            + card('assf.svg', 855, 305, a3, caps[2], n3, u3)
-            + '</ul></div></section>\n')
-SD = {'fr': '', 'en': 'en/', 'de': 'de/', 'es': 'es/', 'pt': 'pt/'}
+        if href: return f'<li><a href="{href}" rel="noopener" target="_blank" title="{title}">{im}</a></li>'
+        return f'<li><span title="{title}">{im}</span></li>'
+    return ('<div class="container foot-partners" data-fp=""><span class="fp-t">' + LBL[lang] + '</span><ul>'
+            + li('exit-suisse-romande.png', 318, 159, a1, 'Exit Suisse romande', 'https://www.exit-romandie.ch/')
+            + li('residence-de-la-champagne.jpg', 480, 213, a2, 'Résidence de la Champagne (EMS)')
+            + li('assf.svg', 855, 305, a3, n3, u3) + '</ul></div>\n')
 n = 0
-for lang, d in SD.items():
-    for page in ('index.html', 'notre-histoire.html'):
-        p = root / d / page
-        h = p.read_text(encoding='utf8')
-        if 'data-partners' in h: continue
-        # insérer juste avant la dernière section « tight » (bandeau d'appel) ou le pied de page
-        i = h.rfind('<section class="section tight">')
-        if i < 0: i = h.find('<footer class="site-footer">')
-        h = h[:i] + block(lang) + h[i:]
-        if page == 'index.html' and '"memberOf"' not in h:
-            h = h.replace('"hasMap"', '"memberOf":{"@type":"Organization","name":"Association Suisse des services funéraires","url":"https://bestatter.ch/fr/"},"hasMap"', 1)
-        p.write_text(h, encoding='utf8'); n += 1
+for p in root.rglob('*.html'):
+    if p.relative_to(root).parts[0] in ('_archive-wix', '_build', '_img-src', '_src', 'docs', '.git'): continue
+    rel = p.relative_to(root).parts
+    lang = rel[0] if rel[0] in T else 'fr'
+    h = p.read_text(encoding='utf8'); o = h
+    h = re.sub(r'<section class="section alt partners".*?</section>\n?', '', h, flags=re.S)
+    if 'data-fp' not in h:
+        i = h.find('<div class="container foot-topics">')
+        if i < 0: continue
+        h = h[:i] + row(lang) + h[i:]
+    if h != o: p.write_text(h, encoding='utf8'); n += 1
 print('pages modifiées :', n)
