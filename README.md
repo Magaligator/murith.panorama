@@ -9,3 +9,9 @@ Racine du site : ce dossier (FR) + `en/`, `de/`, `es/`, `pt/`. Hébergement pré
 
 Suivi : `PLAN-SEO-MURITH.md`, `CHANGELOG-SEO.md`, `QUESTIONS-MURITH.md`, `INVENTAIRE-URLS.csv`.
 Réalisé par © www.websituation.ch
+
+## Dépôt de référence et publication (GitHub Pages)
+
+- Ce dépôt (`main`) est la source de référence du site Murith Panorama.
+- GitHub Pages sert la branche `gh-pages`, générée depuis `main` : `node _build/pages.mjs <dossier>` corrige les chemins (`/murith.panorama/…`) et force `noindex`. Pousser le contenu du dossier généré sur `gh-pages`, puis lancer un build Pages.
+- Mise en ligne définitive (Vercel ou domaine propre) : déployer `main` tel quel (chemins à la racine, balises SEO d'origine).
