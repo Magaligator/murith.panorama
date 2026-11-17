@@ -2447,7 +2447,7 @@ html[data-theme="panorama"] .vid-home .vcard video{object-fit:contain;background
   html[data-theme="panorama"][data-theme][lang] .hero-pan .pan-shade{z-index:1;background:linear-gradient(180deg,rgba(8,16,32,.5) 0%,rgba(8,16,32,.08) 17%,rgba(8,16,32,.1) 36%,rgba(8,16,32,.5) 52%,rgba(8,16,32,.8) 70%,rgba(8,16,32,.92) 100%)}
   html[data-theme="panorama"][data-theme][lang] .hero-pan h1 .eyebrow,
   html[data-theme="panorama"][data-theme][lang] .hero-pan h1{text-shadow:0 1px 3px rgba(4,10,24,.8),0 2px 16px rgba(4,10,24,.7)}
-  html[data-theme="panorama"][data-theme][lang] .hero-pan h1 .eyebrow{color:#F3E6C4;font-weight:600}
+  html[data-theme="panorama"][data-theme][lang] .hero-pan h1 .eyebrow{color:#E4CB8C;font-weight:600}
   html[data-theme="panorama"][data-theme][lang] .hero-pan .hero-main{color:#fff;text-shadow:0 1px 3px rgba(4,10,24,.85),0 3px 22px rgba(4,10,24,.75)}
   html[data-theme="panorama"][data-theme][lang] .hero-pan .hero-main em{color:#fff;opacity:1;font-size:.95rem;font-weight:500;text-shadow:0 1px 3px rgba(4,10,24,.9),0 2px 14px rgba(4,10,24,.8)}
   html[data-theme="panorama"][data-theme][lang] .hero-pan .pan-help .ph.urgent{text-shadow:0 1px 3px rgba(4,10,24,.9),0 2px 12px rgba(4,10,24,.7);font-weight:500}
@@ -2464,3 +2464,7 @@ html[data-theme][data-theme] .hero-pan .btns .btn-devis{display:none}
   html[data-theme][data-theme] .hero-pan .btns .btn-primary{width:100%}
   html[data-theme][data-theme] .hero-pan .btns .btn-ghost.btn-devis{display:inline-flex;align-items:center;justify-content:center;width:auto;min-height:38px;height:auto;padding:0 20px;font-size:.84rem;font-weight:500;letter-spacing:.01em;background:transparent;border:1px solid rgba(255,255,255,.42);color:rgba(255,255,255,.9);box-shadow:none;white-space:nowrap}
 }
+
+/* ===== V80 – « Pompes funèbres à Genève depuis 1888 » en doré, comme sur l'accueil, en tête de chaque page ===== */
+html[data-theme="panorama"][data-theme][lang] .pan-ph .eyebrow,
+html[data-theme="panorama"][data-theme][lang] .hero-pan h1 .eyebrow{color:#E4CB8C;text-shadow:0 1px 3px rgba(4,10,24,.7),0 2px 14px rgba(4,10,24,.55)}
