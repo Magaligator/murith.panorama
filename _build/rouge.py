@@ -30,7 +30,7 @@ def fr_page(name, s):
         s = mark(s, r'<div class="pshow reveal"[^>]*>', 'NOUVEAU · petites icônes à droite · défilement plus lent (7 s)')
         s = mark(s, r'<div class="vcard">(?=.{0,400}?video-accueil)', 'NOUVEAU · nouvelle vidéo de présentation (2 min 43), grand format HD', flags=re.S)
     if name == 'prevoyance-funeraire.html':
-        s = s.replace('<details><summary>', '<div class="rg-removed"><b>SUPPRIMÉ</b> : la question « Le service public de la Ville de Genève propose-t-il encore des prévoyances funéraires ? » (le service public de la Ville de Genève n\'est plus cité qu\'une seule fois sur le site, dans l\'article de blog sur la prévoyance).</div><details><summary>', 1)\n
+        s = s.replace('<details><summary>', '<div class="rg-removed"><b>SUPPRIMÉ</b> : la question « Le service public de la Ville de Genève propose-t-il encore des prévoyances funéraires ? » (le service public de la Ville de Genève n\'est plus cité qu\'une seule fois sur le site, dans l\'article de blog sur la prévoyance).</div><details><summary>', 1)
         s = s.replace('<div class="container pv-intro">', '<div class="container pv-intro">' + tag('NOUVEAU · texte centré et simple, comme sur mobile'), 1)
         s = s.replace('</div></section><section class="section alt pv-trust"',
             '<div class="rg-removed"><b>SUPPRIMÉ</b> : le bloc « Prévoyance Funéraire Genève – Maison Murith » (service public de la Ville de Genève depuis 1866, obsèques gratuites, depuis 2014 plus de nouvelles prévoyances, maîtriser le coût).</div></div></section><section class="section alt pv-trust"', 1)
