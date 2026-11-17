@@ -25,7 +25,6 @@ def fr_page(name, s):
         s = mark(s, r'<div [^>]*class="c3d"[^>]*>', 'NOUVEAU · « Prévoyance funéraire » passe en numéro 1 · défilement plus lent (9 s au lieu de 6,5 s)')
         s = mark(s, r'<div class="pshow reveal"[^>]*>', 'NOUVEAU · petites icônes à droite · défilement plus lent (7 s)')
         s = mark(s, r'<div class="vcard">(?=.{0,400}?video-accueil)', 'NOUVEAU · vidéo agrandie de 30 % et qualité HD (720p, refaite depuis le fichier 4K d\'origine)', flags=re.S)
-        s = s.replace('<section class="hero hero-pan">', '<section class="hero hero-pan"><span class="rg-tag rg-mob">NOUVEAU (mobile) · barre de menu lisible, photo recadrée par le haut (enseigne retirée) et élargie : les 4 visages restent entiers</span>', 1)
     if name == 'prevoyance-funeraire.html':
         s = s.replace('<div class="container pv-intro">', '<div class="container pv-intro">' + tag('NOUVEAU · texte centré et simple, comme sur mobile'), 1)
         s = s.replace('</div></section><section class="section alt pv-trust"',
@@ -57,13 +56,11 @@ for p in sorted(out.rglob('*.html')):
 .vid-home .rg-tag{margin-inline:auto}
 .rg-mob,.rg-mobonly{display:none}.rg-mobonly{margin-inline:16px}
 @media(max-width:700px){.rg-mobonly{display:block}}
-@media(max-width:820px){.rg-mob{display:block;position:absolute;left:12px;right:12px;top:calc(var(--hdr-h,60px) + 52px);z-index:90;font-size:12px}
- .pan-top:has(.hero-pan) .site-header:not(.is-scrolled){box-shadow:inset 0 0 0 3px var(--rg)!important}}
 .rg-t{color:var(--rg)!important;font-weight:800;background:rgba(255,255,255,.92);border-radius:6px;padding:1px 6px}
 .ps-ic{outline:3px solid var(--rg);outline-offset:3px}
 .rg-removed{margin:28px auto 0;max-width:760px;border:3px dashed var(--rg);border-radius:12px;padding:14px 18px;color:var(--rg);font:500 15px/1.5 Inter,system-ui,sans-serif;text-align:left}
 .rg-removed b{background:var(--rg);color:#fff;border-radius:6px;padding:1px 8px;margin-right:6px}
-@media(max-width:820px){''', encoding='utf8')
+''', encoding='utf8')
 
 (out / 'Ouvrir.command').write_text('#!/bin/bash\ncd "$(dirname "$0")"\n(sleep 1.5; open http://localhost:3010/) &\nnode dev-server.mjs 3010\n', encoding='utf8')
 (out / 'Ouvrir.command').chmod(0o755)
