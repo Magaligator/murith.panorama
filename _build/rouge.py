@@ -24,11 +24,13 @@ def fr_page(name, s):
     # 1) libellé du menu
     s = re.sub(r'>(Transports Internationaux)</a>', r'><span class="rg-t">\1</span></a>', s)
     if name == 'index.html':
+        s = s.replace('<p>Comment organiser et financer vos obsèques à l\'avance', '<p class="rg">Comment organiser et financer vos obsèques à l\'avance', 1)
         s = s.replace('<section class="hero hero-pan">', '<section class="hero hero-pan"><span class="rg-tag rg-mob">CORRIGÉ (mobile et tablette) · l\'enseigne « Chapelle de la Cluse » n\'apparaît plus sur la photo, quel que soit l\'écran · textes du diaporama plus lisibles · photo plus nette · ordre des prénoms : Jacques, Jimmy, Philippe et Jean-Marc</span>', 1)
         s = mark(s, r'<div [^>]*class="c3d"[^>]*>', 'NOUVEAU · « Prévoyance funéraire » passe en numéro 1 · défilement plus lent (9 s au lieu de 6,5 s)')
         s = mark(s, r'<div class="pshow reveal"[^>]*>', 'NOUVEAU · petites icônes à droite · défilement plus lent (7 s)')
         s = mark(s, r'<div class="vcard">(?=.{0,400}?video-accueil)', 'NOUVEAU · nouvelle vidéo de présentation (2 min 43), grand format HD', flags=re.S)
     if name == 'prevoyance-funeraire.html':
+        s = s.replace('<details><summary>', '<div class="rg-removed"><b>SUPPRIMÉ</b> : la question « Le service public de la Ville de Genève propose-t-il encore des prévoyances funéraires ? » (le service public de la Ville de Genève n\'est plus cité qu\'une seule fois sur le site, dans l\'article de blog sur la prévoyance).</div><details><summary>', 1)\n
         s = s.replace('<div class="container pv-intro">', '<div class="container pv-intro">' + tag('NOUVEAU · texte centré et simple, comme sur mobile'), 1)
         s = s.replace('</div></section><section class="section alt pv-trust"',
             '<div class="rg-removed"><b>SUPPRIMÉ</b> : le bloc « Prévoyance Funéraire Genève – Maison Murith » (service public de la Ville de Genève depuis 1866, obsèques gratuites, depuis 2014 plus de nouvelles prévoyances, maîtriser le coût).</div></div></section><section class="section alt pv-trust"', 1)
