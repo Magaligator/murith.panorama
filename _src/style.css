@@ -2440,3 +2440,15 @@ html[data-theme="panorama"] .vid-home .vcard video{object-fit:contain;background
   html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) .facts-panel{margin-top:10px}
   html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) .intro-grid .btns,html[data-theme="panorama"][data-theme][lang] body:has(.cyl-sec) .split .btns{margin-top:18px}
 }
+
+/* ===== V77 – Accueil mobile : texte du diaporama plus lisible (toutes les diapositives) ===== */
+@media(max-width:700px){
+  /* voile plus progressif derrière le bloc de texte : même rendu sur chaque diapositive */
+  html[data-theme="panorama"][data-theme][lang] .hero-pan .pan-shade{z-index:1;background:linear-gradient(180deg,rgba(8,16,32,.5) 0%,rgba(8,16,32,.08) 17%,rgba(8,16,32,.1) 36%,rgba(8,16,32,.5) 52%,rgba(8,16,32,.8) 70%,rgba(8,16,32,.92) 100%)}
+  html[data-theme="panorama"][data-theme][lang] .hero-pan h1 .eyebrow,
+  html[data-theme="panorama"][data-theme][lang] .hero-pan h1{text-shadow:0 1px 3px rgba(4,10,24,.8),0 2px 16px rgba(4,10,24,.7)}
+  html[data-theme="panorama"][data-theme][lang] .hero-pan h1 .eyebrow{color:#F3E6C4;font-weight:600}
+  html[data-theme="panorama"][data-theme][lang] .hero-pan .hero-main{color:#fff;text-shadow:0 1px 3px rgba(4,10,24,.85),0 3px 22px rgba(4,10,24,.75)}
+  html[data-theme="panorama"][data-theme][lang] .hero-pan .hero-main em{color:#fff;opacity:1;font-size:.95rem;font-weight:500;text-shadow:0 1px 3px rgba(4,10,24,.9),0 2px 14px rgba(4,10,24,.8)}
+  html[data-theme="panorama"][data-theme][lang] .hero-pan .pan-help .ph.urgent{text-shadow:0 1px 3px rgba(4,10,24,.9),0 2px 12px rgba(4,10,24,.7);font-weight:500}
+}
