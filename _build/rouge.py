@@ -22,7 +22,7 @@ def fr_page(name, s):
     # 1) libellé du menu
     s = re.sub(r'>(Transports Internationaux)</a>', r'><span class="rg-t">\1</span></a>', s)
     if name == 'index.html':
-        s = s.replace('<section class="hero hero-pan">', '<section class="hero hero-pan"><span class="rg-tag rg-mob">CORRIGÉ (mobile et tablette) · l\'enseigne « Chapelle de la Cluse » n\'apparaît plus sur la photo, quel que soit l\'écran · textes du diaporama plus lisibles · photo plus nette</span>', 1)
+        s = s.replace('<section class="hero hero-pan">', '<section class="hero hero-pan"><span class="rg-tag rg-mob">CORRIGÉ (mobile et tablette) · l\'enseigne « Chapelle de la Cluse » n\'apparaît plus sur la photo, quel que soit l\'écran · textes du diaporama plus lisibles · photo plus nette · ordre des prénoms : Jacques, Jimmy, Philippe et Jean-Marc</span>', 1)
         s = mark(s, r'<div [^>]*class="c3d"[^>]*>', 'NOUVEAU · « Prévoyance funéraire » passe en numéro 1 · défilement plus lent (9 s au lieu de 6,5 s)')
         s = mark(s, r'<div class="pshow reveal"[^>]*>', 'NOUVEAU · petites icônes à droite · défilement plus lent (7 s)')
         s = mark(s, r'<div class="vcard">(?=.{0,400}?video-accueil)', 'NOUVEAU · vidéo agrandie de 30 % et qualité HD (720p, refaite depuis le fichier 4K d\'origine)', flags=re.S)
@@ -37,6 +37,8 @@ def fr_page(name, s):
         s = mark(s, r'<div class="vcard">(?=.{0,400}?video-accueil)', 'NOUVEAU · vidéo en qualité HD (720p, depuis le fichier 4K d\'origine)', flags=re.S)
     if name == 'cercueils.html':
         s = mark(s, r'<div class="slider per-4"[^>]*>', 'CORRIGÉ · défilement des photos au doigt sans blocage · photos suivantes préchargées')
+    if name == 'notre-histoire.html':
+        s = re.sub(r'(<figure>)(<img[^>]*freres-murith-960)', lambda m: '<figure class="rg">' + tag('NOUVEAU · photo des trois frères (partie « Aujourd\'hui »)') + m.group(2), s, count=1)
     if name == 'salons.html':
         s = s.replace('<section class="section tight">', '<section class="section tight"><span class="rg-tag rg-mobonly">NOUVEAU (mobile) · espaces entre les sections resserrés et réguliers · galerie plus compacte</span>', 1)
         s = mark(s, r'<div [^>]*data-cyl[^>]*>', 'CORRIGÉ · galerie qui reprend plus vite après le doigt · photos suivantes préchargées')
