@@ -40,6 +40,8 @@ def fr_page(name, s):
     if name == 'cercueils.html':
         s = mark(s, r'<div class="slider per-4"[^>]*>', 'CORRIGÉ · défilement des photos au doigt sans blocage · photos suivantes préchargées')
     if name == 'notre-histoire.html':
+        s = re.sub(r'(<figure>)(<img[^>]*histoire-1919-paul-murith-960)', lambda m: '<figure class="rg">' + tag('NOUVEAU · photo 1919 : corbillard et portrait de Paul Murith') + m.group(2), s, count=1)
+        s = re.sub(r'(<figure>)(<img[^>]*histoire-1960-henri-murith-960)', lambda m: '<figure class="rg">' + tag('NOUVEAU · photo 1960-1981 : portrait de Henri Murith et corbillard') + m.group(2), s, count=1)
         s = re.sub(r'(<figure>)(<img[^>]*freres-murith-960)', lambda m: '<figure class="rg">' + tag('NOUVEAU · photo des trois frères (partie « Aujourd\'hui »)') + m.group(2), s, count=1)
     if name == 'salons.html':
         s = s.replace('<section class="section tight">', '<section class="section tight"><span class="rg-tag rg-mobonly">NOUVEAU (mobile) · espaces entre les sections resserrés et réguliers · galerie plus compacte</span>', 1)
