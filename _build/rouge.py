@@ -19,6 +19,7 @@ def mark(s, pattern, label, tag_before=True, flags=0):
     return s[:m.start()] + (tag(label) if tag_before else '') + add_rg(start) + s[m.end():]
 
 def fr_page(name, s):
+    s = s.replace('target="_blank" rel="noopener">© Websituation', 'target="_blank" rel="noopener" class="rg-t">© Websituation')
     # 1) libellé du menu
     s = re.sub(r'>(Transports Internationaux)</a>', r'><span class="rg-t">\1</span></a>', s)
     if name == 'index.html':

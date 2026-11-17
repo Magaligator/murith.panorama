@@ -2452,3 +2452,7 @@ html[data-theme="panorama"] .vid-home .vcard video{object-fit:contain;background
   html[data-theme="panorama"][data-theme][lang] .hero-pan .hero-main em{color:#fff;opacity:1;font-size:.95rem;font-weight:500;text-shadow:0 1px 3px rgba(4,10,24,.9),0 2px 14px rgba(4,10,24,.8)}
   html[data-theme="panorama"][data-theme][lang] .hero-pan .pan-help .ph.urgent{text-shadow:0 1px 3px rgba(4,10,24,.9),0 2px 12px rgba(4,10,24,.7);font-weight:500}
 }
+
+/* ===== V78 – Pied de page : crédit Websituation (lien sortant) ===== */
+.foot-bot span a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;font-weight:600}
+.foot-bot span a:hover{text-decoration-thickness:2px}
