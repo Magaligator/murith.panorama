@@ -84,7 +84,7 @@ def video_block(lg):
     note = f'<p class="pv-note">{t["note"]}</p>' if t['note'] else ''
     return ('<div class="split pv-split" id="video">'
             f'<div class="reveal"><div class="vcard"><span class="v-badge">{PLAY}<b>{t["badge"]}</b><i class="v-dur" data-dur="">4:27</i></span>'
-            f'<video aria-label="{esc(t["aria"])}" playsinline="" poster="/img/video-prevoyance-poster.jpg" preload="none"><source src="/img/video-prevoyance.mp4" type="video/mp4"/>{track}</video>'
+            f'<video aria-label="{esc(t["aria"])}" playsinline="" poster="/img/video-prevoyance-poster.jpg" preload="none"><source src="/img/video-prevoyance-hd.mp4" type="video/mp4"/>{track}</video>'
             f'<button aria-label="{t["play"]}" class="vplay" type="button">{PLAY2}</button><span class="v-cap">{t["play"]}</span></div>{note}</div>'
             f'<div class="reveal" style="--d:.1s"><p class="lead">{esc(t["lead"])}</p>'
             '<ul class="pv-points">' + ''.join(f'<li>{esc(x)}</li>' for x in t['pts']) + '</ul></div></div>')
@@ -101,7 +101,7 @@ def video_ld(lg):
     t = L[lg]
     j = {"@context": "https://schema.org", "@type": "VideoObject", "name": t['vname'], "description": t['vdesc'],
          "thumbnailUrl": "https://www.murith.ch/img/video-prevoyance-poster.jpg", "uploadDate": "2026-11-13", "duration": "PT4M27S",
-         "contentUrl": "https://www.murith.ch/img/video-prevoyance.mp4", "inLanguage": "fr",
+         "contentUrl": "https://www.murith.ch/img/video-prevoyance-hd.mp4", "inLanguage": "fr",
          "publisher": {"@id": "https://www.murith.ch/#entreprise"}}
     return '<script type="application/ld+json">' + json.dumps(j, ensure_ascii=False, separators=(',', ':')) + '</script>'
 n = 0

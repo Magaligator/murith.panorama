@@ -27,16 +27,16 @@ def fr_page(name, s):
         s = s.replace('<section class="hero hero-pan">', '<section class="hero hero-pan"><span class="rg-tag rg-mob">CORRIGÉ (mobile et tablette) · l\'enseigne « Chapelle de la Cluse » n\'apparaît plus sur la photo, quel que soit l\'écran · textes du diaporama plus lisibles · photo plus nette · ordre des prénoms : Jacques, Jimmy, Philippe et Jean-Marc</span>', 1)
         s = mark(s, r'<div [^>]*class="c3d"[^>]*>', 'NOUVEAU · « Prévoyance funéraire » passe en numéro 1 · défilement plus lent (9 s au lieu de 6,5 s)')
         s = mark(s, r'<div class="pshow reveal"[^>]*>', 'NOUVEAU · petites icônes à droite · défilement plus lent (7 s)')
-        s = mark(s, r'<div class="vcard">(?=.{0,400}?video-accueil)', 'NOUVEAU · vidéo agrandie de 30 % et qualité HD (720p, refaite depuis le fichier 4K d\'origine)', flags=re.S)
+        s = mark(s, r'<div class="vcard">(?=.{0,400}?video-accueil)', 'NOUVEAU · nouvelle vidéo de présentation (2 min 43), grand format HD', flags=re.S)
     if name == 'prevoyance-funeraire.html':
         s = s.replace('<div class="container pv-intro">', '<div class="container pv-intro">' + tag('NOUVEAU · texte centré et simple, comme sur mobile'), 1)
         s = s.replace('</div></section><section class="section alt pv-trust"',
             '<div class="rg-removed"><b>SUPPRIMÉ</b> : le bloc « Prévoyance Funéraire Genève – Maison Murith » (service public de la Ville de Genève depuis 1866, obsèques gratuites, depuis 2014 plus de nouvelles prévoyances, maîtriser le coût).</div></div></section><section class="section alt pv-trust"', 1)
-        s = mark(s, r'<div class="vcard">(?=.{0,400}?video-prevoyance)', 'NOUVEAU · vidéo prévoyance (4 min 27) : sous-titres, transcription, référencement Google', flags=re.S)
+        s = mark(s, r'<div class="vcard">(?=.{0,400}?video-prevoyance)', 'NOUVEAU · vidéo prévoyance (4 min 27) en meilleure qualité (720p, image nettoyée et plus nette) · sous-titres, transcription, référencement Google', flags=re.S)
         s = mark(s, r'<div class="split pv-split" id="video">', 'NOUVEAU · mise en page épurée, une seule colonne centrée (comme sur mobile)')
         s = mark(s, r'<div class="g3">(?=<div class="card reveal")', 'NOUVEAU · trois blocs empilés, texte simple (comme sur mobile)')
     if name == 'contact.html':
-        s = mark(s, r'<div class="vcard">(?=.{0,400}?video-accueil)', 'NOUVEAU · vidéo en qualité HD (720p, depuis le fichier 4K d\'origine)', flags=re.S)
+        s = mark(s, r'<div class="vcard">(?=.{0,400}?video-accueil)', 'NOUVEAU · nouvelle vidéo de présentation (2 min 43), HD', flags=re.S)
     if name == 'cercueils.html':
         s = mark(s, r'<div class="slider per-4"[^>]*>', 'CORRIGÉ · défilement des photos au doigt sans blocage · photos suivantes préchargées')
     if name == 'notre-histoire.html':
