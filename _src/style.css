@@ -2456,3 +2456,10 @@ html[data-theme="panorama"] .vid-home .vcard video{object-fit:contain;background
 /* ===== V78 – Pied de page : crédit Websituation (lien sortant) ===== */
 .foot-bot span a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;font-weight:600}
 .foot-bot span a:hover{text-decoration-thickness:2px}
+
+/* ===== V79 – Accueil : bouton « Demander un devis » en haut (héros) ===== */
+html[data-theme="panorama"] .hero-pan .btn-devis{white-space:nowrap}
+@media(max-width:700px){
+  html[data-theme][data-theme] .hero-pan .btns{display:flex;flex-direction:column;align-items:stretch;gap:10px}
+  html[data-theme][data-theme] .hero-pan .btns .btn-ghost.btn-devis{display:inline-flex;justify-content:center;width:100%;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.9);color:#fff;box-shadow:none}
+}
