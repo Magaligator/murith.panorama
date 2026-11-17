@@ -2465,6 +2465,11 @@ html[data-theme][data-theme] .hero-pan .btns .btn-devis{display:none}
   html[data-theme][data-theme] .hero-pan .btns .btn-ghost.btn-devis{display:inline-flex;align-items:center;justify-content:center;width:auto;min-height:38px;height:auto;padding:0 20px;font-size:.84rem;font-weight:500;letter-spacing:.01em;background:transparent;border:1px solid rgba(255,255,255,.42);color:rgba(255,255,255,.9);box-shadow:none;white-space:nowrap}
 }
 
-/* ===== V80 – « Pompes funèbres à Genève depuis 1888 » en doré, comme sur l'accueil, en tête de chaque page ===== */
-html[data-theme="panorama"][data-theme][lang] .pan-ph .eyebrow,
+/* ===== V80 – « Pompes funèbres à Genève depuis 1888 » : doré sur l'accueil uniquement (blanc sur les autres pages), centré sur tous les mobiles ===== */
 html[data-theme="panorama"][data-theme][lang] .hero-pan h1 .eyebrow{color:#E4CB8C;text-shadow:0 1px 3px rgba(4,10,24,.7),0 2px 14px rgba(4,10,24,.55)}
+@media(max-width:700px){
+  html[data-theme="panorama"][data-theme][lang] .hero-pan h1 .eyebrow,
+  html[data-theme="panorama"][data-theme][lang] .pan-ph .eyebrow{display:flex;justify-content:center;align-items:center;width:100%;max-width:none;margin-inline:auto;text-align:center;padding-inline:.22em 0}
+  html[data-theme="panorama"][data-theme][lang] .hero-pan h1 .eyebrow::before,
+  html[data-theme="panorama"][data-theme][lang] .pan-ph .eyebrow::before{display:none}
+}
