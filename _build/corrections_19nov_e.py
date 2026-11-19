@@ -31,6 +31,10 @@ for l in L:
     for f in pages:
         if (f.startswith(l) if l else '/' not in f or f.startswith('blog/')): rw(f, lambda s, l=l: btn(s, l))
 
+# 2b) page Obsèques : le bouton de la section « À vos côtés depuis 1888 » est retiré (celui du haut reste)
+for l in L:
+    rw(f'{l}obseques.html', lambda s, l=l: re.sub(r'<a class="btn btn-ghost" href="/' + re.escape(l) + r'prevoyance-funeraire">' + re.escape(BTN[l][1]) + r'(?:<svg.*?</svg>)?</a>', '', s))
+
 # 3) phrase rapatriement (formulation du client)
 NEW = "En effet, en cas de décès à l'étranger, deux solutions possibles : la famille peut mandater directement l'assurance rapatriement inclus dans la police du défunt ; si ce paramètre n'existe pas, alors nous pouvons conseiller à la famille une entreprise sur site à mandater, grâce à notre réseau partenaire."
 OLD = re.compile(r"En effet, en cas de décès à l'étranger, deux solutions (?:sont )?possibles\s*(?: )?: la famille peut mandater[^<]*?réseau (?:de )?partenaires?\.")
