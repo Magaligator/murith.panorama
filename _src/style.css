@@ -2245,9 +2245,9 @@ html[data-theme="panorama"] #avis .btns{margin-top:1.8rem!important}
 
 /* ===== V70 – Panorama (retours client 2026-11-06) ===== */
 /* Photo Transports : Mercedes en forêt (corbillards.jpg), cadrée sur la voiture */
-html[data-theme="panorama"] .pan-ph-img[src*="corbillards"]{object-position:50% 62%}
+html[data-theme="panorama"] .pan-ph-img[src*="corbillards"],html[data-theme="panorama"] .pan-ph-img[src*="mercedes-foret"]{object-position:50% 80%}
 @media(max-width:700px){
-  html[data-theme="panorama"] .pan-ph-img[src*="corbillards"]{object-position:44% 60%}
+  html[data-theme="panorama"] .pan-ph-img[src*="corbillards"],html[data-theme="panorama"] .pan-ph-img[src*="mercedes-foret"]{object-position:44% 60%}
   /* La phrase d'engagement revient entre les chiffres et la vidéo (mobile) */
   html[data-theme="panorama"][data-theme][lang] .stmt{display:block;padding-block:40px}
   html[data-theme="panorama"][data-theme][lang] .stmt .container{text-align:center}
@@ -2272,7 +2272,7 @@ html[data-theme="panorama"] .promise-m{display:none}
   /* la citation du bloc « Qui sommes-nous ? » reste dans le HTML (SEO) mais n'est plus affichée */
   html[data-theme="panorama"][data-theme][lang] .intro-grid .quote{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);margin:0;padding:0;border:0;white-space:nowrap}
   /* photo Transports : voiture seule, cadrée au centre */
-  html[data-theme="panorama"] .pan-ph-img[src*="corbillards"]{object-position:50% 56%}
+  html[data-theme="panorama"] .pan-ph-img[src*="corbillards"],html[data-theme="panorama"] .pan-ph-img[src*="mercedes-foret"]{object-position:50% 56%}
 }
 
 /* ===== V74 – Panorama (retours client) ===== */
