@@ -2245,7 +2245,7 @@ html[data-theme="panorama"] #avis .btns{margin-top:1.8rem!important}
 
 /* ===== V70 – Panorama (retours client 2026-11-06) ===== */
 /* Photo Transports : Mercedes en forêt (corbillards.jpg), cadrée sur la voiture */
-html[data-theme="panorama"] .pan-ph-img[src*="corbillards"],html[data-theme="panorama"] .pan-ph-img[src*="mercedes-foret"]{object-position:50% 80%}
+html[data-theme="panorama"] .pan-ph-img[src*="corbillards"],html[data-theme="panorama"] .pan-ph-img[src*="mercedes-foret"]{object-position:50% 52%}
 @media(max-width:700px){
   html[data-theme="panorama"] .pan-ph-img[src*="corbillards"],html[data-theme="panorama"] .pan-ph-img[src*="mercedes-foret"]{object-position:44% 60%}
   /* La phrase d'engagement revient entre les chiffres et la vidéo (mobile) */
