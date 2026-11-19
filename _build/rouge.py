@@ -39,6 +39,8 @@ def fr_page(name, s):
         s = mark(s, r'<div class="vcard">(?=.{0,400}?video-prevoyance)', 'NOUVEAU · vidéo prévoyance (4 min 27) en meilleure qualité (720p, image nettoyée et plus nette) · sous-titres, transcription, référencement Google', flags=re.S)
         s = mark(s, r'<div class="split pv-split" id="video">', 'NOUVEAU · mise en page épurée, une seule colonne centrée (comme sur mobile)')
         s = mark(s, r'<div class="g3">(?=<div class="card reveal")', 'NOUVEAU · trois blocs empilés, texte simple (comme sur mobile)')
+    if name == 'conseillers.html':
+        s = mark(s, r'<h3 class="adv-sub"[^>]*>', 'NOUVEAU · équipe de direction et d\'administration : photos, spécialités, présentations et langues parlées (document « version COURTE » du client)')
     if name == 'contact.html':
         s = mark(s, r'<div class="vcard">(?=.{0,400}?video-accueil)', 'NOUVEAU · nouvelle vidéo de présentation (2 min 43), HD', flags=re.S)
     if name == 'prevoyance-funeraire-geneve.html':
