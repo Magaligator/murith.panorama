@@ -911,6 +911,8 @@
       it.addEventListener('mouseleave', function () { hov = false; });
       it.addEventListener('blur', function () { hov = false; });
     });
+    var stage = $('.ps-stage', box);
+    if (stage) { stage.style.cursor = 'pointer'; stage.addEventListener('click', function () { var a = items[cur]; if (a && a.href) window.location.href = a.href; }); }
     box.addEventListener('pointerdown', function () { clearTimeout(timer); }, { once: true });
     play();
   });

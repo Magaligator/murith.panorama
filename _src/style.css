@@ -2473,26 +2473,7 @@ html[data-theme="panorama"][data-theme][lang] .hero-pan h1 .eyebrow{color:#E4CB8
   html[data-theme="panorama"][data-theme][lang] .pan-ph .eyebrow::before{display:none}
 }
 
-/* ===== V81 – Raccourci « Prévoyance funéraire » sous l'en-tête de chaque page ===== */
-.pv-strip-sec{padding:18px 0 0}
-.pv-strip{display:flex;align-items:center;gap:16px;padding:14px 22px;border-radius:999px;background:#F3F6FA;border:1px solid rgba(25,53,84,.14);color:var(--navy,#193554);text-decoration:none;transition:background .3s,border-color .3s,box-shadow .3s}
-.pv-strip:hover{background:#fff;border-color:rgba(25,53,84,.32);box-shadow:0 14px 30px -22px rgba(20,43,70,.55)}
-.pv-s-ic{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#fff;color:var(--gold,#84683A);border:1px solid rgba(132,104,58,.35)}
-.pv-s-ic svg{width:20px;height:20px}
-.pv-s-t{flex:1 1 0;min-width:0;display:block}
-.pv-s-t b{display:block;font-weight:600;font-size:1rem;line-height:1.25}
-.pv-s-t small{display:block;margin-top:2px;font-size:.88rem;line-height:1.35;color:rgba(25,53,84,.78)}
-.pv-s-go{flex:none;display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.92rem;white-space:nowrap}
-.pv-s-go .arr{width:16px;height:16px;transition:transform .35s}
-.pv-strip:hover .pv-s-go .arr{transform:translateX(4px)}
-@media(max-width:700px){
-  .pv-strip-sec{padding-top:14px}
-  .pv-strip{border-radius:18px;padding:12px 16px;gap:12px}
-  .pv-s-ic{width:36px;height:36px}
-  .pv-s-t b{font-size:.95rem}
-  .pv-s-t small{font-size:.82rem}
-  .pv-s-lbl{display:none}
-  .pv-s-go .arr{width:20px;height:20px}
-}
 /* carrousel d'accueil : la carte centrale est cliquable */
 .c3d-card.is-c{cursor:pointer}
+
+.ps-stage{cursor:pointer}

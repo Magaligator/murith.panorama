@@ -21,7 +21,6 @@ def mark(s, pattern, label, tag_before=True, flags=0):
 def fr_page(name, s):
     s = s.replace('target="_blank" rel="noopener">© Websituation', 'target="_blank" rel="noopener" class="rg-t">© Websituation')
     s = s.replace('class="ph-devis"', 'class="ph-devis rg"')
-    s = s.replace('<a class="pv-strip reveal"', tag('NOUVEAU · raccourci « Prévoyance funéraire » sous l\'en-tête de chaque page') + '<a class="pv-strip reveal rg"')
     # 1) libellé du menu
     s = re.sub(r'>(Transports Internationaux)</a>', r'><span class="rg-t">\1</span></a>', s)
     if name == 'index.html':
@@ -39,6 +38,9 @@ def fr_page(name, s):
         s = mark(s, r'<div class="vcard">(?=.{0,400}?video-prevoyance)', 'NOUVEAU · vidéo prévoyance (4 min 27) en meilleure qualité (720p, image nettoyée et plus nette) · sous-titres, transcription, référencement Google', flags=re.S)
         s = mark(s, r'<div class="split pv-split" id="video">', 'NOUVEAU · mise en page épurée, une seule colonne centrée (comme sur mobile)')
         s = mark(s, r'<div class="g3">(?=<div class="card reveal")', 'NOUVEAU · trois blocs empilés, texte simple (comme sur mobile)')
+    s = re.sub(r'(<a class="btn [^"]*" href="/prevoyance-funeraire")(>Découvrir la prévoyance funéraire)', r'\1 style="outline:3px solid var(--rg);outline-offset:4px"\2', s)
+    if name == 'blog/prevoyance-funeraire-geneve.html' or name == 'prevoyance-funeraire-geneve.html':
+        s = re.sub(r"(En effet, en cas de décès à l'étranger, deux solutions possibles.*?réseau partenaire\.)", r'<span class="rg-t">\1</span>', s, count=1, flags=re.S)
     if name == 'conseillers.html':
         s = mark(s, r'<h3 class="adv-sub"[^>]*>', 'NOUVEAU · équipe de direction et d\'administration : photos, spécialités, présentations et langues parlées (document « version COURTE » du client)')
     if name == 'contact.html':
