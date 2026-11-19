@@ -71,5 +71,8 @@ def typo_other_html(s):
 for f in pages:
     rw(f, typo_other_html if f.split('/')[0] in ('en', 'de', 'it', 'es', 'pt') else typo_html)
 
+# 5) pied de page : années retirées devant la mention « Site réalisé par Websituation »
+for f in pages: rw(f, lambda s: re.sub(r'(<div class="container foot-bot">.*?<span>)© 1888[–-]2026 · ', r'\1', s, flags=re.S))
+
 if __name__ == '__main__':
     print('modifiés :', len(changed), sorted(changed)[:5]); print('problèmes :', len(problems))

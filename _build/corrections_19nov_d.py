@@ -9,10 +9,10 @@ problems = []; changed = []
 
 # (nom, fichier photo, [langues]) ; ordre du document client
 PEOPLE = [
- ('Philippe Murith', 'conseiller-philippe-murith', ['fr', 'en', 'es']),
- ('Jacques Murith', 'conseiller-jacques-murith', ['fr', 'en', 'es', 'de']),
- ('Jean-Marc Murith', 'conseiller-jean-marc-murith', ['fr', 'es', 'en', 'de']),
- ('Jimmy Nydegger', 'conseiller-jimmy-nydegger', ['fr', 'en']),
+ ('Philippe Murith', 'conseiller-philippe-murith-v2', ['fr', 'en', 'es']),
+ ('Jacques Murith', 'conseiller-jacques-murith-v2', ['fr', 'en', 'es', 'de']),
+ ('Jean-Marc Murith', 'conseiller-jean-marc-murith-v2', ['fr', 'es', 'en', 'de']),
+ ('Jimmy Nydegger', 'conseiller-jimmy-nydegger-v2', ['fr', 'en']),
 ]
 LANG = {
  '':    dict(fr='Français', en='Anglais', es='Espagnol', de='Allemand'),
