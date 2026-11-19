@@ -20,13 +20,15 @@ def mark(s, pattern, label, tag_before=True, flags=0):
 
 def fr_page(name, s):
     s = s.replace('target="_blank" rel="noopener">© Websituation', 'target="_blank" rel="noopener" class="rg-t">© Websituation')
-    s = s.replace('class="btn btn-ghost btn-devis"', 'class="btn btn-ghost btn-devis rg"')
+    s = s.replace('class="ph-devis"', 'class="ph-devis rg"')
+    s = s.replace('<a class="pv-strip reveal"', tag('NOUVEAU · raccourci « Prévoyance funéraire » sous l\'en-tête de chaque page') + '<a class="pv-strip reveal rg"')
     # 1) libellé du menu
     s = re.sub(r'>(Transports Internationaux)</a>', r'><span class="rg-t">\1</span></a>', s)
     if name == 'index.html':
-        s = s.replace('<p>Comment organiser et financer vos obsèques à l\'avance', '<p class="rg">Comment organiser et financer vos obsèques à l\'avance', 1)
-        s = s.replace('<section class="hero hero-pan">', '<section class="hero hero-pan"><span class="rg-tag rg-mob">CORRIGÉ (mobile et tablette) · l\'enseigne « Chapelle de la Cluse » n\'apparaît plus sur la photo, quel que soit l\'écran · textes du diaporama plus lisibles · photo plus nette · ordre des prénoms : Jacques, Jimmy, Philippe et Jean-Marc</span>', 1)
-        s = mark(s, r'<div [^>]*class="c3d"[^>]*>', 'NOUVEAU · « Prévoyance funéraire » passe en numéro 1 · défilement plus lent (9 s au lieu de 6,5 s)')
+        s = s.replace('<p>La mort est une réalité que chaque être humain doit affronter', '<p class="rg">La mort est une réalité que chaque être humain doit affronter', 1)
+        s = s.replace('<p>Que vous optiez pour la simplicité ou que vous ayez des exigences particulières, nos conseillers funéraires', '<p class="rg">Que vous optiez pour la simplicité ou que vous ayez des exigences particulières, nos conseillers funéraires', 1)
+        s = s.replace('<section class="hero hero-pan">', '<section class="hero hero-pan"><span class="rg-tag rg-mob">CORRIGÉ (mobile et tablette) · l\'enseigne « Chapelle de la Cluse » n\'apparaît plus sur la photo, quel que soit l\'écran · textes du diaporama plus lisibles · photo plus nette · ordre des prénoms : Jacques, Jimmy, Philippe et Jean-Marc · « Demander un devis » sous « Un décès vient de survenir »</span>', 1)
+        s = mark(s, r'<div [^>]*class="c3d"[^>]*>', 'NOUVEAU · « Prévoyance funéraire » passe en numéro 1 · défilement plus lent (9 s) · un appui sur la photo ouvre la page')
         s = mark(s, r'<div class="pshow reveal"[^>]*>', 'NOUVEAU · petites icônes à droite · défilement plus lent (7 s)')
         s = mark(s, r'<div class="vcard">(?=.{0,400}?video-accueil)', 'NOUVEAU · nouvelle vidéo de présentation (2 min 43), grand format HD', flags=re.S)
     if name == 'prevoyance-funeraire.html':
@@ -39,6 +41,19 @@ def fr_page(name, s):
         s = mark(s, r'<div class="g3">(?=<div class="card reveal")', 'NOUVEAU · trois blocs empilés, texte simple (comme sur mobile)')
     if name == 'contact.html':
         s = mark(s, r'<div class="vcard">(?=.{0,400}?video-accueil)', 'NOUVEAU · nouvelle vidéo de présentation (2 min 43), HD', flags=re.S)
+    if name == 'prevoyance-funeraire-geneve.html':
+        s = s.replace('<article class="post-body">', '<article class="post-body">' + tag('CORRIGÉ selon le document du client : frais « dès 3 500 CHF » · section « service public de la Ville de Genève » et son entrée du sommaire supprimées · fonds « garantis par notre patrimoine » · « la plus ancienne à Genève » · rapatriement : deux solutions à l\'étranger · « paiement en un seul versement ou échelonné » · nouvelle étape « sans rencontre : questionnaire » · lien du questionnaire réparé · réponses de la FAQ (âge, fonds, hors Genève) · « Murith » en moins dans la liste'), 1)
+        s = s.replace('<p>En Suisse romande, le coût de l\'enterrement est souvent sous-estimé.', '<p class="rg">En Suisse romande, le coût de l\'enterrement est souvent sous-estimé.', 1)
+        s = s.replace('<h2><strong>Comment souscrire à une Prévoyance', '<div class="rg-removed"><b>SUPPRIMÉ</b> : la section « Le Service Public des Pompes Funèbres de la Ville de Genève » (gratuité) et son entrée dans la table des matières.</div><h2><strong>Comment souscrire à une Prévoyance', 1)
+        s = s.replace('<li><strong>Sans rencontre :</strong>', '<li class="rg"><strong>Sans rencontre :</strong>', 1)
+        s = s.replace('<div class="tbl"><table><thead><tr><th><strong>Question</strong>', '<div class="tbl rg"><table><thead><tr><th><strong>Question</strong>', 1)
+    if name == 'cout-rapatriement-corps.html':
+        s = s.replace('<article class="post-body">', '<article class="post-body">' + tag('CORRIGÉ selon le document du client : tableau des coûts (3 lignes) · comparaison aérien / routier · soins de conservation 450 à 510 CHF · tableau des étapes (délai, Transit\'Air, cérémonie, « Murith ») · « la plus ancienne à Genève » · « en face des Hôpitaux » · ajout : formation et Brevet Fédéral (ASSF)'), 1)
+        s = re.sub(r'<div class="tbl">(?=<table>)', '<div class="tbl rg">', s, count=3)
+        s = s.replace('<li>Murith forme aussi', '<li class="rg">Murith forme aussi', 1)
+    if name == 'deces-proche-suisse-10-etapes.html':
+        s = s.replace('<article class="post-body">', '<article class="post-body">' + tag('CORRIGÉ selon le document du client : tableau « Estimation des coûts » supprimé (frais « dès CHF 3\'500 ») · « cercueils de qualité » (sans « européens ») · titre en minuscules · « Les les » corrigé · ajout : formation et Brevet Fédéral (ASSF)'), 1)
+        s = s.replace('<li><strong>La formation :</strong>', '<li class="rg"><strong>La formation :</strong>', 1)
     if name == 'cercueils.html':
         s = mark(s, r'<div class="slider per-4"[^>]*>', 'CORRIGÉ · défilement des photos au doigt sans blocage · photos suivantes préchargées')
     if name == 'notre-histoire.html':
@@ -54,7 +69,7 @@ for p in sorted(out.rglob('*.html')):
     rel = p.relative_to(out)
     s = p.read_text(encoding='utf8')
     if len(rel.parts) == 1 or rel.parts[0] == 'blog':
-        s = fr_page(rel.name if len(rel.parts) == 1 else '', s)
+        s = fr_page(rel.name, s)
     s = s.replace('</head>', '<link rel="stylesheet" href="/rouge.css"/></head>', 1)
     p.write_text(s, encoding='utf8')
 

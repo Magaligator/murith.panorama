@@ -877,7 +877,7 @@
     $('.c3d-n', box).addEventListener('click', function () { go(cur + 1); });
     $('.c3d-p', box).addEventListener('click', function () { go(cur - 1); });
     dots.forEach(function (x, i) { x.addEventListener('click', function () { go(i); }); });
-    cards.forEach(function (c, i) { c.addEventListener('click', function (e) { if (i !== cur && !moved) { e.preventDefault(); go(i); } }); });
+    cards.forEach(function (c, i) { c.addEventListener('click', function (e) { if (i !== cur && !moved) { e.preventDefault(); go(i); return; } if (i === cur && !moved && !e.target.closest('a,button')) { var a = $('a', c); if (a) { if (a.target === '_blank') window.open(a.href, '_blank', 'noopener'); else window.location.href = a.href; } } }); });
     box.addEventListener('mouseenter', function () { paused = true; clearTimeout(timer); dots.forEach(function (x) { x.style.animationPlayState = 'paused'; }); var on = $('.c3d-dot.on', box); if (on) on.style.setProperty('animation-play-state', 'paused'); });
     box.addEventListener('mouseleave', function () { paused = false; var on = $('.c3d-dot.on', box); if (on) on.style.removeProperty('animation-play-state'); go(cur); });
     box.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') go(cur + 1); if (e.key === 'ArrowLeft') go(cur - 1); });

@@ -2457,12 +2457,11 @@ html[data-theme="panorama"] .vid-home .vcard video{object-fit:contain;background
 .foot-bot span a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;font-weight:600}
 .foot-bot span a:hover{text-decoration-thickness:2px}
 
-/* ===== V79 – Accueil mobile : lien discret « Demander un devis » dans le héros (masqué sur ordinateur) ===== */
-html[data-theme][data-theme] .hero-pan .btns .btn-devis{display:none}
+/* ===== V79/V81 – Accueil mobile : lien discret « Demander un devis » SOUS « Un décès vient de survenir » (masqué sur ordinateur) ===== */
+html[data-theme][data-theme] .hero-pan .pan-help .ph-devis{display:none}
 @media(max-width:700px){
-  html[data-theme][data-theme] .hero-pan .btns{display:flex;flex-direction:column;align-items:center;gap:10px}
-  html[data-theme][data-theme] .hero-pan .btns .btn-primary{width:100%}
-  html[data-theme][data-theme] .hero-pan .btns .btn-ghost.btn-devis{display:inline-flex;align-items:center;justify-content:center;width:auto;min-height:38px;height:auto;padding:0 20px;font-size:.84rem;font-weight:500;letter-spacing:.01em;background:transparent;border:1px solid rgba(255,255,255,.42);color:rgba(255,255,255,.9);box-shadow:none;white-space:nowrap}
+  html[data-theme][data-theme] .hero-pan .pan-help{display:flex;flex-direction:column;align-items:center;gap:16px}
+  html[data-theme][data-theme] .hero-pan .pan-help .ph-devis{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 22px;border-radius:999px;font-size:.84rem;font-weight:500;letter-spacing:.01em;color:rgba(255,255,255,.92);background:transparent;border:1px solid rgba(255,255,255,.45);text-decoration:none;white-space:nowrap;text-shadow:0 1px 3px rgba(4,10,24,.9),0 2px 12px rgba(4,10,24,.6)}
 }
 
 /* ===== V80 – « Pompes funèbres à Genève depuis 1888 » : doré sur l'accueil uniquement (blanc sur les autres pages), centré sur tous les mobiles ===== */
@@ -2473,3 +2472,27 @@ html[data-theme="panorama"][data-theme][lang] .hero-pan h1 .eyebrow{color:#E4CB8
   html[data-theme="panorama"][data-theme][lang] .hero-pan h1 .eyebrow::before,
   html[data-theme="panorama"][data-theme][lang] .pan-ph .eyebrow::before{display:none}
 }
+
+/* ===== V81 – Raccourci « Prévoyance funéraire » sous l'en-tête de chaque page ===== */
+.pv-strip-sec{padding:18px 0 0}
+.pv-strip{display:flex;align-items:center;gap:16px;padding:14px 22px;border-radius:999px;background:#F3F6FA;border:1px solid rgba(25,53,84,.14);color:var(--navy,#193554);text-decoration:none;transition:background .3s,border-color .3s,box-shadow .3s}
+.pv-strip:hover{background:#fff;border-color:rgba(25,53,84,.32);box-shadow:0 14px 30px -22px rgba(20,43,70,.55)}
+.pv-s-ic{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#fff;color:var(--gold,#84683A);border:1px solid rgba(132,104,58,.35)}
+.pv-s-ic svg{width:20px;height:20px}
+.pv-s-t{flex:1 1 0;min-width:0;display:block}
+.pv-s-t b{display:block;font-weight:600;font-size:1rem;line-height:1.25}
+.pv-s-t small{display:block;margin-top:2px;font-size:.88rem;line-height:1.35;color:rgba(25,53,84,.78)}
+.pv-s-go{flex:none;display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.92rem;white-space:nowrap}
+.pv-s-go .arr{width:16px;height:16px;transition:transform .35s}
+.pv-strip:hover .pv-s-go .arr{transform:translateX(4px)}
+@media(max-width:700px){
+  .pv-strip-sec{padding-top:14px}
+  .pv-strip{border-radius:18px;padding:12px 16px;gap:12px}
+  .pv-s-ic{width:36px;height:36px}
+  .pv-s-t b{font-size:.95rem}
+  .pv-s-t small{font-size:.82rem}
+  .pv-s-lbl{display:none}
+  .pv-s-go .arr{width:20px;height:20px}
+}
+/* carrousel d'accueil : la carte centrale est cliquable */
+.c3d-card.is-c{cursor:pointer}
