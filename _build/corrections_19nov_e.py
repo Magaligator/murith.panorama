@@ -74,5 +74,9 @@ for f in pages:
 # 5) pied de page : années retirées devant la mention « Site réalisé par Websituation »
 for f in pages: rw(f, lambda s: re.sub(r'(<div class="container foot-bot">.*?<span>)© 1888[–-]2026 · ', r'\1', s, flags=re.S))
 
+# 6) carrousel d'accueil : la carte Prévoyance n'a plus qu'un seul appel à l'action (« Préparer ma prévoyance »)
+for l in L:
+    rw(f'{l}index.html', lambda s: re.sub(r'<p style="margin:1\.4rem 0 0"><a class="link-arrow" href="https://www\.murithprevoyance\.ch/questionnaire[^"]*"[^>]*>.*?</a></p>(?=</div></article>)', '', s, flags=re.S))
+
 if __name__ == '__main__':
     print('modifiés :', len(changed), sorted(changed)[:5]); print('problèmes :', len(problems))
