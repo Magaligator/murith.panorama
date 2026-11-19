@@ -818,11 +818,11 @@
   "height": 885,
   "variants": [
    {
-    "file": "/img/salons/s1-480.webp",
+    "file": "/img/salons/s1-v2-480.webp",
     "w": 480
    },
    {
-    "file": "/img/salons/s1-960.webp",
+    "file": "/img/salons/s1-v2-960.webp",
     "w": 960
    }
   ]
@@ -832,11 +832,11 @@
   "height": 933,
   "variants": [
    {
-    "file": "/img/salons/s10-480.webp",
+    "file": "/img/salons/s10-v2-480.webp",
     "w": 480
    },
    {
-    "file": "/img/salons/s10-960.webp",
+    "file": "/img/salons/s10-v2-960.webp",
     "w": 960
    }
   ]
@@ -846,7 +846,7 @@
   "height": 1400,
   "variants": [
    {
-    "file": "/img/salons/s11-480.webp",
+    "file": "/img/salons/s11-v2-960.webp",
     "w": 480
    }
   ]
@@ -856,11 +856,11 @@
   "height": 729,
   "variants": [
    {
-    "file": "/img/salons/s12-480.webp",
+    "file": "/img/salons/s12-v2-480.webp",
     "w": 480
    },
    {
-    "file": "/img/salons/s12-960.webp",
+    "file": "/img/salons/s12-v2-960.webp",
     "w": 960
    }
   ]
@@ -870,11 +870,11 @@
   "height": 933,
   "variants": [
    {
-    "file": "/img/salons/s14-480.webp",
+    "file": "/img/salons/s14-v2-480.webp",
     "w": 480
    },
    {
-    "file": "/img/salons/s14-960.webp",
+    "file": "/img/salons/s14-v2-960.webp",
     "w": 960
    }
   ]
@@ -884,11 +884,11 @@
   "height": 1102,
   "variants": [
    {
-    "file": "/img/salons/s2-480.webp",
+    "file": "/img/salons/s2-v2-480.webp",
     "w": 480
    },
    {
-    "file": "/img/salons/s2-960.webp",
+    "file": "/img/salons/s2-v2-960.webp",
     "w": 960
    }
   ]
@@ -898,11 +898,11 @@
   "height": 639,
   "variants": [
    {
-    "file": "/img/salons/s3-480.webp",
+    "file": "/img/salons/s3-v2-480.webp",
     "w": 480
    },
    {
-    "file": "/img/salons/s3-960.webp",
+    "file": "/img/salons/s3-v2-960.webp",
     "w": 960
    }
   ]
@@ -912,7 +912,7 @@
   "height": 1400,
   "variants": [
    {
-    "file": "/img/salons/s5-480.webp",
+    "file": "/img/salons/s5-v2-960.webp",
     "w": 480
    }
   ]
@@ -922,11 +922,11 @@
   "height": 816,
   "variants": [
    {
-    "file": "/img/salons/s7-480.webp",
+    "file": "/img/salons/s7-v2-480.webp",
     "w": 480
    },
    {
-    "file": "/img/salons/s7-960.webp",
+    "file": "/img/salons/s7-v2-960.webp",
     "w": 960
    }
   ]
@@ -936,7 +936,7 @@
   "height": 1400,
   "variants": [
    {
-    "file": "/img/salons/s9-480.webp",
+    "file": "/img/salons/s9-v2-960.webp",
     "w": 480
    }
   ]
