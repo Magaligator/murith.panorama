@@ -41,6 +41,7 @@ def fr_page(name, s):
     s = re.sub(r'(<a class="btn [^"]*" href="/prevoyance-funeraire")(>Découvrir la prévoyance funéraire)', r'\1 style="outline:3px solid var(--rg);outline-offset:4px"\2', s)
     if name == 'blog/prevoyance-funeraire-geneve.html' or name == 'prevoyance-funeraire-geneve.html':
         s = re.sub(r"(En effet, en cas de décès à l'étranger, deux solutions possibles.*?réseau partenaire\.)(</p>)", r'<span class="rg-t" id="rg-rapat">\1</span>\2<div class="rg-removed"><b>MODIFIÉ</b> : la phrase en rouge ci-dessus (texte exact du client) remplace l\'ancienne. <b>SUPPRIMÉ</b> : « Ce service peut être intégré dans votre contrat de prévoyance funéraire à Genève pour une couverture complète, même en cas de décès à l\'étranger. »</div>', s, count=1, flags=re.S)
+    s = s.replace('<b class="h24">', '<b class="h24 rg-t">')
     if name == 'conseillers.html':
         s = mark(s, r'<h3 class="adv-sub"[^>]*>', 'NOUVEAU · équipe de direction et d\'administration : photos, spécialités, présentations et langues parlées (document « version COURTE » du client)')
     if name == 'contact.html':
