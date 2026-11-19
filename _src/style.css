@@ -2256,17 +2256,9 @@ html[data-theme="panorama"] .pan-ph-img[src*="corbillards"]{object-position:50% 
   html[data-theme="panorama"][data-theme][lang] .stmt .btns{display:none}
 }
 
-@media(max-width:700px){
-  /* carte Prévoyance : le texte ne recouvre plus les visages */
-  html[data-theme="panorama"] .c3d-card img[src*="hero-prevoyance"]{height:64%;bottom:auto;object-position:50% 18%}
-  html[data-theme="panorama"] .c3d-card img[src*="hero-prevoyance"]+.c3d-shade{background:linear-gradient(0deg,#142B46 0%,#142B46 34%,rgba(20,43,70,.55) 58%,rgba(20,43,70,0) 78%)}
-}
-/* carte Prévoyance (bureau) : photo à droite, texte sur fond marine à gauche */
-@media(min-width:701px){
-  html[data-theme="panorama"] .c3d-card img[src*="hero-prevoyance"]{left:auto;right:0;width:60%;object-position:50% 22%}
-  html[data-theme="panorama"] .c3d-card img[src*="hero-prevoyance"]+.c3d-shade{background:linear-gradient(90deg,#142B46 0%,#142B46 38%,rgba(20,43,70,.55) 58%,rgba(20,43,70,0) 78%),linear-gradient(0deg,rgba(20,43,70,.5) 0%,rgba(20,43,70,0) 40%)}
-  html[data-theme="panorama"] .c3d-card:has(img[src*="hero-prevoyance"]) .c3d-body{max-width:min(48%,460px)}
-}
+/* carte Prévoyance : même mise en page que les autres cartes (photo pleine, texte en bas) ; on garde les visages en haut */
+html[data-theme="panorama"] .c3d-card img[src*="hero-prevoyance"]{object-position:50% 12%}
+html[data-theme="panorama"] .c3d-card img[src*="hero-prevoyance"]+.c3d-shade{background:linear-gradient(0deg,rgba(14,32,54,.94) 0%,rgba(14,32,54,.82) 42%,rgba(14,32,54,.4) 68%,rgba(14,32,54,.05) 100%)}
 
 /* ===== V72 – Panorama mobile ===== */
 html[data-theme="panorama"] .pan-ph picture{display:contents}
