@@ -18,6 +18,10 @@ def mark(s, pattern, label, tag_before=True, flags=0):
     start = m.group(0)
     return s[:m.start()] + (tag(label) if tag_before else '') + add_rg(start) + s[m.end():]
 
+def hl(s, phrase):  # met une phrase en rouge dans le texte (hors scripts, balises et attributs)
+    parts = re.split(r'(<script.*?</script>|<style.*?</style>|<[^>]+>)', s, flags=re.S)
+    return ''.join(p if p.startswith('<') else p.replace(phrase, '<span class="rg-t">' + phrase + '</span>') for p in parts)
+
 def fr_page(name, s):
     s = s.replace('target="_blank" rel="noopener">© Websituation', 'target="_blank" rel="noopener" class="rg-t">© Websituation')
     s = s.replace('class="ph-devis"', 'class="ph-devis rg"')
@@ -42,6 +46,10 @@ def fr_page(name, s):
     if name == 'blog/prevoyance-funeraire-geneve.html' or name == 'prevoyance-funeraire-geneve.html':
         s = re.sub(r"(En effet, en cas de décès à l'étranger, deux solutions possibles.*?réseau partenaire\.)(</p>)", r'<span class="rg-t" id="rg-rapat">\1</span>\2<div class="rg-removed"><b>MODIFIÉ</b> : la phrase en rouge ci-dessus (texte exact du client) remplace l\'ancienne. <b>SUPPRIMÉ</b> : « Ce service peut être intégré dans votre contrat de prévoyance funéraire à Genève pour une couverture complète, même en cas de décès à l\'étranger. »</div>', s, count=1, flags=re.S)
     s = s.replace('<b class="h24">', '<b class="h24 rg-t">')
+    if name.endswith('.html'):
+        for ph in ("Association Suisse des Services Funéraires", "Hôpitaux Universitaires", "une demande à distance sans rencontre"):
+            if name in ('conseillers.html', 'prevoyance-funeraire-geneve.html', 'cout-rapatriement-corps.html', 'deces-proche-suisse-10-etapes.html'):
+                s = hl(s, ph)
     if name == 'conseillers.html':
         s = mark(s, r'<h3 class="adv-sub"[^>]*>', 'NOUVEAU · équipe de direction et d\'administration : photos, spécialités, présentations et langues parlées (document « version COURTE » du client)')
     if name == 'contact.html':

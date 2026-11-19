@@ -26,7 +26,7 @@ TXT = {  # par langue : [(spécialité, présentation)] dans l'ordre de PEOPLE
  '': [
   ("Droits et accompagnement des familles", "Spécialisé dans les droits des proches, l'accompagnement des familles, le respect des droits des personnes LGBTQ+, la gestion des conflits et la protection de la personnalité des collaborateurs."),
   ("Administration, finances et engagement environnemental", "Responsable financier et chef de service, chargé de la gestion administrative, de la politique environnementale et du développement de pratiques funéraires écoresponsables."),
-  ("Prévoyance funéraire et relations extérieures", "Spécialisé dans la prévoyance funéraire, la gestion des contrats, la communication et les relations publiques et institutionnelles. Formateur officiel au sein de l'Association suisse des services funéraires (ASSF)."),
+  ("Prévoyance funéraire et relations extérieures", "Spécialisé dans la prévoyance funéraire, la gestion des contrats, la communication et les relations publiques et institutionnelles. Formateur officiel au sein de l'Association Suisse des Services Funéraires (ASSF)."),
   ("Informatique et coordination", "Spécialisé dans les outils informatiques, la gestion numérique des dossiers, l'assistance administrative et la coordination des services funéraires."),
  ],
  'en/': [
@@ -44,7 +44,7 @@ TXT = {  # par langue : [(spécialité, présentation)] dans l'ordre de PEOPLE
  'it/': [
   ("Diritti e accompagnamento delle famiglie", "Specializzato nei diritti dei familiari, nell'accompagnamento delle famiglie, nel rispetto dei diritti delle persone LGBTQ+, nella gestione dei conflitti e nella tutela della personalità dei collaboratori."),
   ("Amministrazione, finanze e impegno ambientale", "Responsabile finanziario e capo servizio, incaricato della gestione amministrativa, della politica ambientale e dello sviluppo di pratiche funerarie ecosostenibili."),
-  ("Previdenza funeraria e relazioni esterne", "Specializzato nella previdenza funeraria, nella gestione dei contratti, nella comunicazione e nelle relazioni pubbliche e istituzionali. Formatore ufficiale presso l'Associazione Svizzera dei servizi funerari (ASSF)."),
+  ("Previdenza funeraria e relazioni esterne", "Specializzato nella previdenza funeraria, nella gestione dei contratti, nella comunicazione e nelle relazioni pubbliche e istituzionali. Formatore ufficiale presso l'Associazione Svizzera dei Servizi Funerari (ASSF)."),
   ("Informatica e coordinamento", "Specializzato negli strumenti informatici, nella gestione digitale dei fascicoli, nell'assistenza amministrativa e nel coordinamento dei servizi funerari."),
  ],
  'es/': [

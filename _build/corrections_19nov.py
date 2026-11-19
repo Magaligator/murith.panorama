@@ -111,12 +111,12 @@ REPAT = {  # dernière phrase de « Rapatriement et transport international »
  'pt/': " Com efeito, em caso de óbito no estrangeiro, há duas soluções possíveis: a família pode mandatar diretamente o seguro de repatriamento incluído na apólice do falecido; se essa cobertura não existir, podemos aconselhar à família uma empresa no local a mandatar, graças à nossa rede de parceiros.",
 }
 STEP_Q = {  # nouvelle étape « sans rencontre »
- '': '<li><strong>Sans rencontre :</strong> si vous préférez ne pas venir nous voir, remplissez le questionnaire en ligne sur <a href="https://www.murithprevoyance.ch/questionnaire" rel="noopener" target="_blank">notre site de prévoyance</a></li>',
- 'en/': '<li><strong>No meeting needed:</strong> if you would rather not meet an advisor, complete the online questionnaire on <a href="https://www.murithprevoyance.ch/questionnaire" rel="noopener" target="_blank">our pre-planning website</a></li>',
- 'de/': '<li><strong>Ohne Treffen:</strong> Wenn Sie lieber kein Gespräch führen möchten, füllen Sie den Online-Fragebogen auf <a href="https://www.murithprevoyance.ch/questionnaire" rel="noopener" target="_blank">unserer Vorsorge-Website</a> aus</li>',
- 'it/': '<li><strong>Senza incontro:</strong> se preferite non incontrare un consulente, compilate il questionario online sul <a href="https://www.murithprevoyance.ch/questionnaire" rel="noopener" target="_blank">nostro sito di previdenza</a></li>',
- 'es/': '<li><strong>Sin reunión:</strong> si prefiere no reunirse con un asesor, rellene el cuestionario en línea en <a href="https://www.murithprevoyance.ch/questionnaire" rel="noopener" target="_blank">nuestro sitio de previsión</a></li>',
- 'pt/': '<li><strong>Sem reunião:</strong> se preferir não se reunir com um conselheiro, preencha o questionário em linha no <a href="https://www.murithprevoyance.ch/questionnaire" rel="noopener" target="_blank">nosso site de previdência</a></li>',
+ '': '<li><strong>Sans rencontre :</strong> si vous préférez une demande à distance sans rencontre, remplissez le questionnaire en ligne sur <a href="https://www.murithprevoyance.ch/questionnaire" rel="noopener" target="_blank">notre site de prévoyance</a></li>',
+ 'en/': '<li><strong>No meeting needed:</strong> if you would rather make a remote request without a meeting, complete the online questionnaire on <a href="https://www.murithprevoyance.ch/questionnaire" rel="noopener" target="_blank">our pre-planning website</a></li>',
+ 'de/': '<li><strong>Ohne Treffen:</strong> Wenn Sie lieber eine Anfrage aus der Ferne ohne Treffen stellen möchten, füllen Sie den Online-Fragebogen auf <a href="https://www.murithprevoyance.ch/questionnaire" rel="noopener" target="_blank">unserer Vorsorge-Website</a> aus</li>',
+ 'it/': '<li><strong>Senza incontro:</strong> se preferite una richiesta a distanza senza incontro, compilate il questionario online sul <a href="https://www.murithprevoyance.ch/questionnaire" rel="noopener" target="_blank">nostro sito di previdenza</a></li>',
+ 'es/': '<li><strong>Sin reunión:</strong> si prefiere una solicitud a distancia sin reunión, rellene el cuestionario en línea en <a href="https://www.murithprevoyance.ch/questionnaire" rel="noopener" target="_blank">nuestro sitio de previsión</a></li>',
+ 'pt/': '<li><strong>Sem reunião:</strong> se preferir um pedido à distância sem reunião, preencha o questionário em linha no <a href="https://www.murithprevoyance.ch/questionnaire" rel="noopener" target="_blank">nosso site de previdência</a></li>',
 }
 ELEM = {  # liste « éléments à définir » : crémation, « Murith » en trop, rapatriement
  '': [("plus de 80 % des défunts suisses optent pour la crémation", "plus de 80 % des défunts en Suisse optent pour la crémation"),
