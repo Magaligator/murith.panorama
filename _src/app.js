@@ -322,8 +322,8 @@
     c.addEventListener('change', function () { saved[c.id] = c.checked; try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) { } });
   });
 
-  /* Formulaires (prototype : mailto — renseigner FORM_ENDPOINT pour un envoi réel) */
-  var FORM_ENDPOINT = '';
+  /* Formulaires : envoi par e-mail via la fonction /api/contact (Resend) ; repli sur la messagerie de l'internaute si l'envoi échoue */
+  var FORM_ENDPOINT = '/api/contact';
   function formText(form) {
     var out = [];
     $$('input,textarea,select', form).forEach(function (f) {
@@ -333,13 +333,34 @@
     });
     return out.join('\n');
   }
+  function sendForm(form, subj) {
+    var fields = [], email = '', hp = form.querySelector('input[name=website]');
+    $$('input,textarea,select', form).forEach(function (f) {
+      if (!f.name || f.name === 'website') return;
+      if ((f.type === 'radio' || f.type === 'checkbox') && !f.checked) return;
+      if (!f.value) return;
+      if (f.name === 'email') email = f.value;
+      fields.push({ label: f.getAttribute('data-label') || f.name, value: f.value });
+    });
+    var fallback = function () { window.location.href = 'mailto:murith@murith.ch?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(formText(form)); };
+    try {
+      fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subject: subj, page: location.pathname, lang: (d.documentElement.lang || 'fr').slice(0, 2), email: email, fields: fields, website: hp ? hp.value : '' }) })
+        .then(function (r) { if (!r.ok) fallback(); }, fallback);
+    } catch (e) { fallback(); }
+  }
+  /* champ piège invisible contre les robots (rempli par les robots seulement) */
+  function addHoneypot(form) {
+    var h = d.createElement('input'); h.type = 'text'; h.name = 'website'; h.tabIndex = -1; h.autocomplete = 'off'; h.setAttribute('aria-hidden', 'true');
+    h.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0'; form.appendChild(h);
+  }
   $$('form[data-mail]:not(#devis-form)').forEach(function (form) {
+    addHoneypot(form);
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!form.reportValidity()) return;
       var subj = form.getAttribute('data-mail');
-      if (FORM_ENDPOINT) { fetch(FORM_ENDPOINT, { method: 'POST', body: new FormData(form) }); }
-      else { window.location.href = 'mailto:murith@murith.ch?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(formText(form)); }
+      sendForm(form, subj);
       var s = $('.sent', form.parentNode); if (s) s.classList.add('show');
     });
   });
@@ -347,6 +368,7 @@
   /* Devis interactif : tuiles, récapitulatif en direct, progression, validation, confirmation */
   var qf = $('#devis-form');
   if (qf) {
+    addHoneypot(qf);
     var steps = $$('.fstep', qf), dots = $$('.stepper li'), bar = $('.qprog i', qf), n = 0;
     var sumLis = $$('[data-sum]'), pct = $('[data-pct]'), done = $('.qdone'), recap = $('.recap', done);
     var valOf = function (name) {
@@ -395,8 +417,7 @@
       em.parentNode.classList.toggle('err', !ok);
       if (!ok) { go(2); em.focus(); return; }
       recap.innerHTML = ''; sumLis.forEach(function (li) { recap.appendChild(li.cloneNode(true)); });
-      if (FORM_ENDPOINT) { fetch(FORM_ENDPOINT, { method: 'POST', body: new FormData(qf) }); }
-      else { window.location.href = 'mailto:murith@murith.ch?subject=' + encodeURIComponent(qf.getAttribute('data-mail')) + '&body=' + encodeURIComponent(formText(qf)); }
+      sendForm(qf, qf.getAttribute('data-mail'));
       qf.style.display = 'none'; done.classList.add('show');
       window.scrollTo({ top: done.getBoundingClientRect().top + window.scrollY - 140, behavior: reduce ? 'auto' : 'smooth' });
     });
@@ -943,22 +964,22 @@
   var L = {
     fr: { topic: 'Votre demande', t: ['Obsèques', 'Prévoyance', 'Rapatriement', 'Autre question'], pref: 'Comment souhaitez-vous être contacté ?', p: ['Par e-mail', 'Être rappelé(e)'], h: ['Nous vous répondons par e-mail.', 'Un conseiller vous rappelle au plus vite : merci d\'indiquer votre téléphone.'],
       eMail: 'Merci d\'indiquer votre adresse e-mail', eBad: 'Cette adresse e-mail semble incomplète', eTel: 'Merci d\'indiquer votre numéro de téléphone', eMsg: 'Merci d\'écrire quelques mots', left: ['Il reste 1 champ à compléter', 'Il reste {n} champs à compléter'], ready: 'Tout est prêt, vous pouvez envoyer',
-      done: 'Merci, votre message est prêt', doneP: 'Votre messagerie s\'ouvre pour l\'envoyer. Pour une réponse immédiate, appelez-nous au 022 809 56 00, 24h/24.', again: 'Écrire un autre message', q: 'Besoin de nous joindre tout de suite ?', qa: 'Ligne d\'urgence · 24h/24 et 7j/7', qe: 'Écrivez-nous', hrs: 'Bureau : lundi – dimanche, 08:00 – 12:00 · 13:30 – 17:30' },
+      done: 'Merci pour votre message', doneP: 'Nous vous répondons dans les meilleurs délais. Pour une réponse immédiate, appelez-nous au 022 809 56 00, 24h/24.', again: 'Écrire un autre message', q: 'Besoin de nous joindre tout de suite ?', qa: 'Ligne d\'urgence · 24h/24 et 7j/7', qe: 'Écrivez-nous', hrs: 'Bureau : lundi – dimanche, 08:00 – 12:00 · 13:30 – 17:30' },
     en: { topic: 'Your request', t: ['Funeral', 'Pre-planning', 'Repatriation', 'Other question'], pref: 'How would you like to be contacted?', p: ['By e-mail', 'Call me back'], h: ['We will reply by e-mail.', 'An advisor will call you back as soon as possible: please give your phone number.'],
       eMail: 'Please enter your e-mail address', eBad: 'This e-mail address looks incomplete', eTel: 'Please enter your phone number', eMsg: 'Please write a few words', left: ['1 field left to complete', '{n} fields left to complete'], ready: 'All set, you can send it',
-      done: 'Thank you, your message is ready', doneP: 'Your e-mail program opens to send it. For an immediate answer, call us on 022 809 56 00, 24/7.', again: 'Write another message', q: 'Need to reach us right now?', qa: 'Emergency line · 24/7', qe: 'Write to us', hrs: 'Office: Monday – Sunday, 08:00 – 12:00 · 13:30 – 17:30' },
+      done: 'Thank you for your message', doneP: 'We will reply as soon as possible. For an immediate answer, call us on 022 809 56 00, 24/7.', again: 'Write another message', q: 'Need to reach us right now?', qa: 'Emergency line · 24/7', qe: 'Write to us', hrs: 'Office: Monday – Sunday, 08:00 – 12:00 · 13:30 – 17:30' },
     de: { topic: 'Ihr Anliegen', t: ['Bestattung', 'Vorsorge', 'Überführung', 'Andere Frage'], pref: 'Wie möchten Sie kontaktiert werden?', p: ['Per E-Mail', 'Rückruf'], h: ['Wir antworten Ihnen per E-Mail.', 'Ein Berater ruft Sie so schnell wie möglich zurück: bitte geben Sie Ihre Telefonnummer an.'],
       eMail: 'Bitte geben Sie Ihre E-Mail-Adresse an', eBad: 'Diese E-Mail-Adresse scheint unvollständig', eTel: 'Bitte geben Sie Ihre Telefonnummer an', eMsg: 'Bitte schreiben Sie ein paar Worte', left: ['Noch 1 Feld auszufüllen', 'Noch {n} Felder auszufüllen'], ready: 'Alles bereit, Sie können senden',
-      done: 'Danke, Ihre Nachricht ist bereit', doneP: 'Ihr E-Mail-Programm öffnet sich zum Senden. Für eine sofortige Antwort rufen Sie uns an: 022 809 56 00, rund um die Uhr.', again: 'Weitere Nachricht schreiben', q: 'Sie möchten uns sofort erreichen?', qa: 'Notfallnummer · rund um die Uhr', qe: 'Schreiben Sie uns', hrs: 'Büro: Montag – Sonntag, 08:00 – 12:00 · 13:30 – 17:30' },
+      done: 'Danke für Ihre Nachricht', doneP: 'Wir antworten Ihnen so schnell wie möglich. Für eine sofortige Antwort rufen Sie uns an: 022 809 56 00, rund um die Uhr.', again: 'Weitere Nachricht schreiben', q: 'Sie möchten uns sofort erreichen?', qa: 'Notfallnummer · rund um die Uhr', qe: 'Schreiben Sie uns', hrs: 'Büro: Montag – Sonntag, 08:00 – 12:00 · 13:30 – 17:30' },
     es: { topic: 'Su solicitud', t: ['Funerales', 'Previsión', 'Repatriación', 'Otra consulta'], pref: '¿Cómo desea que le contactemos?', p: ['Por e-mail', 'Que me llamen'], h: ['Le responderemos por e-mail.', 'Un asesor le llamará lo antes posible: indique su teléfono.'],
       eMail: 'Indique su dirección de e-mail', eBad: 'Esta dirección de e-mail parece incompleta', eTel: 'Indique su número de teléfono', eMsg: 'Escriba unas palabras', left: ['Queda 1 campo por completar', 'Quedan {n} campos por completar'], ready: 'Todo listo, puede enviar',
-      done: 'Gracias, su mensaje está listo', doneP: 'Se abre su correo para enviarlo. Para una respuesta inmediata, llámenos al 022 809 56 00, 24 h/24.', again: 'Escribir otro mensaje', q: '¿Necesita contactarnos ahora mismo?', qa: 'Línea de urgencia · 24 h/24', qe: 'Escríbanos', hrs: 'Oficina: lunes – domingo, 08:00 – 12:00 · 13:30 – 17:30' },
+      done: 'Gracias por su mensaje', doneP: 'Le responderemos lo antes posible. Para una respuesta inmediata, llámenos al 022 809 56 00, 24 h/24.', again: 'Escribir otro mensaje', q: '¿Necesita contactarnos ahora mismo?', qa: 'Línea de urgencia · 24 h/24', qe: 'Escríbanos', hrs: 'Oficina: lunes – domingo, 08:00 – 12:00 · 13:30 – 17:30' },
     pt: { topic: 'O seu pedido', t: ['Funeral', 'Previdência', 'Repatriamento', 'Outra questão'], pref: 'Como deseja ser contactado?', p: ['Por e-mail', 'Ligar-me de volta'], h: ['Respondemos por e-mail.', 'Um conselheiro liga-lhe o mais depressa possível: indique o seu telefone.'],
       eMail: 'Indique o seu endereço de e-mail', eBad: 'Este endereço de e-mail parece incompleto', eTel: 'Indique o seu número de telefone', eMsg: 'Escreva algumas palavras', left: ['Falta 1 campo por preencher', 'Faltam {n} campos por preencher'], ready: 'Tudo pronto, pode enviar',
-      done: 'Obrigado, a sua mensagem está pronta', doneP: 'O seu programa de e-mail abre-se para a enviar. Para uma resposta imediata, ligue 022 809 56 00, 24h/24.', again: 'Escrever outra mensagem', q: 'Precisa de nos contactar já?', qa: 'Linha de urgência · 24h/24', qe: 'Escreva-nos', hrs: 'Escritório: segunda – domingo, 08:00 – 12:00 · 13:30 – 17:30' },
+      done: 'Obrigado pela sua mensagem', doneP: 'Responderemos o mais depressa possível. Para uma resposta imediata, ligue 022 809 56 00, 24h/24.', again: 'Escrever outra mensagem', q: 'Precisa de nos contactar já?', qa: 'Linha de urgência · 24h/24', qe: 'Escreva-nos', hrs: 'Escritório: segunda – domingo, 08:00 – 12:00 · 13:30 – 17:30' },
     it: { topic: 'La vostra richiesta', t: ['Esequie', 'Previdenza', 'Rimpatrio', 'Altra domanda'], pref: 'Come desiderate essere contattati?', p: ['Per e-mail', 'Essere richiamati'], h: ['Vi rispondiamo per e-mail.', 'Un consulente vi richiama al più presto: indicate il vostro telefono.'],
       eMail: 'Indicate il vostro indirizzo e-mail', eBad: 'Questo indirizzo e-mail sembra incompleto', eTel: 'Indicate il vostro numero di telefono', eMsg: 'Scrivete qualche parola', left: ['Manca 1 campo da compilare', 'Mancano {n} campi da compilare'], ready: 'Tutto pronto, potete inviare',
-      done: 'Grazie, il vostro messaggio è pronto', doneP: 'Si apre il vostro programma di posta per inviarlo. Per una risposta immediata, chiamateci allo 022 809 56 00, 24 ore su 24.', again: 'Scrivi un altro messaggio', q: 'Avete bisogno di contattarci subito?', qa: 'Linea d\'emergenza · 24 ore su 24', qe: 'Scriveteci', hrs: 'Ufficio: lunedì – domenica, 08:00 – 12:00 · 13:30 – 17:30' }
+      done: 'Grazie per il vostro messaggio', doneP: 'Vi risponderemo il prima possibile. Per una risposta immediata, chiamateci allo 022 809 56 00, 24 ore su 24.', again: 'Scrivi un altro messaggio', q: 'Avete bisogno di contattarci subito?', qa: 'Linea d\'emergenza · 24 ore su 24', qe: 'Scriveteci', hrs: 'Ufficio: lunedì – domenica, 08:00 – 12:00 · 13:30 – 17:30' }
   };
   var T = L[lang] || L.fr;
   var ICON_TICK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12.5 4 4 8-9"/></svg>';
