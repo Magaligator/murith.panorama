@@ -3,9 +3,184 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/pompes-funebres-geneve",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/notrehistoire",
+      "destination": "/notre-histoire",
+      "statusCode": 301
+    },
+    {
+      "source": "/cerceuils",
+      "destination": "/cercueils",
+      "statusCode": 301
+    },
+    {
+      "source": "/tranports",
+      "destination": "/transports-funeraires",
+      "statusCode": 301
+    },
+    {
+      "source": "/transports",
+      "destination": "/transports-funeraires",
+      "statusCode": 301
+    },
+    {
+      "source": "/prevoyancefuneraire",
+      "destination": "/prevoyance-funeraire",
+      "statusCode": 301
+    },
+    {
       "source": "/produits",
       "destination": "/obseques",
-      "permanent": true
+      "statusCode": 301
+    },
+    {
+      "source": "/politique-de-confidentialité",
+      "destination": "/politique-de-confidentialite",
+      "statusCode": 301
+    },
+    {
+      "source": "/politique-de-confidentialit%C3%A9",
+      "destination": "/politique-de-confidentialite",
+      "statusCode": 301
+    },
+    {
+      "source": "/post/comprendre-le-cout-d-un-enterrement-a-geneve-conseils-et-estimation-des-frais",
+      "destination": "/blog/cout-obseques-geneve",
+      "statusCode": 301
+    },
+    {
+      "source": "/post/pompes-funebres-geneve",
+      "destination": "/blog/deces-proche-suisse-10-etapes",
+      "statusCode": 301
+    },
+    {
+      "source": "/post/prevoyance-funeraire-geneve",
+      "destination": "/blog/prevoyance-funeraire-geneve",
+      "statusCode": 301
+    },
+    {
+      "source": "/post/combien-coûte-un-rapatriement-de-corps-maison-murith",
+      "destination": "/blog/cout-rapatriement-corps",
+      "statusCode": 301
+    },
+    {
+      "source": "/post/combien-co%C3%BBte-un-rapatriement-de-corps-maison-murith",
+      "destination": "/blog/cout-rapatriement-corps",
+      "statusCode": 301
+    },
+    {
+      "source": "/post/how-much-does-repatriating-a-loved-one-cost-murith-funeral-services",
+      "destination": "/en/blog/cout-rapatriement-corps",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/categories/les-obsèques",
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/categories/les-obs%C3%A8ques",
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/categories/repatriation",
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/categories/enterrement",
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/categories/prévoyance-funéraire",
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/categories/pr%C3%A9voyance-fun%C3%A9raire",
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/categories/coût-d-un-enterrement",
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/categories/co%C3%BBt-d-un-enterrement",
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/home-1",
+      "destination": "/en",
+      "statusCode": 301
+    },
+    {
+      "source": "/home-1/funerals",
+      "destination": "/en/obseques",
+      "statusCode": 301
+    },
+    {
+      "source": "/home-1/funerallounges",
+      "destination": "/en/salons",
+      "statusCode": 301
+    },
+    {
+      "source": "/home-1/ourcoffins",
+      "destination": "/en/cercueils",
+      "statusCode": 301
+    },
+    {
+      "source": "/home-1/ourflowers",
+      "destination": "/en/fleurs",
+      "statusCode": 301
+    },
+    {
+      "source": "/home-1/ourhistory",
+      "destination": "/en/notre-histoire",
+      "statusCode": 301
+    },
+    {
+      "source": "/home-1/ourproducts",
+      "destination": "/en/obseques",
+      "statusCode": 301
+    },
+    {
+      "source": "/home-1/formalites-1",
+      "destination": "/en/formalites",
+      "statusCode": 301
+    },
+    {
+      "source": "/home-1/funeralplanning",
+      "destination": "/en/prevoyance-funeraire",
+      "statusCode": 301
+    },
+    {
+      "source": "/home-1/tranports-1",
+      "destination": "/en/transports-funeraires",
+      "statusCode": 301
+    },
+    {
+      "source": "/home-1/murith-care-everywhere-en",
+      "destination": "/en/murith-care-everywhere",
+      "statusCode": 301
+    },
+    {
+      "source": "/contact-en",
+      "destination": "/en/contact",
+      "statusCode": 301
+    },
+    {
+      "source": "/en/cerceuils",
+      "destination": "/en/cercueils",
+      "statusCode": 301
     },
     {
       "source": "/en/produits",
@@ -31,6 +206,78 @@
       "source": "/pt/produits",
       "destination": "/pt/obseques",
       "permanent": true
+    },
+    {
+      "source": "/blog/categories/:path*",
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/page/:path*",
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/post/:path*",
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/home-1/:path*",
+      "destination": "/en",
+      "statusCode": 301
+    }
+  ],
+  "headers": [
+    {
+      "source": "/fonts/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/img/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": ".*\\.vercel\\.app"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     }
   ]
 }

@@ -1658,12 +1658,6 @@ html[data-theme="panorama"] .form-home .card,html[data-theme="panorama"] .contac
 html[data-theme="panorama"] .sos{border:1px solid var(--line);box-shadow:0 22px 44px -30px rgba(25,53,84,.35);background:#fff}
 
 /* ===== Pastille Websituation (toutes les pages) ===== */
-.ws-mark{position:fixed;right:10px;bottom:8px;z-index:140;display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 6px;border-radius:999px;background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 0 0 1px rgba(40,30,28,.08),0 6px 18px -10px rgba(0,0,0,.5);color:#2b2321;font:500 10.5px/1 Inter,system-ui,sans-serif;letter-spacing:.03em;text-decoration:none;opacity:.9;transition:opacity .3s,transform .4s}
-.ws-mark:hover,.ws-mark:focus-visible{opacity:1;transform:translateY(-2px)}
-.ws-mark img{width:18px;height:18px;display:block}.ws-mark b{font-weight:400;opacity:.7}
-@media(max-width:560px){.ws-mark b{display:none}}
-@media(max-width:640px){.ws-mark{bottom:calc(88px + env(safe-area-inset-bottom))}.to-top{bottom:calc(128px + env(safe-area-inset-bottom))!important}}
-@media print{.ws-mark{display:none!important}}
 .to-top{margin-bottom:22px}.badge-rot{margin-bottom:22px}.fcall{margin-bottom:22px}
 
 /* Logo du pied de page = même logo, même taille que dans l'en-tête */
@@ -2357,8 +2351,6 @@ html[data-theme="panorama"][data-theme][lang] main .blog-feat p{line-height:1.75
   html[data-theme="panorama"][data-theme][lang] .rel-sec .sec-head{margin-bottom:16px}
 }
 
-/* Texte SEO à valider (retiré en Phase 8) */
-.seo-new,.seo-new *{color:#C00000 !important;}
 
 
 /* ===== PHASE 2 — accueil : le H1 est le mot-clé ; la phrase d'accueil (animée) est un paragraphe ===== */
