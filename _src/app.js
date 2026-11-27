@@ -335,18 +335,19 @@
     return out.join('\n');
   }
   function sendForm(form, subj) {
-    var fields = [], email = '', hp = form.querySelector('input[name=website]');
+    var fields = [], email = '', name = '', hp = form.querySelector('input[name=website]');
     $$('input,textarea,select', form).forEach(function (f) {
       if (!f.name || f.name === 'website') return;
       if ((f.type === 'radio' || f.type === 'checkbox') && !f.checked) return;
       if (!f.value) return;
       if (f.name === 'email') email = f.value;
+      if (f.name === 'prenom' || f.name === 'demandeur') name = f.value;
       fields.push({ label: f.getAttribute('data-label') || f.name, value: f.value });
     });
     var fallback = function () { window.location.href = 'mailto:murith@murith.ch?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(formText(form)); };
     try {
       fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subject: subj, page: location.pathname, lang: (d.documentElement.lang || 'fr').slice(0, 2), email: email, fields: fields, website: hp ? hp.value : '' }) })
+        body: JSON.stringify({ subject: subj, page: location.pathname, lang: (d.documentElement.lang || 'fr').slice(0, 2), email: email, name: name, kind: form.id === 'devis-form' ? 'devis' : 'contact', fields: fields, website: hp ? hp.value : '' }) })
         .then(function (r) { if (!r.ok) fallback(); }, fallback);
     } catch (e) { fallback(); }
   }
