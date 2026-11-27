@@ -1,3 +1,4 @@
+// Magali Tshikudi - Websituation | https://www.websituation.ch
 // Vercel Function : reçoit les formulaires du site (contact et devis) et les envoie par e-mail avec Resend.
 //
 // Variables d'environnement à définir dans Vercel (Settings > Environment Variables), puis redéployer :

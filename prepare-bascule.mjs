@@ -23,6 +23,17 @@ process.chdir(root);
 const BASE = 'https://www.murith.ch';
 const DATE = '2026-11-25';                       // date de mise à jour affichée / sitemap
 const LANGS = ['fr', 'en', 'de', 'it', 'es', 'pt'];
+// Google Analytics 4 : identifiant de mesure « G-XXXXXXXXXX » (GA > Admin > Flux de données > votre site).
+// À fournir ainsi :  GA_ID=G-XXXXXXXXXX node prepare-bascule.mjs   (ou   node prepare-bascule.mjs --ga=G-XXXXXXXXXX )
+// Il est ensuite mémorisé dans consent.js : les exécutions suivantes le reprennent tout seul.
+// Sans identifiant, aucune bannière n'est affichée et la page de confidentialité garde la mention « aucun outil de suivi ».
+const SEARCH_CONSOLE_TOKEN = 'JJhN5AV_f2OcaORj3DQYDKnbO9Qv9wUzqKlW9hA4zZk';   // balise de validation Search Console de l'ancien site Wix
+const GA_ID = (() => {
+  let v = (process.env.GA_ID || (process.argv.find(a => a.startsWith('--ga=')) || '').slice(5)).trim();
+  if (!v) { try { v = (fs.readFileSync(path.join(root, 'consent.js'), 'utf8').match(/var GA_ID = '(G-[A-Z0-9]+)'/) || [])[1] || ''; } catch (e) {} }
+  if (v && !/^G-[A-Z0-9]{6,14}$/.test(v)) { console.error(`Identifiant GA invalide : « ${v} » (attendu : G-XXXXXXXXXX)`); process.exit(2); }
+  return v;
+})();
 const rd = f => fs.readFileSync(path.join(root, f), 'utf8');
 const wr = (f, t) => { fs.mkdirSync(path.dirname(path.join(root, f)), { recursive: true }); fs.writeFileSync(path.join(root, f), t); };
 const log = [];
@@ -49,7 +60,7 @@ const PRIV = {
     lead: 'Quelles données nous traitons, pourquoi, et comment vous gardez la maîtrise de vos informations.',
     updated: 'Dernière mise à jour : 25 novembre 2026.',
     sec: [
-      ['Qui est responsable de vos données ?', P(`Le responsable du traitement est A. Murith SA, pompes funèbres, 89, boulevard de la Cluse, 1205 Genève, Suisse (téléphone ${TEL}, e-mail ${MAIL}). Cette politique s'applique à ce site et suit la loi fédérale sur la protection des données (nLPD).`)],
+      ['Qui est responsable de vos données ?', P(`A. Murith SA s'engage à protéger la confidentialité de vos données personnelles. Le responsable du traitement est A. Murith SA, pompes funèbres, 89, boulevard de la Cluse, 1205 Genève, Suisse (téléphone ${TEL}, e-mail ${MAIL}). Cette politique s'applique à ce site et suit la loi fédérale sur la protection des données (nLPD).`)],
       ['Quelles données traitons-nous ?', UL([
         'Lorsque vous visitez le site : adresse IP, date et heure, pages consultées, type de navigateur et d\'appareil. Ces données techniques sont enregistrées par notre hébergeur pour assurer le fonctionnement et la sécurité du site.',
         'Lorsque vous nous écrivez (formulaires de contact et de devis, e-mail, téléphone) : nom, prénom, adresse e-mail, numéro de téléphone et contenu de votre message.']) +
@@ -59,7 +70,7 @@ const PRIV = {
         'établir un devis et préparer l\'accompagnement de votre famille ;',
         'assurer la sécurité et le bon fonctionnement du site ;',
         'respecter nos obligations légales.']) +
-        P('En envoyant un formulaire, vous acceptez que nous utilisions vos données pour traiter votre demande. Nous ne les vendons pas et ne les utilisons pas à des fins publicitaires.')],
+        P('En envoyant un formulaire, vous acceptez que nous utilisions vos données pour traiter votre demande. Nous ne les vendons pas et ne les utilisons pas à des fins publicitaires. Nous ne les transmettons à des tiers que s\'il s\'agit de prestataires de confiance tenus à la confidentialité, ou lorsque la loi l\'exige ou pour prévenir une fraude ou une menace.')],
       ['Qui reçoit vos données ?', P('Seules les personnes de notre équipe qui en ont besoin y accèdent. Nous faisons aussi appel à des prestataires techniques, tenus de protéger vos données :') +
         UL(['Vercel Inc. : hébergement du site (États-Unis) ;',
           'Resend : envoi des messages de nos formulaires vers notre messagerie (États-Unis) ;',
@@ -68,8 +79,8 @@ const PRIV = {
       ['Vos données à l\'étranger', P('Certains prestataires (hébergement, envoi d\'e-mails) sont établis hors de Suisse, notamment aux États-Unis. Lorsque le pays n\'offre pas un niveau de protection reconnu comme adéquat, nous nous appuyons sur des garanties appropriées, telles que les clauses contractuelles types.')],
       ['Cookies et stockage dans votre navigateur', P('Ce site n\'utilise ni cookies publicitaires, ni outil de suivi ou de mesure d\'audience. Il peut enregistrer dans votre navigateur (stockage local ou de session) des réglages d\'affichage et l\'avancement de nos listes de contrôle. Ces informations restent sur votre appareil, ne vous identifient pas et ne servent pas à vous suivre. Si nous ajoutons un outil de mesure d\'audience, cette page sera mise à jour.')],
       ['Durée de conservation', P('Nous conservons vos données le temps nécessaire pour traiter votre demande et respecter nos obligations légales, puis nous les supprimons ou les anonymisons. Les journaux techniques de l\'hébergeur sont conservés pour une durée limitée.')],
-      ['Sécurité', P('Le site est servi en connexion chiffrée (HTTPS). Nous prenons des mesures techniques et organisationnelles raisonnables pour protéger vos données contre l\'accès non autorisé, la perte ou l\'altération.')],
-      ['Vos droits', P(`Vous pouvez demander l'accès à vos données, leur rectification, leur suppression, la limitation ou l'opposition à leur traitement, ainsi que leur remise dans un format courant. Si vous avez donné votre consentement, vous pouvez le retirer à tout moment. Écrivez-nous à ${MAIL} ; nous pouvons vous demander une pièce d'identité pour traiter votre demande.`) +
+      ['Sécurité', P('Le site est servi en connexion chiffrée (HTTPS). L\'accès aux données est limité aux collaborateurs qui en ont besoin. Nous prenons des mesures techniques et organisationnelles raisonnables pour protéger vos données contre l\'accès non autorisé, la perte ou l\'altération.')],
+      ['Vos droits', P(`Vous pouvez demander l'accès à vos données, leur rectification, leur suppression, la limitation ou l'opposition à leur traitement, ainsi que leur remise dans un format courant. Si vous avez donné votre consentement, vous pouvez le retirer à tout moment. Écrivez-nous à ${MAIL} ou par courrier au 89, boulevard de la Cluse, 1205 Genève ; nous pouvons vous demander une pièce d'identité pour traiter votre demande.`) +
         P('Vous pouvez aussi vous adresser au Préposé fédéral à la protection des données et à la transparence (PFPDT) : <a href="https://www.edoeb.admin.ch" rel="noopener" target="_blank">www.edoeb.admin.ch</a>.')],
       ['Modifications', P('Nous pouvons adapter cette politique, par exemple si nous ajoutons un service au site. La version en ligne fait foi.')],
     ],
@@ -81,7 +92,7 @@ const PRIV = {
     lead: 'Which data we process, why, and how you stay in control of your information.',
     updated: 'Last updated: 25 November 2026.',
     sec: [
-      ['Who is responsible for your data?', P(`The controller is A. Murith SA, funeral directors, 89 boulevard de la Cluse, 1205 Geneva, Switzerland (phone ${TEL}, e-mail ${MAIL}). This policy applies to this website and follows the Swiss Federal Act on Data Protection (FADP).`)],
+      ['Who is responsible for your data?', P(`A. Murith SA is committed to protecting the confidentiality of your personal data. The controller is A. Murith SA, funeral directors, 89 boulevard de la Cluse, 1205 Geneva, Switzerland (phone ${TEL}, e-mail ${MAIL}). This policy applies to this website and follows the Swiss Federal Act on Data Protection (FADP).`)],
       ['Which data do we process?', UL([
         'When you visit the site: IP address, date and time, pages viewed, browser and device type. Our hosting provider records these technical data to keep the site running and secure.',
         'When you contact us (contact and quote forms, e-mail, phone): first name, last name, e-mail address, phone number and the content of your message.']) +
@@ -91,7 +102,7 @@ const PRIV = {
         'to prepare a quote and plan support for your family;',
         'to keep the site secure and working;',
         'to meet our legal obligations.']) +
-        P('By sending a form, you agree that we use your data to handle your request. We do not sell them and do not use them for advertising.')],
+        P('By sending a form, you agree that we use your data to handle your request. We do not sell them and do not use them for advertising. We pass them on to third parties only if they are trusted service providers bound by confidentiality, or when the law requires it or to prevent fraud or a threat.')],
       ['Who receives your data?', P('Only the members of our team who need them have access. We also use technical providers, who must protect your data:') +
         UL(['Vercel Inc.: website hosting (United States);',
           'Resend: delivery of our form messages to our mailbox (United States);',
@@ -100,8 +111,8 @@ const PRIV = {
       ['Your data abroad', P('Some providers (hosting, e-mail delivery) are based outside Switzerland, notably in the United States. Where the country does not offer a level of protection recognised as adequate, we rely on appropriate safeguards such as standard contractual clauses.')],
       ['Cookies and browser storage', P('This site uses no advertising cookies and no tracking or analytics tool. It may save display settings and the progress of our checklists in your browser (local or session storage). This information stays on your device, does not identify you and is not used to track you. If we add an analytics tool, this page will be updated.')],
       ['How long we keep your data', P('We keep your data as long as needed to handle your request and meet our legal obligations, then we delete or anonymise it. The hosting provider keeps technical logs for a limited period.')],
-      ['Security', P('The site is served over an encrypted connection (HTTPS). We take reasonable technical and organisational measures to protect your data against unauthorised access, loss or alteration.')],
-      ['Your rights', P(`You may ask for access to your data, its correction or deletion, restriction of or objection to its processing, and a copy in a common format. If you gave consent, you may withdraw it at any time. Write to us at ${MAIL}; we may ask for proof of identity to handle your request.`) +
+      ['Security', P('The site is served over an encrypted connection (HTTPS). Access to the data is limited to staff who need it. We take reasonable technical and organisational measures to protect your data against unauthorised access, loss or alteration.')],
+      ['Your rights', P(`You may ask for access to your data, its correction or deletion, restriction of or objection to its processing, and a copy in a common format. If you gave consent, you may withdraw it at any time. Write to us at ${MAIL} or by post at 89 boulevard de la Cluse, 1205 Geneva; we may ask for proof of identity to handle your request.`) +
         P('You can also contact the Federal Data Protection and Information Commissioner (FDPIC): <a href="https://www.edoeb.admin.ch" rel="noopener" target="_blank">www.edoeb.admin.ch</a>.')],
       ['Changes', P('We may update this policy, for example when we add a service to the site. The online version prevails.')],
     ],
@@ -113,7 +124,7 @@ const PRIV = {
     lead: 'Welche Daten wir bearbeiten, warum, und wie Sie die Kontrolle über Ihre Angaben behalten.',
     updated: 'Letzte Aktualisierung: 25. November 2026.',
     sec: [
-      ['Wer ist für Ihre Daten verantwortlich?', P(`Verantwortlich ist die A. Murith SA, Bestattungsinstitut, 89, boulevard de la Cluse, 1205 Genf, Schweiz (Telefon ${TEL}, E-Mail ${MAIL}). Diese Erklärung gilt für diese Website und richtet sich nach dem Schweizer Bundesgesetz über den Datenschutz (DSG).`)],
+      ['Wer ist für Ihre Daten verantwortlich?', P(`Die A. Murith SA verpflichtet sich, die Vertraulichkeit Ihrer Personendaten zu schützen. Verantwortlich ist die A. Murith SA, Bestattungsinstitut, 89, boulevard de la Cluse, 1205 Genf, Schweiz (Telefon ${TEL}, E-Mail ${MAIL}). Diese Erklärung gilt für diese Website und richtet sich nach dem Schweizer Bundesgesetz über den Datenschutz (DSG).`)],
       ['Welche Daten bearbeiten wir?', UL([
         'Beim Besuch der Website: IP-Adresse, Datum und Uhrzeit, aufgerufene Seiten, Browser- und Gerätetyp. Unser Hosting-Anbieter zeichnet diese technischen Daten auf, um den Betrieb und die Sicherheit der Website zu gewährleisten.',
         'Wenn Sie uns schreiben (Kontakt- und Offertformulare, E-Mail, Telefon): Vorname, Name, E-Mail-Adresse, Telefonnummer und Inhalt Ihrer Nachricht.']) +
@@ -123,7 +134,7 @@ const PRIV = {
         'um eine Offerte zu erstellen und die Begleitung Ihrer Familie vorzubereiten;',
         'um die Sicherheit und den Betrieb der Website zu gewährleisten;',
         'um unsere gesetzlichen Pflichten zu erfüllen.']) +
-        P('Mit dem Absenden eines Formulars sind Sie damit einverstanden, dass wir Ihre Daten zur Bearbeitung Ihrer Anfrage verwenden. Wir verkaufen sie nicht und nutzen sie nicht für Werbung.')],
+        P('Mit dem Absenden eines Formulars sind Sie damit einverstanden, dass wir Ihre Daten zur Bearbeitung Ihrer Anfrage verwenden. Wir verkaufen sie nicht und nutzen sie nicht für Werbung. Wir geben sie nur an Dritte weiter, wenn es sich um vertrauenswürdige, zur Vertraulichkeit verpflichtete Dienstleister handelt oder wenn das Gesetz es verlangt oder um Betrug oder Bedrohungen zu verhindern.')],
       ['Wer erhält Ihre Daten?', P('Nur die Mitglieder unseres Teams, die sie benötigen, haben Zugriff. Wir setzen ausserdem technische Dienstleister ein, die Ihre Daten schützen müssen:') +
         UL(['Vercel Inc.: Hosting der Website (USA);',
           'Resend: Zustellung der Nachrichten aus unseren Formularen an unser Postfach (USA);',
@@ -132,8 +143,8 @@ const PRIV = {
       ['Ihre Daten im Ausland', P('Einige Dienstleister (Hosting, E-Mail-Versand) haben ihren Sitz ausserhalb der Schweiz, insbesondere in den USA. Wenn das Land kein als angemessen anerkanntes Datenschutzniveau bietet, stützen wir uns auf geeignete Garantien, etwa Standardvertragsklauseln.')],
       ['Cookies und Speicher im Browser', P('Diese Website verwendet weder Werbe-Cookies noch Tracking- oder Analysetools. Sie kann Anzeigeeinstellungen und den Fortschritt unserer Checklisten im Browser speichern (lokaler Speicher oder Sitzungsspeicher). Diese Angaben bleiben auf Ihrem Gerät, identifizieren Sie nicht und dienen nicht der Verfolgung. Falls wir ein Analysetool einsetzen, wird diese Seite angepasst.')],
       ['Aufbewahrungsdauer', P('Wir bewahren Ihre Daten so lange auf, wie es zur Bearbeitung Ihrer Anfrage und zur Erfüllung unserer gesetzlichen Pflichten nötig ist, und löschen oder anonymisieren sie danach. Die technischen Protokolle des Hosting-Anbieters werden nur für eine begrenzte Dauer aufbewahrt.')],
-      ['Sicherheit', P('Die Website wird über eine verschlüsselte Verbindung (HTTPS) ausgeliefert. Wir treffen angemessene technische und organisatorische Massnahmen, um Ihre Daten vor unbefugtem Zugriff, Verlust oder Veränderung zu schützen.')],
-      ['Ihre Rechte', P(`Sie können Auskunft über Ihre Daten, deren Berichtigung oder Löschung, die Einschränkung oder den Widerspruch gegen die Bearbeitung sowie die Herausgabe in einem gängigen Format verlangen. Eine erteilte Einwilligung können Sie jederzeit widerrufen. Schreiben Sie uns an ${MAIL}; zur Bearbeitung Ihrer Anfrage können wir einen Identitätsnachweis verlangen.`) +
+      ['Sicherheit', P('Die Website wird über eine verschlüsselte Verbindung (HTTPS) ausgeliefert. Der Zugriff auf die Daten ist auf Mitarbeitende beschränkt, die ihn benötigen. Wir treffen angemessene technische und organisatorische Massnahmen, um Ihre Daten vor unbefugtem Zugriff, Verlust oder Veränderung zu schützen.')],
+      ['Ihre Rechte', P(`Sie können Auskunft über Ihre Daten, deren Berichtigung oder Löschung, die Einschränkung oder den Widerspruch gegen die Bearbeitung sowie die Herausgabe in einem gängigen Format verlangen. Eine erteilte Einwilligung können Sie jederzeit widerrufen. Schreiben Sie uns an ${MAIL} oder per Post an 89, boulevard de la Cluse, 1205 Genf; zur Bearbeitung Ihrer Anfrage können wir einen Identitätsnachweis verlangen.`) +
         P('Sie können sich auch an den Eidgenössischen Datenschutz- und Öffentlichkeitsbeauftragten (EDÖB) wenden: <a href="https://www.edoeb.admin.ch" rel="noopener" target="_blank">www.edoeb.admin.ch</a>.')],
       ['Änderungen', P('Wir können diese Erklärung anpassen, zum Beispiel wenn wir der Website einen Dienst hinzufügen. Es gilt die Online-Version.')],
     ],
@@ -145,7 +156,7 @@ const PRIV = {
     lead: 'Quali dati trattiamo, perché, e come mantenete il controllo delle vostre informazioni.',
     updated: 'Ultimo aggiornamento: 25 novembre 2026.',
     sec: [
-      ['Chi è responsabile dei vostri dati?', P(`Il titolare del trattamento è A. Murith SA, pompe funebri, 89, boulevard de la Cluse, 1205 Ginevra, Svizzera (telefono ${TEL}, e-mail ${MAIL}). La presente informativa si applica a questo sito e segue la legge federale sulla protezione dei dati (LPD).`)],
+      ['Chi è responsabile dei vostri dati?', P(`A. Murith SA si impegna a proteggere la riservatezza dei vostri dati personali. Il titolare del trattamento è A. Murith SA, pompe funebri, 89, boulevard de la Cluse, 1205 Ginevra, Svizzera (telefono ${TEL}, e-mail ${MAIL}). La presente informativa si applica a questo sito e segue la legge federale sulla protezione dei dati (LPD).`)],
       ['Quali dati trattiamo?', UL([
         'Quando visitate il sito: indirizzo IP, data e ora, pagine consultate, tipo di browser e di dispositivo. Questi dati tecnici sono registrati dal nostro fornitore di hosting per garantire il funzionamento e la sicurezza del sito.',
         'Quando ci scrivete (moduli di contatto e di preventivo, e-mail, telefono): nome, cognome, indirizzo e-mail, numero di telefono e contenuto del messaggio.']) +
@@ -155,7 +166,7 @@ const PRIV = {
         'per preparare un preventivo e l\'accompagnamento della vostra famiglia;',
         'per garantire la sicurezza e il funzionamento del sito;',
         'per rispettare i nostri obblighi di legge.']) +
-        P('Inviando un modulo, accettate che usiamo i vostri dati per trattare la richiesta. Non li vendiamo e non li usiamo a fini pubblicitari.')],
+        P('Inviando un modulo, accettate che usiamo i vostri dati per trattare la richiesta. Non li vendiamo e non li usiamo a fini pubblicitari. Li trasmettiamo a terzi solo se si tratta di fornitori di fiducia tenuti alla riservatezza, oppure quando la legge lo richiede o per prevenire una frode o una minaccia.')],
       ['Chi riceve i vostri dati?', P('Vi accedono solo i membri del nostro team che ne hanno bisogno. Ci avvaliamo anche di fornitori tecnici, tenuti a proteggere i vostri dati:') +
         UL(['Vercel Inc.: hosting del sito (Stati Uniti);',
           'Resend: invio dei messaggi dei nostri moduli alla nostra casella di posta (Stati Uniti);',
@@ -164,8 +175,8 @@ const PRIV = {
       ['I vostri dati all\'estero', P('Alcuni fornitori (hosting, invio di e-mail) hanno sede fuori dalla Svizzera, in particolare negli Stati Uniti. Quando il Paese non offre un livello di protezione riconosciuto come adeguato, ci basiamo su garanzie appropriate, come le clausole contrattuali tipo.')],
       ['Cookie e memoria del browser', P('Questo sito non usa cookie pubblicitari né strumenti di tracciamento o di misurazione dell\'audience. Può salvare nel browser (memoria locale o di sessione) impostazioni di visualizzazione e l\'avanzamento delle nostre checklist. Queste informazioni restano sul vostro dispositivo, non vi identificano e non servono a tracciarvi. Se aggiungeremo uno strumento di misurazione dell\'audience, questa pagina sarà aggiornata.')],
       ['Durata di conservazione', P('Conserviamo i vostri dati per il tempo necessario a trattare la richiesta e a rispettare i nostri obblighi di legge, poi li cancelliamo o li rendiamo anonimi. I log tecnici del fornitore di hosting sono conservati per un periodo limitato.')],
-      ['Sicurezza', P('Il sito è servito tramite una connessione cifrata (HTTPS). Adottiamo misure tecniche e organizzative ragionevoli per proteggere i vostri dati da accessi non autorizzati, perdita o alterazione.')],
-      ['I vostri diritti', P(`Potete chiedere l'accesso ai vostri dati, la loro rettifica o cancellazione, la limitazione o l'opposizione al trattamento, nonché la consegna in un formato di uso comune. Se avete dato il consenso, potete revocarlo in qualsiasi momento. Scriveteci a ${MAIL}; per trattare la richiesta possiamo chiedervi un documento d'identità.`) +
+      ['Sicurezza', P('Il sito è servito tramite una connessione cifrata (HTTPS). L\'accesso ai dati è limitato ai collaboratori che ne hanno bisogno. Adottiamo misure tecniche e organizzative ragionevoli per proteggere i vostri dati da accessi non autorizzati, perdita o alterazione.')],
+      ['I vostri diritti', P(`Potete chiedere l'accesso ai vostri dati, la loro rettifica o cancellazione, la limitazione o l'opposizione al trattamento, nonché la consegna in un formato di uso comune. Se avete dato il consenso, potete revocarlo in qualsiasi momento. Scriveteci a ${MAIL} o per posta al 89, boulevard de la Cluse, 1205 Ginevra; per trattare la richiesta possiamo chiedervi un documento d'identità.`) +
         P('Potete anche rivolgervi all\'Incaricato federale della protezione dei dati e della trasparenza (IFPDT): <a href="https://www.edoeb.admin.ch" rel="noopener" target="_blank">www.edoeb.admin.ch</a>.')],
       ['Modifiche', P('Possiamo adeguare questa informativa, ad esempio se aggiungiamo un servizio al sito. Fa fede la versione online.')],
     ],
@@ -177,7 +188,7 @@ const PRIV = {
     lead: 'Qué datos tratamos, por qué, y cómo conserva usted el control de su información.',
     updated: 'Última actualización: 25 de noviembre de 2026.',
     sec: [
-      ['¿Quién es responsable de sus datos?', P(`El responsable del tratamiento es A. Murith SA, pompas fúnebres, 89, boulevard de la Cluse, 1205 Ginebra, Suiza (teléfono ${TEL}, correo electrónico ${MAIL}). Esta política se aplica a este sitio web y se rige por la ley federal suiza de protección de datos (LPD).`)],
+      ['¿Quién es responsable de sus datos?', P(`A. Murith SA se compromete a proteger la confidencialidad de sus datos personales. El responsable del tratamiento es A. Murith SA, pompas fúnebres, 89, boulevard de la Cluse, 1205 Ginebra, Suiza (teléfono ${TEL}, correo electrónico ${MAIL}). Esta política se aplica a este sitio web y se rige por la ley federal suiza de protección de datos (LPD).`)],
       ['¿Qué datos tratamos?', UL([
         'Cuando visita el sitio: dirección IP, fecha y hora, páginas consultadas, tipo de navegador y de dispositivo. Nuestro proveedor de alojamiento registra estos datos técnicos para garantizar el funcionamiento y la seguridad del sitio.',
         'Cuando nos escribe (formularios de contacto y de presupuesto, correo electrónico, teléfono): nombre, apellidos, dirección de correo electrónico, número de teléfono y contenido de su mensaje.']) +
@@ -187,7 +198,7 @@ const PRIV = {
         'elaborar un presupuesto y preparar el acompañamiento de su familia;',
         'garantizar la seguridad y el buen funcionamiento del sitio;',
         'cumplir nuestras obligaciones legales.']) +
-        P('Al enviar un formulario, usted acepta que utilicemos sus datos para tramitar su solicitud. No los vendemos ni los utilizamos con fines publicitarios.')],
+        P('Al enviar un formulario, usted acepta que utilicemos sus datos para tramitar su solicitud. No los vendemos ni los utilizamos con fines publicitarios. Solo los transmitimos a terceros si se trata de proveedores de confianza obligados a la confidencialidad, o cuando la ley lo exija o para prevenir un fraude o una amenaza.')],
       ['¿Quién recibe sus datos?', P('Solo acceden a ellos los miembros de nuestro equipo que los necesitan. También recurrimos a proveedores técnicos, obligados a proteger sus datos:') +
         UL(['Vercel Inc.: alojamiento del sitio (Estados Unidos);',
           'Resend: envío de los mensajes de nuestros formularios a nuestro buzón (Estados Unidos);',
@@ -196,8 +207,8 @@ const PRIV = {
       ['Sus datos en el extranjero', P('Algunos proveedores (alojamiento, envío de correos) están establecidos fuera de Suiza, en particular en Estados Unidos. Cuando el país no ofrece un nivel de protección reconocido como adecuado, nos basamos en garantías apropiadas, como las cláusulas contractuales tipo.')],
       ['Cookies y almacenamiento en su navegador', P('Este sitio no utiliza cookies publicitarias ni herramientas de seguimiento o de medición de audiencia. Puede guardar en su navegador (almacenamiento local o de sesión) ajustes de visualización y el avance de nuestras listas de tareas. Esta información permanece en su dispositivo, no le identifica y no sirve para seguirle. Si añadimos una herramienta de medición de audiencia, esta página se actualizará.')],
       ['Plazo de conservación', P('Conservamos sus datos el tiempo necesario para tramitar su solicitud y cumplir nuestras obligaciones legales; después los eliminamos o los anonimizamos. Los registros técnicos del proveedor de alojamiento se conservan durante un tiempo limitado.')],
-      ['Seguridad', P('El sitio se sirve mediante una conexión cifrada (HTTPS). Adoptamos medidas técnicas y organizativas razonables para proteger sus datos frente al acceso no autorizado, la pérdida o la alteración.')],
-      ['Sus derechos', P(`Puede solicitar el acceso a sus datos, su rectificación o supresión, la limitación o la oposición a su tratamiento, así como su entrega en un formato de uso común. Si ha dado su consentimiento, puede retirarlo en cualquier momento. Escríbanos a ${MAIL}; para tramitar su solicitud podemos pedirle un documento de identidad.`) +
+      ['Seguridad', P('El sitio se sirve mediante una conexión cifrada (HTTPS). El acceso a los datos se limita a los colaboradores que lo necesitan. Adoptamos medidas técnicas y organizativas razonables para proteger sus datos frente al acceso no autorizado, la pérdida o la alteración.')],
+      ['Sus derechos', P(`Puede solicitar el acceso a sus datos, su rectificación o supresión, la limitación o la oposición a su tratamiento, así como su entrega en un formato de uso común. Si ha dado su consentimiento, puede retirarlo en cualquier momento. Escríbanos a ${MAIL} o por correo postal a 89, boulevard de la Cluse, 1205 Ginebra; para tramitar su solicitud podemos pedirle un documento de identidad.`) +
         P('También puede dirigirse al Comisionado Federal de Protección de Datos y de Transparencia (PFPDT): <a href="https://www.edoeb.admin.ch" rel="noopener" target="_blank">www.edoeb.admin.ch</a>.')],
       ['Modificaciones', P('Podemos adaptar esta política, por ejemplo si añadimos un servicio al sitio. Prevalece la versión en línea.')],
     ],
@@ -209,7 +220,7 @@ const PRIV = {
     lead: 'Que dados tratamos, porquê, e como mantém o controlo das suas informações.',
     updated: 'Última atualização: 25 de novembro de 2026.',
     sec: [
-      ['Quem é responsável pelos seus dados?', P(`O responsável pelo tratamento é a A. Murith SA, pompas fúnebres, 89, boulevard de la Cluse, 1205 Genebra, Suíça (telefone ${TEL}, e-mail ${MAIL}). Esta política aplica-se a este site e segue a lei federal suíça de proteção de dados (LPD).`)],
+      ['Quem é responsável pelos seus dados?', P(`A A. Murith SA compromete-se a proteger a confidencialidade dos seus dados pessoais. O responsável pelo tratamento é a A. Murith SA, pompas fúnebres, 89, boulevard de la Cluse, 1205 Genebra, Suíça (telefone ${TEL}, e-mail ${MAIL}). Esta política aplica-se a este site e segue a lei federal suíça de proteção de dados (LPD).`)],
       ['Que dados tratamos?', UL([
         'Quando visita o site: endereço IP, data e hora, páginas consultadas, tipo de navegador e de dispositivo. O nosso fornecedor de alojamento regista estes dados técnicos para garantir o funcionamento e a segurança do site.',
         'Quando nos escreve (formulários de contacto e de orçamento, e-mail, telefone): nome, apelido, endereço de e-mail, número de telefone e conteúdo da sua mensagem.']) +
@@ -219,7 +230,7 @@ const PRIV = {
         'elaborar um orçamento e preparar o acompanhamento da sua família;',
         'garantir a segurança e o bom funcionamento do site;',
         'cumprir as nossas obrigações legais.']) +
-        P('Ao enviar um formulário, aceita que utilizemos os seus dados para tratar o seu pedido. Não os vendemos nem os utilizamos para fins publicitários.')],
+        P('Ao enviar um formulário, aceita que utilizemos os seus dados para tratar o seu pedido. Não os vendemos nem os utilizamos para fins publicitários. Só os transmitimos a terceiros se se tratar de prestadores de confiança obrigados à confidencialidade, ou quando a lei o exigir ou para prevenir uma fraude ou uma ameaça.')],
       ['Quem recebe os seus dados?', P('Só têm acesso os membros da nossa equipa que deles precisam. Recorremos também a prestadores técnicos, obrigados a proteger os seus dados:') +
         UL(['Vercel Inc.: alojamento do site (Estados Unidos);',
           'Resend: envio das mensagens dos nossos formulários para a nossa caixa de correio (Estados Unidos);',
@@ -228,8 +239,8 @@ const PRIV = {
       ['Os seus dados no estrangeiro', P('Alguns prestadores (alojamento, envio de e-mails) estão estabelecidos fora da Suíça, nomeadamente nos Estados Unidos. Quando o país não oferece um nível de proteção reconhecido como adequado, recorremos a garantias apropriadas, como as cláusulas contratuais-tipo.')],
       ['Cookies e armazenamento no navegador', P('Este site não utiliza cookies publicitários nem ferramentas de seguimento ou de medição de audiência. Pode guardar no seu navegador (armazenamento local ou de sessão) definições de visualização e o progresso das nossas listas de verificação. Estas informações ficam no seu dispositivo, não o identificam e não servem para o seguir. Se acrescentarmos uma ferramenta de medição de audiência, esta página será atualizada.')],
       ['Prazo de conservação', P('Conservamos os seus dados durante o tempo necessário para tratar o seu pedido e cumprir as nossas obrigações legais; depois eliminamo-los ou tornamo-los anónimos. Os registos técnicos do fornecedor de alojamento são conservados por um período limitado.')],
-      ['Segurança', P('O site é servido através de uma ligação cifrada (HTTPS). Tomamos medidas técnicas e organizativas razoáveis para proteger os seus dados contra o acesso não autorizado, a perda ou a alteração.')],
-      ['Os seus direitos', P(`Pode pedir o acesso aos seus dados, a sua retificação ou eliminação, a limitação ou a oposição ao seu tratamento, bem como a sua entrega num formato de uso corrente. Se deu o seu consentimento, pode retirá-lo a qualquer momento. Escreva-nos para ${MAIL}; para tratar o seu pedido, podemos pedir-lhe um documento de identificação.`) +
+      ['Segurança', P('O site é servido através de uma ligação cifrada (HTTPS). O acesso aos dados é limitado aos colaboradores que deles precisam. Tomamos medidas técnicas e organizativas razoáveis para proteger os seus dados contra o acesso não autorizado, a perda ou a alteração.')],
+      ['Os seus direitos', P(`Pode pedir o acesso aos seus dados, a sua retificação ou eliminação, a limitação ou a oposição ao seu tratamento, bem como a sua entrega num formato de uso corrente. Se deu o seu consentimento, pode retirá-lo a qualquer momento. Escreva-nos para ${MAIL} ou por correio para 89, boulevard de la Cluse, 1205 Genebra; para tratar o seu pedido, podemos pedir-lhe um documento de identificação.`) +
         P('Pode também dirigir-se ao Encarregado Federal da Proteção de Dados e da Transparência (PFPDT): <a href="https://www.edoeb.admin.ch" rel="noopener" target="_blank">www.edoeb.admin.ch</a>.')],
       ['Alterações', P('Podemos adaptar esta política, por exemplo se acrescentarmos um serviço ao site. Prevalece a versão em linha.')],
     ],
@@ -258,7 +269,8 @@ function buildPrivacy(l) {
   h = h.replace(/(<meta content="[^"]*" property="og:type"\/>)/, '<meta content="website" property="og:type"/>');
   // sélecteur de langue : chaque langue pointe vers sa version de cette page
   h = h.replace(/(data-l="(\w\w)"\s+href=")[^"]*(")/g, (m, a, x, c) => a + privPath(x) + c);
-  const body = D.sec.map(([t, html]) => `<h2>${t}</h2>${html}`).join('') + `<p><em>${D.updated}</em></p>`;
+  const secs = GA_ID ? D.sec.map(s => /cookie/i.test(s[0]) ? COOKIE_GA[l] : s) : D.sec;   // avec GA4 : section cookies / mesure d'audience
+  const body = secs.map(([t, html]) => `<h2>${t}</h2>${html}`).join('') + `<p><em>${D.updated}</em></p>`;
   const main = `<main id="main">
 <section class="phead noimg"><div class="container"><div class="phead-text reveal"><nav aria-label="${D.crumbAria}" class="crumb"><a href="${homeHref}">${D.home}</a><span aria-hidden="true">/</span><span>${D.h1}</span></nav><h1>${D.h1}</h1><p class="lead">${D.lead}</p></div></div></section>
 <section class="section tight"><div class="container"><article class="post-body">${body}</article></div></section>
@@ -273,7 +285,7 @@ function buildPrivacy(l) {
 const ART = {
   slug: 'cout-obseques-geneve',
   published: '2024-04-29T00:00:00+02:00', modified: DATE + 'T09:00:00+01:00',
-  img: { base: 'cercueil-bougie', w: 1600, h: 1066 },
+  img: { base: 'poignee-de-main', w: 1600, h: 940 },
 };
 const artPath = l => (l === 'fr' ? '' : `/${l}`) + `/blog/${ART.slug}`;
 const A = (l, slug, txt) => `<a href="${l === 'fr' ? '' : '/' + l}/${slug}">${txt}</a>`;
@@ -285,7 +297,7 @@ const ARTL = {
     h1: "Comprendre le coût d'un enterrement à Genève : conseils et estimation des frais",
     short: "Comprendre le coût d'un enterrement à Genève",
     desc: "Découvrez le coût d'un enterrement à Genève : tarifs, prestations funéraires, frais à prévoir et conseils pour organiser des obsèques adaptées à votre budget.",
-    tag: "Coût d'un enterrement", dateLabel: '25 novembre', read: '6 min de lecture', imgAlt: 'Poignée de cercueil et bougie allumée',
+    tag: "Coût d'un enterrement", dateLabel: '25 novembre', read: '6 min de lecture', imgAlt: 'Deux mains qui se serrent',
     card: "Quel est le coût d'un enterrement ? En règle générale, en Suisse, il faut s'attendre à des coûts allant de 3 000 à 10 000 CHF. Panorama des frais essentiels, des choix optionnels et de nos conseils pour un budget maîtrisé.",
     body: l => `<p><strong>Table des matières :</strong></p><ol><li>Démarches administratives et leurs coûts</li><li>Choix entre inhumation et crémation</li><li>Analyse des coûts d'un enterrement à Genève</li><li>Repères de prix indicatifs</li><li>Arrangements floraux pour des funérailles à Genève</li><li>Chambres funéraires</li><li>En résumé, le coût des funérailles à Genève</li></ol>
 <p>Quel est le coût d'un enterrement ? Cette question préoccupe souvent les familles dans les moments les plus difficiles. En règle générale, en Suisse, il faut s'attendre à des coûts allant de 3 000 à 10 000 CHF. Cet article présente un panorama des frais essentiels, des choix optionnels qui peuvent influencer votre budget, et des recommandations pour trouver un équilibre entre le respect des dernières volontés et un budget maîtrisé.</p>
@@ -335,7 +347,7 @@ const ARTL = {
     h1: 'Understanding the cost of a funeral in Geneva: advice and cost estimate',
     short: 'Understanding the cost of a funeral in Geneva',
     desc: 'Find out what a funeral costs in Geneva: prices, funeral services, expenses to plan for and advice on organising a funeral that fits your budget.',
-    tag: 'Cost of a funeral', dateLabel: '25 November', read: '6 min read', imgAlt: 'Coffin handle and lit candle',
+    tag: 'Cost of a funeral', dateLabel: '25 November', read: '6 min read', imgAlt: 'Two hands clasped in a handshake',
     card: 'How much does a funeral cost? In Switzerland, expect costs of roughly 3,000 to 10,000 CHF. An overview of the essential expenses, optional choices and our advice for keeping a budget under control.',
     body: l => `<p><strong>Table of contents:</strong></p><ol><li>Administrative procedures and their costs</li><li>Burial or cremation</li><li>Breaking down the cost of a funeral in Geneva</li><li>Indicative price guide</li><li>Floral arrangements for a funeral in Geneva</li><li>Funeral rooms</li><li>In summary: the cost of a funeral in Geneva</li></ol>
 <p>How much does a funeral cost? This question often weighs on families at the most difficult times. As a general rule, in Switzerland, you should expect costs of 3,000 to 10,000 CHF. This article gives an overview of the essential expenses, the optional choices that can affect your budget, and recommendations for balancing respect for final wishes with a controlled budget.</p>
@@ -385,7 +397,7 @@ const ARTL = {
     h1: 'Die Kosten einer Bestattung in Genf verstehen: Ratschläge und Kostenschätzung',
     short: 'Die Kosten einer Bestattung in Genf verstehen',
     desc: 'Was kostet eine Bestattung in Genf? Preise, Bestattungsleistungen, einzuplanende Kosten und Tipps für eine Trauerfeier, die zu Ihrem Budget passt.',
-    tag: 'Kosten einer Bestattung', dateLabel: '25. November', read: '6 Min. Lesezeit', imgAlt: 'Sarggriff und brennende Kerze',
+    tag: 'Kosten einer Bestattung', dateLabel: '25. November', read: '6 Min. Lesezeit', imgAlt: 'Zwei Hände beim Händedruck',
     card: "Was kostet eine Bestattung? In der Schweiz muss man in der Regel mit 3'000 bis 10'000 CHF rechnen. Ein Überblick über die wesentlichen Kosten, optionale Leistungen und unsere Tipps für ein überschaubares Budget.",
     body: l => `<p><strong>Inhaltsverzeichnis:</strong></p><ol><li>Behördengänge und ihre Kosten</li><li>Erdbestattung oder Kremation</li><li>Die Kosten einer Bestattung in Genf im Überblick</li><li>Preisrichtwerte</li><li>Blumenschmuck für eine Trauerfeier in Genf</li><li>Abdankungs- und Aufbahrungsräume</li><li>Zusammenfassung: die Kosten einer Bestattung in Genf</li></ol>
 <p>Was kostet eine Bestattung? Diese Frage beschäftigt Familien oft in den schwersten Momenten. In der Schweiz muss man in der Regel mit Kosten von 3'000 bis 10'000 CHF rechnen. Dieser Artikel gibt einen Überblick über die wesentlichen Kosten, die optionalen Entscheidungen, die Ihr Budget beeinflussen können, und Empfehlungen, um den letzten Willen zu achten und das Budget im Griff zu behalten.</p>
@@ -435,7 +447,7 @@ const ARTL = {
     h1: 'Capire il costo di una sepoltura a Ginevra: consigli e stima delle spese',
     short: 'Capire il costo di una sepoltura a Ginevra',
     desc: 'Scoprite il costo di una sepoltura a Ginevra: tariffe, servizi funebri, spese da prevedere e consigli per organizzare esequie adatte al vostro budget.',
-    tag: 'Costo di una sepoltura', dateLabel: '25 novembre', read: '6 min di lettura', imgAlt: 'Maniglia di una bara e candela accesa',
+    tag: 'Costo di una sepoltura', dateLabel: '25 novembre', read: '6 min di lettura', imgAlt: 'Due mani che si stringono',
     card: "Quanto costa una sepoltura? In Svizzera, di regola, ci si deve aspettare costi da 3'000 a 10'000 CHF. Una panoramica delle spese essenziali, delle scelte facoltative e dei nostri consigli per un budget sotto controllo.",
     body: l => `<p><strong>Indice:</strong></p><ol><li>Pratiche amministrative e relativi costi</li><li>Inumazione o cremazione</li><li>Analisi dei costi di una sepoltura a Ginevra</li><li>Prezzi indicativi</li><li>Composizioni floreali per un funerale a Ginevra</li><li>Camere funerarie</li><li>In sintesi: il costo di un funerale a Ginevra</li></ol>
 <p>Quanto costa una sepoltura? Questa domanda preoccupa spesso le famiglie nei momenti più difficili. Di regola, in Svizzera, ci si deve aspettare costi da 3'000 a 10'000 CHF. Questo articolo offre una panoramica delle spese essenziali, delle scelte facoltative che possono incidere sul budget e dei consigli per conciliare il rispetto delle ultime volontà con un budget sotto controllo.</p>
@@ -485,7 +497,7 @@ const ARTL = {
     h1: 'Entender el coste de un entierro en Ginebra: consejos y estimación de gastos',
     short: 'Entender el coste de un entierro en Ginebra',
     desc: 'Descubra el coste de un entierro en Ginebra: tarifas, servicios funerarios, gastos a prever y consejos para organizar un funeral acorde con su presupuesto.',
-    tag: 'Coste de un entierro', dateLabel: '25 de noviembre', read: '6 min de lectura', imgAlt: 'Asa de ataúd y vela encendida',
+    tag: 'Coste de un entierro', dateLabel: '25 de noviembre', read: '6 min de lectura', imgAlt: 'Dos manos que se estrechan',
     card: '¿Cuánto cuesta un entierro? En Suiza, por lo general, hay que contar con costes de 3000 a 10 000 CHF. Un panorama de los gastos esenciales, de las opciones adicionales y de nuestros consejos para mantener el presupuesto bajo control.',
     body: l => `<p><strong>Índice:</strong></p><ol><li>Trámites administrativos y sus costes</li><li>Inhumación o cremación</li><li>Análisis de los costes de un entierro en Ginebra</li><li>Precios orientativos</li><li>Arreglos florales para un funeral en Ginebra</li><li>Salas funerarias</li><li>En resumen: el coste de un funeral en Ginebra</li></ol>
 <p>¿Cuánto cuesta un entierro? Esta pregunta suele preocupar a las familias en los momentos más difíciles. Por lo general, en Suiza, hay que contar con costes de 3000 a 10 000 CHF. Este artículo ofrece un panorama de los gastos esenciales, de las opciones adicionales que pueden influir en su presupuesto y de recomendaciones para conciliar el respeto de las últimas voluntades con un presupuesto controlado.</p>
@@ -535,7 +547,7 @@ const ARTL = {
     h1: 'Compreender o custo de um enterro em Genebra: conselhos e estimativa das despesas',
     short: 'Compreender o custo de um enterro em Genebra',
     desc: 'Descubra o custo de um enterro em Genebra: tarifas, serviços funerários, despesas a prever e conselhos para organizar um funeral adequado ao seu orçamento.',
-    tag: 'Custo de um enterro', dateLabel: '25 de novembro', read: '6 min de leitura', imgAlt: 'Pega de caixão e vela acesa',
+    tag: 'Custo de um enterro', dateLabel: '25 de novembro', read: '6 min de leitura', imgAlt: 'Duas mãos num aperto de mão',
     card: 'Quanto custa um enterro? Na Suíça, em regra, deve contar-se com custos de 3 000 a 10 000 CHF. Um panorama das despesas essenciais, das escolhas opcionais e dos nossos conselhos para um orçamento controlado.',
     body: l => `<p><strong>Índice:</strong></p><ol><li>Diligências administrativas e respetivos custos</li><li>Inumação ou cremação</li><li>Análise dos custos de um enterro em Genebra</li><li>Preços indicativos</li><li>Arranjos florais para um funeral em Genebra</li><li>Câmaras funerárias</li><li>Em resumo: o custo de um funeral em Genebra</li></ol>
 <p>Quanto custa um enterro? Esta pergunta preocupa frequentemente as famílias nos momentos mais difíceis. Em regra, na Suíça, deve contar-se com custos de 3 000 a 10 000 CHF. Este artigo apresenta um panorama das despesas essenciais, das escolhas opcionais que podem influenciar o seu orçamento e de recomendações para conciliar o respeito pelas últimas vontades com um orçamento controlado.</p>
@@ -594,6 +606,9 @@ function buildArticle(l) {
   for (const k of ['og:title', 'twitter:title']) h = setMeta(h, k, 'x', D.title);
   for (const k of ['og:description', 'twitter:description']) h = setMeta(h, k, 'x', D.desc);
   h = setMeta(h, 'og:url', 'x', url);
+  // image de partage propre à l'article (1200×630, img/og-<slug>.jpg)
+  const OG_OLD = BASE + '/img/og-cout-rapatriement-corps.jpg', OG_NEW = BASE + `/img/og-${ART.slug}.jpg`;
+  h = h.split(OG_OLD).join(OG_NEW); h = setMeta(h, 'og:image:alt', 'x', D.imgAlt);
   // données structurées : on reprend celles du modèle (noms de fil d'Ariane déjà traduits) et on change l'essentiel
   h = h.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g, (m, json) => {
     const o = JSON.parse(json);
@@ -628,7 +643,8 @@ function patchBlogIndex(l, h) {
     .replace(/href="[^"]*deces-proche-suisse-10-etapes"/, `href="${href}"`)
     .replace('style="--d:0.08s"', 'style="--d:0.16s"')
     .replace(/<span class="tag">[^<]*<\/span><span>[^<]*<\/span><span>[^<]*<\/span>/, `<span class="tag">${esc(D.tag)}</span><span>${D.dateLabel}</span><span>${D.read}</span>`)
-    .replace(/<h3>[\s\S]*?<\/h3><p>[\s\S]*?<\/p>/, `<h3>${esc(D.short)}</h3><p>${esc(D.card)}</p>`);
+    .replace(/<h3>[\s\S]*?<\/h3><p>[\s\S]*?<\/p>/, `<h3>${esc(D.short)}</h3><p>${esc(D.card)}</p>`)
+    .replace(/<img [^>]*>/, `<img decoding="async" width="${ART.img.w}" height="${ART.img.h}" alt="${esc(D.imgAlt)}" loading="lazy" src="/img/${ART.img.base}-960.webp" srcset="/img/${ART.img.base}-480.webp 480w, /img/${ART.img.base}-960.webp 960w, /img/${ART.img.base}-1600.webp 1600w" sizes="100vw" style="aspect-ratio:${ART.img.w}/${ART.img.h}"/>`);
   const key = `<a class="post reveal" data-cats="Repatriation|Coût d'un enterrement" href="${l === 'fr' ? '' : '/' + l}/blog/cout-rapatriement-corps"`;
   const k = h.indexOf(key);
   if (k < 0) throw new Error('carte rapatriement introuvable dans le blog ' + l);
@@ -717,7 +733,8 @@ function patchCheckSeo(t) {
 /* ─────────────────────────────────────────────────────────────
    5. Formulaires : branchement sur /api/contact (Resend)
    ───────────────────────────────────────────────────────────── */
-const API_CONTACT = String.raw`// Vercel Function : reçoit les formulaires du site (contact et devis) et les envoie par e-mail avec Resend.
+const API_CONTACT = String.raw`// Magali Tshikudi - Websituation | https://www.websituation.ch
+// Vercel Function : reçoit les formulaires du site (contact et devis) et les envoie par e-mail avec Resend.
 //
 // Variables d'environnement à définir dans Vercel (Settings > Environment Variables), puis redéployer :
 //   RESEND_API_KEY   clé API Resend (re_...)                                   [obligatoire]
@@ -857,6 +874,151 @@ function patchAppSource(js) {
 }
 
 /* ─────────────────────────────────────────────────────────────
+   Mesure d'audience : Google Analytics 4 après consentement (consent.js) + balise Search Console
+   ───────────────────────────────────────────────────────────── */
+const COOKIE_GA = {
+  fr: ['Cookies, mesure d\'audience et stockage dans votre navigateur',
+    P('Avec votre accord, nous utilisons Google Analytics 4 (Google Ireland Limited, Irlande, et Google LLC, États-Unis) pour comprendre comment le site est utilisé : pages consultées, durée de la visite, provenance approximative (pays, ville), type d\'appareil et de navigateur. Ces statistiques servent uniquement à améliorer le site : nous ne les utilisons ni pour de la publicité ni pour vous identifier, et la personnalisation publicitaire de Google est désactivée.') +
+    UL(['Tant que vous n\'avez pas accepté, aucun cookie de mesure n\'est déposé et aucune donnée n\'est envoyée à Google.',
+      'Si vous acceptez, Google dépose les cookies « _ga » et « _ga_… » (valables 13 mois) et reçoit votre adresse IP ainsi que des informations sur votre navigation. Ces données peuvent être traitées aux États-Unis, sur la base de garanties appropriées.',
+      'Votre choix est mémorisé dans votre navigateur pendant 12 mois. Vous pouvez le modifier ou le retirer à tout moment avec le lien « Gérer les cookies » en bas de chaque page ; vous pouvez aussi supprimer les cookies dans les réglages de votre navigateur. Refuser ne limite en rien l\'accès au site.',
+      'Les données de mesure sont conservées 14 mois au maximum.']) +
+    P('Indépendamment de cette mesure, le site peut enregistrer dans votre navigateur (stockage local ou de session) des réglages d\'affichage et l\'avancement de nos listes de contrôle. Ces informations restent sur votre appareil, sont nécessaires au fonctionnement du site et ne servent pas à vous suivre.')],
+  en: ['Cookies, audience measurement and browser storage',
+    P('With your consent, we use Google Analytics 4 (Google Ireland Limited, Ireland, and Google LLC, USA) to understand how the site is used: pages viewed, length of visit, approximate origin (country, city), device and browser type. These statistics are used only to improve the site: we do not use them for advertising or to identify you, and Google\'s ad personalisation is turned off.') +
+    UL(['Until you accept, no measurement cookie is set and no data is sent to Google.',
+      'If you accept, Google sets the "_ga" and "_ga_…" cookies (valid for 13 months) and receives your IP address and information about your browsing. This data may be processed in the USA on the basis of appropriate safeguards.',
+      'Your choice is stored in your browser for 12 months. You can change or withdraw it at any time with the "Cookie settings" link at the bottom of every page; you can also delete cookies in your browser settings. Declining does not limit access to the site in any way.',
+      'Measurement data is kept for 14 months at most.']) +
+    P('Independently of this, the site may save display settings and the progress of our checklists in your browser (local or session storage). This information stays on your device, is needed for the site to work and is not used to track you.')],
+  de: ['Cookies, Reichweitenmessung und Speicher im Browser',
+    P('Mit Ihrer Einwilligung verwenden wir Google Analytics 4 (Google Ireland Limited, Irland, und Google LLC, USA), um zu verstehen, wie die Website genutzt wird: aufgerufene Seiten, Besuchsdauer, ungefähre Herkunft (Land, Stadt), Geräte- und Browsertyp. Diese Statistiken dienen ausschliesslich der Verbesserung der Website: Wir verwenden sie weder für Werbung noch, um Sie zu identifizieren; die Werbepersonalisierung von Google ist deaktiviert.') +
+    UL(['Solange Sie nicht zugestimmt haben, wird kein Mess-Cookie gesetzt und es werden keine Daten an Google übermittelt.',
+      'Wenn Sie zustimmen, setzt Google die Cookies «_ga» und «_ga_…» (Gültigkeit 13 Monate) und erhält Ihre IP-Adresse sowie Angaben zu Ihrer Navigation. Diese Daten können in den USA auf der Grundlage geeigneter Garantien bearbeitet werden.',
+      'Ihre Wahl wird 12 Monate in Ihrem Browser gespeichert. Sie können sie jederzeit über den Link «Cookie-Einstellungen» am Ende jeder Seite ändern oder widerrufen; Cookies können Sie auch in den Browsereinstellungen löschen. Eine Ablehnung schränkt den Zugang zur Website in keiner Weise ein.',
+      'Die Messdaten werden höchstens 14 Monate aufbewahrt.']) +
+    P('Unabhängig davon kann die Website Anzeigeeinstellungen und den Fortschritt unserer Checklisten im Browser speichern (lokaler Speicher oder Sitzungsspeicher). Diese Informationen bleiben auf Ihrem Gerät, sind für den Betrieb der Website nötig und dienen nicht dem Tracking.')],
+  it: ['Cookie, misurazione dell\'audience e memoria del browser',
+    P('Con il vostro consenso usiamo Google Analytics 4 (Google Ireland Limited, Irlanda, e Google LLC, Stati Uniti) per capire come viene utilizzato il sito: pagine consultate, durata della visita, provenienza approssimativa (paese, città), tipo di dispositivo e di browser. Queste statistiche servono solo a migliorare il sito: non le usiamo né per la pubblicità né per identificarvi, e la personalizzazione pubblicitaria di Google è disattivata.') +
+    UL(['Finché non accettate, non viene installato alcun cookie di misurazione e nessun dato viene inviato a Google.',
+      'Se accettate, Google installa i cookie «_ga» e «_ga_…» (validi 13 mesi) e riceve il vostro indirizzo IP e informazioni sulla vostra navigazione. Questi dati possono essere trattati negli Stati Uniti sulla base di garanzie adeguate.',
+      'La vostra scelta è memorizzata nel browser per 12 mesi. Potete modificarla o revocarla in qualsiasi momento con il link «Gestisci i cookie» in fondo a ogni pagina; potete anche eliminare i cookie dalle impostazioni del browser. Rifiutare non limita in alcun modo l\'accesso al sito.',
+      'I dati di misurazione sono conservati al massimo 14 mesi.']) +
+    P('Indipendentemente da ciò, il sito può salvare nel browser (memoria locale o di sessione) impostazioni di visualizzazione e l\'avanzamento delle nostre checklist. Queste informazioni restano sul vostro dispositivo, sono necessarie al funzionamento del sito e non servono a tracciarvi.')],
+  es: ['Cookies, medición de audiencia y almacenamiento en su navegador',
+    P('Con su consentimiento, utilizamos Google Analytics 4 (Google Ireland Limited, Irlanda, y Google LLC, Estados Unidos) para comprender cómo se utiliza el sitio: páginas consultadas, duración de la visita, procedencia aproximada (país, ciudad), tipo de dispositivo y de navegador. Estas estadísticas solo sirven para mejorar el sitio: no las usamos ni para publicidad ni para identificarle, y la personalización publicitaria de Google está desactivada.') +
+    UL(['Mientras no haya aceptado, no se instala ninguna cookie de medición y no se envía ningún dato a Google.',
+      'Si acepta, Google instala las cookies «_ga» y «_ga_…» (validez de 13 meses) y recibe su dirección IP e información sobre su navegación. Estos datos pueden tratarse en Estados Unidos sobre la base de garantías adecuadas.',
+      'Su elección se guarda en su navegador durante 12 meses. Puede modificarla o retirarla en cualquier momento con el enlace «Gestionar cookies» al final de cada página; también puede eliminar las cookies desde los ajustes del navegador. Rechazar no limita en modo alguno el acceso al sitio.',
+      'Los datos de medición se conservan como máximo 14 meses.']) +
+    P('Con independencia de lo anterior, el sitio puede guardar en su navegador (almacenamiento local o de sesión) ajustes de visualización y el avance de nuestras listas de tareas. Esta información permanece en su dispositivo, es necesaria para el funcionamiento del sitio y no sirve para seguirle.')],
+  pt: ['Cookies, medição de audiência e armazenamento no navegador',
+    P('Com o seu consentimento, utilizamos o Google Analytics 4 (Google Ireland Limited, Irlanda, e Google LLC, Estados Unidos) para compreender como o site é utilizado: páginas consultadas, duração da visita, origem aproximada (país, cidade), tipo de dispositivo e de navegador. Estas estatísticas servem apenas para melhorar o site: não as utilizamos nem para publicidade nem para o identificar, e a personalização publicitária da Google está desativada.') +
+    UL(['Enquanto não tiver aceitado, não é instalado nenhum cookie de medição e nenhum dado é enviado à Google.',
+      'Se aceitar, a Google instala os cookies «_ga» e «_ga_…» (validade de 13 meses) e recebe o seu endereço IP e informações sobre a sua navegação. Estes dados podem ser tratados nos Estados Unidos com base em garantias adequadas.',
+      'A sua escolha é guardada no navegador durante 12 meses. Pode alterá-la ou retirá-la a qualquer momento através da ligação «Gerir cookies» no fim de cada página; pode também eliminar os cookies nas definições do navegador. Recusar não limita de forma alguma o acesso ao site.',
+      'Os dados de medição são conservados no máximo 14 meses.']) +
+    P('Independentemente disto, o site pode guardar no navegador (armazenamento local ou de sessão) definições de visualização e o progresso das nossas listas de verificação. Estas informações ficam no seu dispositivo, são necessárias ao funcionamento do site e não servem para o seguir.')],
+};
+
+// textes de la bannière (consent.js)
+const CONSENT_TXT = {
+  fr: { h: 'Cookies et mesure d\'audience', p: 'Avec votre accord, nous utilisons Google Analytics pour mesurer l\'audience du site et l\'améliorer. Rien n\'est déposé ni transmis à Google tant que vous n\'avez pas accepté.', ok: 'Accepter', no: 'Refuser', more: 'En savoir plus', manage: 'Gérer les cookies' },
+  en: { h: 'Cookies and audience measurement', p: 'With your consent, we use Google Analytics to measure and improve the site. Nothing is stored or sent to Google until you accept.', ok: 'Accept', no: 'Decline', more: 'Learn more', manage: 'Cookie settings' },
+  de: { h: 'Cookies und Reichweitenmessung', p: 'Mit Ihrer Einwilligung nutzen wir Google Analytics, um die Website zu messen und zu verbessern. Solange Sie nicht zugestimmt haben, wird nichts gespeichert oder an Google übermittelt.', ok: 'Akzeptieren', no: 'Ablehnen', more: 'Mehr erfahren', manage: 'Cookie-Einstellungen' },
+  it: { h: 'Cookie e misurazione dell\'audience', p: 'Con il vostro consenso usiamo Google Analytics per misurare e migliorare il sito. Finché non accettate, nulla viene salvato né trasmesso a Google.', ok: 'Accetta', no: 'Rifiuta', more: 'Scopri di più', manage: 'Gestisci i cookie' },
+  es: { h: 'Cookies y medición de audiencia', p: 'Con su consentimiento, usamos Google Analytics para medir y mejorar el sitio. No se guarda ni se envía nada a Google hasta que usted acepte.', ok: 'Aceptar', no: 'Rechazar', more: 'Más información', manage: 'Gestionar cookies' },
+  pt: { h: 'Cookies e medição de audiência', p: 'Com o seu consentimento, usamos o Google Analytics para medir e melhorar o site. Nada é guardado nem enviado à Google enquanto não aceitar.', ok: 'Aceitar', no: 'Recusar', more: 'Saber mais', manage: 'Gerir cookies' },
+};
+
+const CONSENT_JS = String.raw`/*! Magali Tshikudi - Websituation | https://www.websituation.ch */
+/* consent.js : bannière de consentement et Google Analytics 4. Fichier généré par prepare-bascule.mjs.
+   Google Analytics n'est chargé qu'après un clic sur « Accepter » : avant, aucune requête vers Google et aucun cookie.
+   Le choix est gardé 12 mois dans le navigateur (localStorage) et modifiable par le lien du pied de page.
+   Pour changer d'identifiant : relancer « GA_ID=G-XXXXXXXXXX node prepare-bascule.mjs ». */
+(function () {
+  var GA_ID = '__GA_ID__';
+  var T = __TXT__;
+  if (!/^G-[A-Z0-9]+$/.test(GA_ID)) return;
+  var KEY = 'murith-consent', MAX_AGE = 365 * 864e5;
+  var lang = (document.documentElement.lang || 'fr').slice(0, 2);
+  var t = T[lang] || T.fr;
+  var privacy = (lang === 'fr' ? '' : '/' + lang) + '/politique-de-confidentialite';
+  var mem = null;
+  function read() {
+    try { var v = JSON.parse(localStorage.getItem(KEY)); if (v && v.t && Date.now() - v.t < MAX_AGE) return v.a ? 'yes' : 'no'; } catch (e) {}
+    if (mem && Date.now() - mem.t < MAX_AGE) return mem.a ? 'yes' : 'no';
+    return null;
+  }
+  function save(a) { mem = { a: a, t: Date.now() }; try { localStorage.setItem(KEY, JSON.stringify(mem)); } catch (e) {} }
+  var loaded = false;
+  function load() {
+    if (loaded) return; loaded = true;
+    window['ga-disable-' + GA_ID] = false;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', GA_ID, { allow_google_signals: false, allow_ad_personalization_signals: false, cookie_expires: 33696000 });
+    var s = document.createElement('script'); s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+  }
+  function revoke() {
+    window['ga-disable-' + GA_ID] = true;
+    var host = location.hostname.replace(/^www\./, '');
+    document.cookie.split(';').forEach(function (c) {
+      var n = c.split('=')[0].trim();
+      if (n === '_ga' || n.indexOf('_ga_') === 0) {
+        document.cookie = n + '=; Max-Age=0; path=/';
+        document.cookie = n + '=; Max-Age=0; path=/; domain=' + host;
+        document.cookie = n + '=; Max-Age=0; path=/; domain=.' + host;
+      }
+    });
+  }
+  var box = null;
+  function close() { if (box && box.parentNode) box.parentNode.removeChild(box); box = null; }
+  function choose(a) { save(a); if (a) load(); else revoke(); close(); }
+  function open() {
+    if (box) return;
+    box = document.createElement('div');
+    box.className = 'ck-banner';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-labelledby', 'ck-t');
+    box.setAttribute('aria-describedby', 'ck-d');
+    box.innerHTML = '<div class="ck-in"><div class="ck-tx"><p class="ck-h" id="ck-t">' + t.h + '</p><p id="ck-d">' + t.p + ' <a href="' + privacy + '">' + t.more + '</a></p></div>' +
+      '<div class="ck-bt"><button type="button" class="ck-b ck-no">' + t.no + '</button><button type="button" class="ck-b ck-ok">' + t.ok + '</button></div></div>';
+    box.querySelector('.ck-no').addEventListener('click', function () { choose(false); });
+    box.querySelector('.ck-ok').addEventListener('click', function () { choose(true); });
+    document.body.insertBefore(box, document.body.firstChild);
+  }
+  var CSS = '.ck-banner{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;padding:12px}' +
+    '.ck-in{max-width:960px;margin:0 auto;background:var(--surface,#fff);color:var(--ink,#22262E);border:1px solid var(--line-strong,#C3CDE2);border-radius:var(--r-m,16px);box-shadow:0 12px 40px rgba(24,28,35,.2);padding:18px 20px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}' +
+    '.ck-tx{flex:1 1 340px;font-size:15px;line-height:1.5}.ck-tx p{margin:0}.ck-h{font-weight:600;color:var(--head,#181C23);margin-bottom:4px!important}' +
+    '.ck-tx a{color:var(--accent,#3A5796);text-decoration:underline}' +
+    '.ck-bt{display:flex;gap:10px;flex:0 0 auto}' +
+    '.ck-b{min-height:46px;min-width:118px;padding:0 22px;border-radius:var(--btn-r,999px);font:inherit;font-weight:500;cursor:pointer;border:1px solid var(--accent,#3A5796);background:var(--accent,#3A5796);color:var(--accent-ink,#fff)}' +
+    '.ck-b.ck-no{background:var(--surface,#fff);color:var(--accent,#3A5796)}' +
+    '.ck-b:focus-visible,.ck-link:focus-visible{outline:3px solid var(--accent,#3A5796);outline-offset:2px}' +
+    '.ck-link{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;cursor:pointer}' +
+    '@media(max-width:640px){.ck-bt{width:100%}.ck-b{flex:1}}';
+  function init() {
+    var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
+    var fb = document.querySelector('.foot-bot');
+    if (fb) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'ck-link'; b.textContent = t.manage;
+      b.addEventListener('click', open);
+      fb.insertBefore(b, fb.children[1] || null);
+    }
+    var s = read();
+    if (s === null && navigator.globalPrivacyControl === true) { save(false); s = 'no'; }   // signal « Global Privacy Control » = refus
+    if (s === 'yes') load(); else if (s === null) open();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+`;
+const buildConsentJs = () => CONSENT_JS.replace('__GA_ID__', GA_ID).replace('__TXT__', JSON.stringify(CONSENT_TXT));
+
+/* ─────────────────────────────────────────────────────────────
    Exécution
    ───────────────────────────────────────────────────────────── */
 console.log('\n=== prepare-bascule : préparation du site avant la bascule ===\n');
@@ -925,7 +1087,41 @@ console.log('4. Formulaires : branchement sur /api/contact (Resend)');
   say(n ? `${n} pages : messages de confirmation mis à jour` : 'messages de confirmation : déjà à jour');
 }
 
-console.log('5. Sitemap et contrôle SEO');
+console.log('5. Mesure d\'audience (Google Analytics 4 après consentement) et balise Search Console');
+{
+  const c = buildConsentJs();
+  if (!fs.existsSync(path.join(root, 'consent.js')) || rd('consent.js') !== c) { wr('consent.js', c); say('créé ou mis à jour : consent.js'); } else say('déjà à jour : consent.js');
+  say(GA_ID ? `Google Analytics actif avec ${GA_ID} (chargé seulement après « Accepter »)` : '⚠ aucun identifiant GA fourni : pas de bannière. Relancez avec  GA_ID=G-XXXXXXXXXX node prepare-bascule.mjs');
+  let n = 0;
+  const TAG = '<script defer="" src="/app.js"></script>';
+  for (const f of htmlFiles()) {
+    const h0 = rd(f);
+    if (!h0.includes(TAG) || h0.includes('/consent.js')) continue;
+    wr(f, h0.replace(TAG, TAG + '<script defer="" src="/consent.js"></script>')); n++;
+  }
+  say(n ? `${n} pages : consent.js ajouté` : 'pages : consent.js déjà présent');
+  const meta = `<meta content="${SEARCH_CONSOLE_TOKEN}" name="google-site-verification"/>`;
+  const i0 = rd('index.html');
+  if (!i0.includes('google-site-verification')) { wr('index.html', i0.replace('</title>', '</title>' + meta)); say('index.html : balise de validation Search Console ajoutée'); } else say('index.html : balise Search Console déjà présente');
+}
+
+console.log('5b. Finitions SEO : robots.txt et liens http');
+{
+  const r0 = rd('robots.txt');
+  if (!/^Disallow:\s*\/api\//m.test(r0)) {
+    const r1 = r0.replace(/(User-agent:\s*\*\s*\n(?:Allow:[^\n]*\n)?)/, '$1Disallow: /api/\n');
+    if (r1 !== r0) { wr('robots.txt', r1); say('robots.txt : /api/ exclu de l\'exploration (le formulaire n\'a rien à indexer)'); } else say('⚠ robots.txt : forme inattendue, ajoutez « Disallow: /api/ » à la main');
+  } else say('robots.txt : déjà à jour');
+  let n = 0;
+  for (const f of htmlFiles()) {
+    const h0 = rd(f);
+    if (!h0.includes('http://www.murithprevoyance.ch')) continue;
+    wr(f, h0.split('http://www.murithprevoyance.ch').join('https://www.murithprevoyance.ch')); n++;
+  }
+  say(n ? `${n} pages : lien vers murithprevoyance.ch passé en https` : 'liens murithprevoyance.ch : déjà en https');
+}
+
+console.log('6. Sitemap et contrôle SEO');
 {
   const s0 = rd('sitemap.xml'), s1 = patchSitemap(s0);
   if (s0 !== s1) { wr('sitemap.xml', s1); say('sitemap.xml : mis à jour (confidentialité ×6, article ×6)'); } else say('sitemap.xml : déjà à jour');
@@ -933,7 +1129,7 @@ console.log('5. Sitemap et contrôle SEO');
   if (c0 !== c1) { wr('check-seo.mjs', c1); say('check-seo.mjs : mis à jour'); }
 }
 
-console.log('6. Descriptions trop courtes ou trop longues (7 pages signalées par check-seo)');
+console.log('7. Descriptions trop courtes ou trop longues (7 pages signalées par check-seo)');
 {
   const FIX = {
     'prevoyance-funeraire.html': ["Préparez vos obsèques de votre vivant à Genève : volontés, cérémonie, financement. Nous vous guidons pas à pas.", "Préparez vos obsèques de votre vivant à Genève : volontés, cérémonie, financement. Murith vous guide pas à pas, avec le soin d'une maison genevoise depuis 1888."],
@@ -953,11 +1149,19 @@ console.log('6. Descriptions trop courtes ou trop longues (7 pages signalées pa
   say(n ? `${n} descriptions corrigées (balise, Open Graph, Twitter et données structurées)` : 'déjà à jour');
 }
 
-console.log('7. Redirections et vérifications');
+console.log('8. Redirections et vérifications');
 const run = (args, label) => { const r = spawnSync(process.execPath, args, { cwd: root, encoding: 'utf8' }); say(`${label} : ${r.status === 0 ? 'OK' : 'ÉCHEC (code ' + r.status + ')'}`); return r; };
 if (fs.existsSync(path.join(root, 'migration-murith.mjs'))) {
   const r = run(['migration-murith.mjs'], 'migration-murith.mjs (vercel.json régénéré)');
   (r.stdout.match(/⚠[^\n]*/g) || []).forEach(w => console.log('     ' + w));
+  // en-têtes de sécurité complémentaires (anti-intégration par d'autres sites, droits du navigateur)
+  const vj = JSON.parse(rd('vercel.json'));
+  const blockAll = (vj.headers || []).find(h => h.source === '/(.*)' && !h.has);
+  const want = [{ key: 'X-Frame-Options', value: 'SAMEORIGIN' }, { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=()' }];
+  if (blockAll && want.some(w => !blockAll.headers.some(x => x.key === w.key))) {
+    for (const w of want) if (!blockAll.headers.some(x => x.key === w.key)) blockAll.headers.push(w);
+    wr('vercel.json', JSON.stringify(vj, null, 2) + '\n'); say('vercel.json : X-Frame-Options et Permissions-Policy ajoutés');
+  } else say('vercel.json : en-têtes de sécurité déjà complets');
 } else say('⚠ migration-murith.mjs absent : copiez-le à la racine puis relancez');
 const seo = run(['check-seo.mjs'], 'check-seo.mjs');
 console.log((seo.stdout + seo.stderr).split('\n').filter(l => /ERREUR|OK :|Pages contrôlées|Avertissements/.test(l) || (seo.status !== 0 && /^ +- /.test(l))).slice(0, 30).map(l => '     ' + l).join('\n'));

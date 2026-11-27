@@ -8,7 +8,7 @@ Racine du site : ce dossier (FR) + `en/`, `de/`, `es/`, `pt/`. Hébergement pré
 - Non déployés (`.vercelignore`) : `_archive-wix/`, `_build/`, `_img-src/` (originaux), documents de suivi SEO
 
 Suivi : `PLAN-SEO-MURITH.md`, `CHANGELOG-SEO.md`, `QUESTIONS-MURITH.md`, `INVENTAIRE-URLS.csv`.
-Réalisé par © www.websituation.ch
+Réalisé par Magali Tshikudi - Websituation · © www.websituation.ch
 
 ## Dépôt de référence et publication (GitHub Pages)
 

@@ -1,0 +1,7 @@
+/* TEAM */
+Conception et développement : Magali Tshikudi - Websituation
+Site : https://www.websituation.ch
+
+/* SITE */
+Client : A. Murith SA, pompes funèbres, Genève
+Standards : HTML5, CSS3, JavaScript

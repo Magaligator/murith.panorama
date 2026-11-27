@@ -188,7 +188,9 @@ function build() {
     { source: '/(.*)', headers: [
         { key: 'X-Content-Type-Options', value: 'nosniff' },
         { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-        { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' } ] },
+        { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' },
+        { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+        { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=()' } ] },
     // Les adresses de test *.vercel.app ne doivent JAMAIS être indexées (évite le contenu dupliqué avec murith.ch)
     { source: '/(.*)', has: [{ type: 'host', value: '.*\\.vercel\\.app' }],
       headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },

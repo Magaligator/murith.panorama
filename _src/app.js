@@ -1,3 +1,4 @@
+/*! Magali Tshikudi - Websituation | https://www.websituation.ch */
 /* Murith V2 — interactions partagées (clair / foncé) */
 (function () {
   'use strict';
