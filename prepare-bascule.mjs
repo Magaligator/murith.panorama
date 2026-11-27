@@ -884,8 +884,8 @@ function originOk(req) {
   if (!o) return true;
   let host; try { host = new URL(o).hostname; } catch (e) { return false; }
   if (host === 'murith.ch' || host === 'www.murith.ch') return true;
-  // l'adresse de test du projet (murith-panorama.vercel.app) reste autorisée pour pouvoir tester avant la bascule du domaine
-  if (host === 'murith-panorama.vercel.app' || (process.env.VERCEL_PROJECT_PRODUCTION_URL && host === process.env.VERCEL_PROJECT_PRODUCTION_URL)) return true;
+  // l'adresse de test du projet (murithch.vercel.app) reste autorisée pour pouvoir tester avant la bascule du domaine
+  if (host === 'murithch.vercel.app' || host === 'murith-panorama.vercel.app' || (process.env.VERCEL_PROJECT_PRODUCTION_URL && host === process.env.VERCEL_PROJECT_PRODUCTION_URL)) return true;
   return process.env.VERCEL_ENV !== 'production' && (host.endsWith('.vercel.app') || host === 'localhost');
 }
 
