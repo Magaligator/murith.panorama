@@ -2462,3 +2462,7 @@ html[data-theme="panorama"][data-theme][lang] .hero-pan h1 .eyebrow{color:#E4CB8
 .c3d-card.is-c{cursor:pointer}
 
 .ps-stage{cursor:pointer}
+
+/* Carte « Préparer ses obsèques de son vivant » : titre de rubrique au-dessus */
+.cta-card.light>.eyebrow{align-self:flex-start;margin-bottom:1rem}
+@media(max-width:700px){html[data-theme][data-theme] .cta-card.light>.eyebrow{align-self:center;margin-bottom:.8rem}}
