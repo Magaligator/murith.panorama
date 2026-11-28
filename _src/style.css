@@ -807,6 +807,8 @@ dialog.lb::backdrop{background:rgba(6,10,26,.94);backdrop-filter:blur(8px)}
 .foot-hrs b{font-weight:600;font-size:var(--fs-xs);letter-spacing:.2em;text-transform:uppercase;opacity:.6}
 .foot-contact .link-arrow{color:inherit;border-bottom-color:rgba(255,255,255,.4);margin-top:.4rem}
 .foot-main .social{margin-top:0}
+.foot-main .social a{display:grid;padding:0;opacity:.95}
+.foot-main .social a:hover{opacity:1;text-decoration:none}
 @media(max-width:1180px){.foot-main{grid-template-columns:repeat(3,1fr)}.foot-brand{grid-column:1/-1}}
 @media(max-width:700px){.foot-main{grid-template-columns:1fr 1fr;gap:34px 22px}.foot-brand,.foot-contact{grid-column:1/-1}.foot-main img{height:52px}}
 @media(max-width:440px){.foot-main{grid-template-columns:1fr}}
