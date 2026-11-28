@@ -100,7 +100,7 @@ def trust_section(lg):
 def video_ld(lg):
     t = L[lg]
     j = {"@context": "https://schema.org", "@type": "VideoObject", "name": t['vname'], "description": t['vdesc'],
-         "thumbnailUrl": "https://www.murith.ch/img/video-prevoyance-poster.jpg", "uploadDate": "2026-11-13", "duration": "PT4M27S",
+         "thumbnailUrl": "https://www.murith.ch/img/video-prevoyance-poster.jpg", "uploadDate": "2026-11-13T12:00:00+01:00", "duration": "PT4M27S",
          "contentUrl": "https://www.murith.ch/img/video-prevoyance-hd.mp4", "inLanguage": "fr",
          "publisher": {"@id": "https://www.murith.ch/#entreprise"}}
     return '<script type="application/ld+json">' + json.dumps(j, ensure_ascii=False, separators=(',', ':')) + '</script>'
